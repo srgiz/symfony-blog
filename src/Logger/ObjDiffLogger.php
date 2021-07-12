@@ -15,14 +15,14 @@ class ObjDiffLogger implements ObjDiffLoggerInterface
     }
 
     // todo: описать логирование изменений сущностей
-    public function log(object $object, array $args, array $changeSet): void
+    public function log(string $event, object $object, array $args, array $changeSet): void
     {
         foreach ($args['exclude'] ?? [] as $attr)
         {
             unset($changeSet[$attr]);
         }
 
-        $this->logger->info('Test: ' . $object->getId(), [
+        $this->logger->info($event, [
             'obj' => $args['obj'],
             'uid' => call_user_func([$object, $args['uid']]),
             'diff' => $changeSet,

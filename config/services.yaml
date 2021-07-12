@@ -19,6 +19,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Logger/ObjDiffEventEnum.php'
             - '../src/Logger/ObjDiffLogAttr.php'
             - '../src/Response/'
             - '../src/Tests/'
