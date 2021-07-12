@@ -10,9 +10,12 @@ class ObjDiffLogAttr
 
     public string $uid;
 
-    public function __construct(string $obj, string $uid)
+    public array $exclude = [];
+
+    public function __construct(string $obj, string $uid, array $exclude = [])
     {
         $this->obj = $obj;
         $this->uid = $uid;
+        $this->exclude = $exclude;
     }
 }

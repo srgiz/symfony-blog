@@ -18,9 +18,9 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Logger/LogDiffAttribute.php'
-            - '../src/Response/'
             - '../src/Kernel.php'
+            - '../src/Logger/ObjDiffLogAttr.php'
+            - '../src/Response/'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed
