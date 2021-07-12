@@ -7,7 +7,7 @@ use App\Repository\Blog\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[ObjDiffLogAttr]
+#[ObjDiffLogAttr(obj: 'post', uid: 'getId')]
 class Post
 {
     #[ORM\Id]

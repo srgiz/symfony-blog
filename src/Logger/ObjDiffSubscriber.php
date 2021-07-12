@@ -19,20 +19,12 @@ class ObjDiffSubscriber implements EventSubscriber
 
     public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $object = $args->getObject();
-
-        if (!$this->toLog($object))
-            return;
-
-        $this->log($object, $args->getEntityChangeSet());
+        $this->log($args->getObject(), $args->getEntityChangeSet());
     }
 
     public function postPersist(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
-
-        if (!$this->toLog($object))
-            return;
 
         $data = $args->getEntityManager()->getUnitOfWork()->getOriginalEntityData($object);
         $changeSet = [];
@@ -47,13 +39,12 @@ class ObjDiffSubscriber implements EventSubscriber
 
     private function log(object $object, array $changeSet): void
     {
-        $this->logger->log($object, $changeSet);
-    }
+        $attribute = (new \ReflectionClass($object))->getAttributes(ObjDiffLogAttr::class)[0] ?? null;
 
-    private function toLog(object $object): bool
-    {
-        $attributes = (new \ReflectionClass($object))->getAttributes(ObjDiffLogAttr::class);
-        return !empty($attributes);
+        if (!$attribute)
+            return;
+
+        $this->logger->log($object, $attribute->getArguments(), $changeSet);
     }
 
     public function getSubscribedEvents(): array

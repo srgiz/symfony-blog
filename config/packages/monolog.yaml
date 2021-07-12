@@ -1,0 +1,9 @@
+# https://symfonycasts.com/screencast/messenger/logger-channel
+monolog:
+  channels: [obj]
+  handlers:
+    obj:
+      type: stream
+      path: "%kernel.logs_dir%/obj.log"
+      level: debug
+      channels: [ "obj" ]
