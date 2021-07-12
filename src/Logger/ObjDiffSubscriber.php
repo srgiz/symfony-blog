@@ -22,6 +22,11 @@ class ObjDiffSubscriber implements EventSubscriber
         $this->log(ObjDiffEventEnum::UPDATE, $args->getObject(), $args->getEntityChangeSet());
     }
 
+    public function preRemove(LifecycleEventArgs $args): void
+    {
+        $this->log(ObjDiffEventEnum::DELETE, $args->getObject(), []);
+    }
+
     public function postPersist(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
@@ -51,6 +56,7 @@ class ObjDiffSubscriber implements EventSubscriber
     {
         return [
             Events::preUpdate,
+            Events::preRemove,
             Events::postPersist,
         ];
     }
