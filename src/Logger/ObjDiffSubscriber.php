@@ -7,6 +7,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
+use Psr\Log\LogLevel;
 
 class ObjDiffSubscriber implements EventSubscriber
 {
@@ -23,6 +24,11 @@ class ObjDiffSubscriber implements EventSubscriber
     }
 
     public function preRemove(LifecycleEventArgs $args): void
+    {
+        $this->logger->watch($args->getObject());
+    }
+
+    public function postRemove(LifecycleEventArgs $args): void
     {
         $this->log(ObjDiffEventEnum::DELETE, $args->getObject(), []);
     }
@@ -44,12 +50,7 @@ class ObjDiffSubscriber implements EventSubscriber
 
     private function log(string $event, object $object, array $changeSet): void
     {
-        $attribute = (new \ReflectionClass($object))->getAttributes(ObjDiffLogAttr::class)[0] ?? null;
-
-        if (!$attribute)
-            return;
-
-        $this->logger->log($event, $object, $attribute->getArguments(), $changeSet);
+        $this->logger->log(LogLevel::INFO, $event, $object, $changeSet);
     }
 
     public function getSubscribedEvents(): array
@@ -57,6 +58,7 @@ class ObjDiffSubscriber implements EventSubscriber
         return [
             Events::preUpdate,
             Events::preRemove,
+            Events::postRemove,
             Events::postPersist,
         ];
     }

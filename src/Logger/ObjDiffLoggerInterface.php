@@ -3,5 +3,7 @@ namespace App\Logger;
 
 interface ObjDiffLoggerInterface
 {
-    public function log(string $event, object $object, array $args, array $changeSet): void;
+    public function watch(object $object): void;
+
+    public function log(string $level, string $event, object $object, array $changeSet): void;
 }
