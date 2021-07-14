@@ -8,11 +8,14 @@ RUN apk --update add bash shadow git
 
 # php
 RUN apk --update add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+    && apk add --no-cache \
+        # intl
+        icu-dev \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install \
         opcache \
         pdo_mysql \
-        #gettext \
+        intl \
     && pecl install xdebug-3.0.4 \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps
