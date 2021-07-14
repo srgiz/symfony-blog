@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\EventListener\Security\AuthenticationSubscriber;
 use App\Repository\User\TokenRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +29,6 @@ class TokenAuthenticator extends AbstractAuthenticator
         //return $request->cookies->has('i');
     }
 
-    /**
-     * @see AuthenticationSubscriber::onFailure()
-     */
     public function authenticate(Request $request): PassportInterface
     {
         //$cookie = (string)$request->cookies->get('i');
