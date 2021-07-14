@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\EventListener\AuthenticationSubscriber;
+use App\EventListener\Security\AuthenticationSubscriber;
 use App\Repository\User\TokenRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
