@@ -25,14 +25,16 @@ class TokenAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return true;
-        //return $request->cookies->has('i');
+        return LoginFormAuthenticator::LOGIN_ROUTE !== $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): PassportInterface
     {
-        //$cookie = (string)$request->cookies->get('i');
-        $cookie = 'sdfd';
+        $cookie = (string)$request->cookies->get('i', '');
+
+        if (empty($cookie))
+            throw new CustomUserMessageAuthenticationException('Token not passed');
+
         $token = $this->tokenRepository->findByToken($cookie);
 
         if (!$token)

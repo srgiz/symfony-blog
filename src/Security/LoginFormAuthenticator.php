@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Entity\User\UserInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +26,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    private TokenGeneratorInterface $tokenGenerator;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator, TokenGeneratorInterface $tokenGenerator)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     public function authenticate(Request $request): PassportInterface
@@ -46,13 +51,20 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $redirectPath = $this->urlGenerator->generate('index');
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
+            $redirectPath = $targetPath;
         }
 
-        // For example:
-        //return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        /** @var UserInterface $user */
+        $user = $token->getUser();
+        $cookieToken = $this->tokenGenerator->generate($user);
+
+        $response = new RedirectResponse($redirectPath);
+        $response->headers->setCookie(new Cookie('i', $cookieToken->getToken()));
+
+        return $response;
     }
 
     protected function getLoginUrl(Request $request): string
