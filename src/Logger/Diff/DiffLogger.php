@@ -3,87 +3,47 @@ declare(strict_types=1);
 
 namespace App\Logger\Diff;
 
-use App\Logger\Diff\Uid\UidInterface;
 use Psr\Log\LoggerInterface;
-use ReflectionAttribute;
-use ReflectionClass;
-use stdClass;
-use WeakMap;
 
 class DiffLogger implements DiffLoggerInterface
 {
-    private WeakMap $weakMap;
+    private DiffManagerInterface $manager;
 
     private LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $objLogger)
+    public function __construct(DiffManagerInterface $manager, LoggerInterface $objLogger)
     {
-        $this->weakMap = new WeakMap();
+        $this->manager = $manager;
         $this->logger = $objLogger;
     }
 
-    public function watch(object $object): void
+    public function getManager(): DiffManagerInterface
     {
-        $this->observe($object);
+        return $this->manager;
     }
 
     public function log(string $level, string $event, object $object, array $changeSet): void
     {
-        $data = $this->observe($object);
-        $attribute = $data->attribute ?? null;
+        $factory = $this->manager->getFactory($object);
 
-        if (!$attribute)
+        if (!$factory)
+            return;
+
+        $uid = $this->manager->fetchUid($object);
+
+        if (!$uid)
             return;
 
         $this->logger->log($level, $event, [
-            //'obj' => $this->fetchName($object, $attribute),
-            'uid' => $data->uid ?? $this->fetchUid($object, $attribute),
-            'diff' => $this->prepareChangeSet($changeSet, $attribute),
+            'obj' => $factory->objectName(),
+            'uid' => $uid,
+            'diff' => $this->prepareChangeSet($changeSet, $factory->excludedSet()),
         ]);
     }
 
-    private function observe(object $object): stdClass
+    private function prepareChangeSet(array $changeSet, array $excludedSet): array
     {
-        if (isset($this->weakMap[$object]))
-            return $this->weakMap[$object];
-
-        $data = new stdClass();
-        $attribute = (new ReflectionClass($object))->getAttributes(DiffLog::class)[0] ?? null;
-
-        if ($attribute)
-        {
-            $data->attribute = $attribute;
-            $data->uid = $this->fetchUid($object, $attribute);
-        }
-
-        return $this->weakMap[$object] = $data;
-    }
-
-    private function fetchName(object $object, ReflectionAttribute $attribute): string
-    {
-        $name = trim($attribute->getArguments()['name'] ?? '');
-
-        if (!empty($name))
-            return $name;
-
-        $name = explode('\\', $object::class);
-        return end($name);
-    }
-
-    private function fetchUid(object $object, ReflectionAttribute $attribute): mixed
-    {
-        $className = $attribute->getArguments()['uidClass'];
-
-        /** @var UidInterface $handler */
-        $handler = new $className();
-        return $handler->uid($object);
-    }
-
-    private function prepareChangeSet(array $changeSet, ReflectionAttribute $attribute): array
-    {
-        $exclude = $attribute->getArguments()['exclude'] ?? [];
-
-        foreach ($exclude as $key)
+        foreach ($excludedSet as $key)
         {
             unset($changeSet[$key]);
         }

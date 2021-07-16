@@ -25,7 +25,7 @@ class DiffSubscriber implements EventSubscriber
 
     public function preRemove(LifecycleEventArgs $args): void
     {
-        $this->logger->watch($args->getObject());
+        $this->logger->getManager()->watch($args->getObject());
     }
 
     public function postRemove(LifecycleEventArgs $args): void

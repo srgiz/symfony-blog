@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Logger\Diff\Uid;
+namespace App\Logger\Diff\Factory;
 
 use App\Entity\User\Token;
 
-class TokenUid extends AbstractUid
+class TokenDiff extends AbstractDiffFactory
 {
-    protected function map(object $object): array
+    protected function generateMap(object $object): array
     {
         /** @var Token $object */
         $id = $object->getId();

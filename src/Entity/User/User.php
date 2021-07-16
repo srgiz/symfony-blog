@@ -3,12 +3,12 @@
 namespace App\Entity\User;
 
 use App\Logger\Diff\DiffLog;
-use App\Logger\Diff\Uid\UserUid;
+use App\Logger\Diff\Factory\UserDiff;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[DiffLog(uidClass: UserUid::class)]
+#[DiffLog(factoryClass: UserDiff::class)]
 class User implements UserInterface
 {
     #[ORM\Id]

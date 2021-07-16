@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Logger\Diff\Uid;
+namespace App\Logger\Diff\Factory;
 
 use App\Entity\User\User;
 
-class UserUid extends AbstractUid
+class UserDiff extends AbstractDiffFactory
 {
-    protected function map(object $object): array
+    protected function generateMap(object $object): array
     {
         /** @var User $object */
         $id = $object->getId();

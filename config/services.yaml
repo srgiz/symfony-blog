@@ -22,7 +22,7 @@ services:
             - '../src/Kernel.php'
             - '../src/Logger/Diff/DiffEventEnum.php'
             - '../src/Logger/Diff/DiffLog.php'
-            - '../src/Logger/Diff/Uid/'
+            - '../src/Logger/Diff/Factory/'
             - '../src/Response/'
             - '../src/Tests/'
 

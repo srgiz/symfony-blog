@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Logger\Diff\Uid;
+namespace App\Logger\Diff\Factory;
 
 use App\Entity\Blog\Post;
 
-class PostUid extends AbstractUid
+class PostDiff extends AbstractDiffFactory
 {
-    protected function map(object $object): array
+    protected function generateMap(object $object): array
     {
         /** @var Post $object */
         $id = $object->getId();

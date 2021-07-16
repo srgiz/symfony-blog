@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace App\Entity\User;
 
 use App\Logger\Diff\DiffLog;
-use App\Logger\Diff\Uid\TokenUid;
+use App\Logger\Diff\Factory\TokenDiff;
 use App\Repository\User\TokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
-#[DiffLog(uidClass: TokenUid::class)]
+#[DiffLog(factoryClass: TokenDiff::class)]
 class Token
 {
     #[ORM\Id]
