@@ -1,8 +1,12 @@
 <?php
 namespace App\Logger\Diff\Factory;
 
+use App\Logger\Diff\DiffManagerInterface;
+
 interface DiffFactoryInterface
 {
+    public function getManager(): DiffManagerInterface;
+
     public function objectName(): string;
 
     public function excludedSet(): array;

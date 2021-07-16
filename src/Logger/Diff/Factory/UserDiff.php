@@ -7,10 +7,10 @@ use App\Entity\User\User;
 
 class UserDiff extends AbstractDiffFactory
 {
-    protected function generateMap(object $object): array
+    public function generateUid(object $object): array
     {
         /** @var User $object */
         $id = $object->getId();
-        return $id ? ['user:' . $id] : [];
+        return $id ? [$this->generatePartUid((string)$id)] : [];
     }
 }

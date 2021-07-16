@@ -7,10 +7,10 @@ use App\Entity\Blog\Post;
 
 class PostDiff extends AbstractDiffFactory
 {
-    protected function generateMap(object $object): array
+    public function generateUid(object $object): array
     {
         /** @var Post $object */
         $id = $object->getId();
-        return $id ? ['post:' . $id] : [];
+        return $id ? [$this->generatePartUid((string)$id)] : [];
     }
 }

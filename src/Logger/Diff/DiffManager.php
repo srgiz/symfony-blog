@@ -60,14 +60,14 @@ class DiffManager implements DiffManagerInterface
 
         if ($attribute)
         {
-            $data->factory = $this->getOrSetUidFactory($object, $attribute);
+            $data->factory = $this->getOrSetFactory($object, $attribute);
             $data->uid = $data->factory->generateUid($object);
         }
 
         return $this->objects[$object] = $data;
     }
 
-    private function getOrSetUidFactory(object $object, ReflectionAttribute $attribute): DiffFactoryInterface
+    private function getOrSetFactory(object $object, ReflectionAttribute $attribute): DiffFactoryInterface
     {
         $factoryClass = $attribute->getArguments()['factoryClass'];
 
@@ -79,6 +79,7 @@ class DiffManager implements DiffManagerInterface
         }
 
         $factory = new $factoryClass(
+            manager: $this,
             objectName: $this->fetchName($object, $attribute),
             excludedSet: $attribute->getArguments()['exclude'] ?? []
         );

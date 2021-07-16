@@ -7,12 +7,15 @@ use App\Entity\User\Token;
 
 class TokenDiff extends AbstractDiffFactory
 {
-    protected function generateMap(object $object): array
+    public function generateUid(object $object): array
     {
         /** @var Token $object */
         $id = $object->getId();
-        $userId = $object->getUserId();
+        $user = $object->getUser();
 
-        return $id && $userId ? ['user:' . $userId, 'token:' . $id] : [];
+        return $id && $user ? [
+            $this->generatePartUid((string)$id),
+            $this->generatePartUid((string)$user->getId(), $user),
+        ] : [];
     }
 }
