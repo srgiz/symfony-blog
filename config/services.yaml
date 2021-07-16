@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    container.dumper.inline_factories: true
 
 services:
     # default configuration for services in *this* file
@@ -19,14 +20,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Logger/ObjDiffEventEnum.php'
-            - '../src/Logger/ObjDiffLogAttr.php'
+            - '../src/Logger/Diff/DiffEventEnum.php'
+            - '../src/Logger/Diff/DiffLog.php'
+            - '../src/Logger/Diff/Uid/'
             - '../src/Response/'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Logger\ObjDiffSubscriber:
+    App\Logger\Diff\DiffSubscriber:
         tags:
             - name: 'doctrine.event_subscriber'

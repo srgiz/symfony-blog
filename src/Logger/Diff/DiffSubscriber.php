@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Logger;
+namespace App\Logger\Diff;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -9,18 +9,18 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Psr\Log\LogLevel;
 
-class ObjDiffSubscriber implements EventSubscriber
+class DiffSubscriber implements EventSubscriber
 {
-    private ObjDiffLoggerInterface $logger;
+    private DiffLoggerInterface $logger;
 
-    public function __construct(ObjDiffLoggerInterface $logger)
+    public function __construct(DiffLoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
     public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $this->log(ObjDiffEventEnum::UPDATE, $args->getObject(), $args->getEntityChangeSet());
+        $this->log(DiffEventEnum::UPDATE, $args->getObject(), $args->getEntityChangeSet());
     }
 
     public function preRemove(LifecycleEventArgs $args): void
@@ -30,7 +30,7 @@ class ObjDiffSubscriber implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args): void
     {
-        $this->log(ObjDiffEventEnum::DELETE, $args->getObject(), []);
+        $this->log(DiffEventEnum::DELETE, $args->getObject(), []);
     }
 
     public function postPersist(LifecycleEventArgs $args): void
@@ -45,7 +45,7 @@ class ObjDiffSubscriber implements EventSubscriber
             $changeSet[$key][1] = $value;
         }
 
-        $this->log(ObjDiffEventEnum::CREATE, $object, $changeSet);
+        $this->log(DiffEventEnum::CREATE, $object, $changeSet);
     }
 
     private function log(string $event, object $object, array $changeSet): void

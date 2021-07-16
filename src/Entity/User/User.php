@@ -2,12 +2,13 @@
 
 namespace App\Entity\User;
 
-use App\Logger\ObjDiffLogAttr;
+use App\Logger\Diff\DiffLog;
+use App\Logger\Diff\Uid\UserUid;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ObjDiffLogAttr(obj: 'user', uid: 'getId')]
+#[DiffLog(uidClass: UserUid::class)]
 class User implements UserInterface
 {
     #[ORM\Id]

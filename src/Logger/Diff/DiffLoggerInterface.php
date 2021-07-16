@@ -1,7 +1,7 @@
 <?php
-namespace App\Logger;
+namespace App\Logger\Diff;
 
-interface ObjDiffLoggerInterface
+interface DiffLoggerInterface
 {
     public function watch(object $object): void;
 

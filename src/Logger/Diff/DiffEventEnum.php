@@ -1,7 +1,7 @@
 <?php
-namespace App\Logger;
+namespace App\Logger\Diff;
 
-interface ObjDiffEventEnum
+interface DiffEventEnum
 {
     const CREATE = 'create';
     const UPDATE = 'update';

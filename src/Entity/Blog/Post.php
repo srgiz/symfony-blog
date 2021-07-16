@@ -2,12 +2,13 @@
 
 namespace App\Entity\Blog;
 
-use App\Logger\ObjDiffLogAttr;
+use App\Logger\Diff\DiffLog;
+use App\Logger\Diff\Uid\PostUid;
 use App\Repository\Blog\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[ObjDiffLogAttr(obj: 'post', uid: 'getId')]
+#[DiffLog(uidClass: PostUid::class, name: 'note')]
 class Post
 {
     #[ORM\Id]
