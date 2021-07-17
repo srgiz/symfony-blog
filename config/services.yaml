@@ -20,15 +20,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Logger/Diff/DiffEventEnum.php'
+            - '../src/Logger/Diff/DiffEvents.php'
             - '../src/Logger/Diff/DiffLog.php'
-            - '../src/Logger/Diff/Factory/'
+            - '../src/Logger/Diff/Exception/'
+            - '../src/Logger/Diff/Metadata/'
             - '../src/Response/'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    App\Logger\Diff\DiffSubscriber:
-        tags:
-            - name: 'doctrine.event_subscriber'

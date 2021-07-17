@@ -6,15 +6,15 @@ namespace App\Logger\Diff;
 #[\Attribute]
 class DiffLog
 {
-    public string $factoryClass;
+    public string $metadataClass;
 
     public ?string $name;
 
     public array $exclude = [];
 
-    public function __construct(string $factoryClass, string $name = null, array $exclude = [])
+    public function __construct(string $metadataClass, string $name = null, array $exclude = [])
     {
-        $this->factoryClass = $factoryClass;
+        $this->metadataClass = $metadataClass;
         $this->name = $name;
         $this->exclude = $exclude;
     }

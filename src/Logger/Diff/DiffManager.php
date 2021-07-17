@@ -3,99 +3,52 @@ declare(strict_types=1);
 
 namespace App\Logger\Diff;
 
-use App\Logger\Diff\Factory\DiffFactoryInterface;
-use ReflectionAttribute;
+use App\Logger\Diff\Metadata\MetadataInterface;
+
 use ReflectionClass;
-use stdClass;
-use WeakMap;
+use ReflectionException;
 
 class DiffManager implements DiffManagerInterface
 {
-    private WeakMap $objects;
+    private array $cache = [];
 
-    private WeakMap $factories;
-
-    public function __construct()
+    public function getMetadataClass(string $className): ?MetadataInterface
     {
-        $this->objects = new WeakMap();
-        $this->factories = new WeakMap();
-    }
+        if (isset($this->cache[$className]))
+            return $this->cache[$className];
 
-    public function watch(object $object): void
-    {
-        $this->observe($object);
-    }
-
-    public function unwatch(object $object): void
-    {
-        unset($this->objects[$object]);
-    }
-
-    public function fetchUid(object $object): array
-    {
-        $data = $this->observe($object);
-        $uid = $data->uid ?? null;
-
-        if ($uid)
-            return $uid;
-
-        /** @var DiffFactoryInterface $factory */
-        $factory = $data->factory ?? null;
-        return $factory ? $factory->generateUid($object) : [];
-    }
-
-    public function getFactory(object $object): ?DiffFactoryInterface
-    {
-        $data = $this->observe($object);
-        return $data->factory ?? null;
-    }
-
-    private function observe(object $object): stdClass
-    {
-        if (isset($this->objects[$object]))
-            return $this->objects[$object];
-
-        $data = new stdClass();
-        $attribute = (new ReflectionClass($object))->getAttributes(DiffLog::class)[0] ?? null;
-
-        if ($attribute)
+        try
         {
-            $data->factory = $this->getOrSetFactory($object, $attribute);
-            $data->uid = $data->factory->generateUid($object);
+            $attribute = (new ReflectionClass($className))->getAttributes(DiffLog::class)[0] ?? null;
+            $metadata = null;
+
+            if ($attribute)
+            {
+                $metadataClass = $attribute->getArguments()['metadataClass'];
+
+                $metadata = new $metadataClass(
+                    manager: $this,
+                    objectName: $attribute->getArguments()['name'] ?? $this->getObjectName($className),
+                    excludedSet: $attribute->getArguments()['exclude'] ?? []
+                );
+            }
+
+            return $this->cache[$className] = $metadata;
         }
-
-        return $this->objects[$object] = $data;
-    }
-
-    private function getOrSetFactory(object $object, ReflectionAttribute $attribute): DiffFactoryInterface
-    {
-        $factoryClass = $attribute->getArguments()['factoryClass'];
-
-        /** @var DiffFactoryInterface $factory */
-        foreach ($this->factories as $factory => $item)
+        catch (ReflectionException)
         {
-            if ($factory instanceof $factoryClass)
-                return $factory;
+            return null;
         }
-
-        $factory = new $factoryClass(
-            manager: $this,
-            objectName: $this->fetchName($object, $attribute),
-            excludedSet: $attribute->getArguments()['exclude'] ?? []
-        );
-
-        $this->factories[$factory] = true;
-        return $factory;
     }
 
-    private function fetchName(object $object, ReflectionAttribute $attribute): string
+    private function getObjectName(string $className): string
     {
-        $name = trim($attribute->getArguments()['name'] ?? '');
-
-        if (!empty($name))
-            return $name;
-
-        $name = explode('\\', $object::class);
+        $name = explode('\\', $className);
         return end($name);
+    }
+
+    public function clear(): void
+    {
+        $this->cache = [];
     }
 }

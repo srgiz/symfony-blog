@@ -1,15 +1,11 @@
 <?php
 namespace App\Logger\Diff;
 
-use App\Logger\Diff\Factory\DiffFactoryInterface;
+use App\Logger\Diff\Metadata\MetadataInterface;
 
 interface DiffManagerInterface
 {
-    public function watch(object $object): void;
+    public function getMetadataClass(string $className): ?MetadataInterface;
 
-    public function unwatch(object $object): void;
-
-    public function fetchUid(object $object): array;
-
-    public function getFactory(object $object): ?DiffFactoryInterface;
+    public function clear(): void;
 }

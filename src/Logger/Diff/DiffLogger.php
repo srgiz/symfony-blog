@@ -17,37 +17,19 @@ class DiffLogger implements DiffLoggerInterface
         $this->logger = $objLogger;
     }
 
-    public function getManager(): DiffManagerInterface
+    public function log(string $event, object $object, array $changeSet): void
     {
-        return $this->manager;
-    }
+        $metadata = $this->manager->getMetadataClass($object::class);
 
-    public function log(string $level, string $event, object $object, array $changeSet): void
-    {
-        $factory = $this->manager->getFactory($object);
-
-        if (!$factory)
+        if (!$metadata)
             return;
 
-        $uid = $this->manager->fetchUid($object);
-
-        if (!$uid)
-            return;
-
-        $this->logger->log($level, $event, [
-            'obj' => $factory->objectName(),
-            'uid' => $uid,
-            'diff' => $this->prepareChangeSet($changeSet, $factory->excludedSet()),
+        $this->logger->info($event, [
+            'obj' => $object,
+            'uid' => $metadata->genUid($object),
+            'diff' => $changeSet,
         ]);
-    }
 
-    private function prepareChangeSet(array $changeSet, array $excludedSet): array
-    {
-        foreach ($excludedSet as $key)
-        {
-            unset($changeSet[$key]);
-        }
-
-        return $changeSet;
+        var_dump($object, $changeSet, $metadata);
     }
 }

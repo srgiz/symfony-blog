@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Logger\Diff\Factory;
+namespace App\Logger\Diff\Metadata;
 
 use App\Logger\Diff\DiffManagerInterface;
+use App\Logger\Diff\Metadata\Exception\MetadataException;
 
-abstract class AbstractDiffFactory implements DiffFactoryInterface
+abstract class AbstractMetadata implements MetadataInterface
 {
     private DiffManagerInterface $manager;
 
@@ -25,24 +26,28 @@ abstract class AbstractDiffFactory implements DiffFactoryInterface
         return $this->manager;
     }
 
-    public function objectName(): string
+    public function getObjectName(): string
     {
         return $this->objectName;
     }
 
-    public function excludedSet(): array
+    public function getExcludedSet(): array
     {
         return $this->excludedSet;
     }
 
-    // todo: возможно все это надо переделать на выборку фабрики по имени класса
-    protected function generatePartUid(string $id, object $object = null): string
+    protected function genPartUid(string $id, string $className = null): string
     {
-        $objectName = $this->objectName();
+        $objectName = $this->getObjectName();
 
-        if ($object !== null)
+        if ($className !== null)
         {
-            $objectName = $this->getManager()->getFactory($object)->objectName();
+            $metadata = $this->getManager()->getMetadataClass($className);
+
+            if (!$metadata)
+                throw new MetadataException('Metadata not found');
+
+            $objectName = $metadata->getObjectName();
         }
 
         return $objectName . ':' . $id;

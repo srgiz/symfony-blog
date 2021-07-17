@@ -3,12 +3,12 @@
 namespace App\Entity\Blog;
 
 use App\Logger\Diff\DiffLog;
-use App\Logger\Diff\Factory\PostDiff;
+use App\Logger\Diff\Metadata\PostMetadata;
 use App\Repository\Blog\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[DiffLog(factoryClass: PostDiff::class)]
+#[DiffLog(metadataClass: PostMetadata::class)]
 class Post
 {
     #[ORM\Id]
