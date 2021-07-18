@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Logger\Diff\Metadata;
 
 use App\Logger\Diff\DiffManagerInterface;
-use App\Logger\Diff\Metadata\Exception\MetadataException;
+use App\Logger\Diff\Exception\MetadataException;
 
 abstract class AbstractMetadata implements MetadataInterface
 {
