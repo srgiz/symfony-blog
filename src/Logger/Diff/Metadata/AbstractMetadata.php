@@ -5,6 +5,7 @@ namespace App\Logger\Diff\Metadata;
 
 use App\Logger\Diff\DiffManagerInterface;
 use App\Logger\Diff\Exception\MetadataException;
+use Doctrine\Common\Util\ClassUtils;
 
 abstract class AbstractMetadata implements MetadataInterface
 {
@@ -42,7 +43,7 @@ abstract class AbstractMetadata implements MetadataInterface
 
         if ($className !== null)
         {
-            $metadata = $this->getManager()->getMetadataClass($className);
+            $metadata = $this->getManager()->getMetadataClass(ClassUtils::getRealClass($className));
 
             if (!$metadata)
                 throw new MetadataException('Metadata not found');
