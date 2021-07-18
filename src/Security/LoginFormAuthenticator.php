@@ -62,7 +62,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $cookieToken = $this->tokenGenerator->generate($user);
 
         $response = new RedirectResponse($redirectPath);
-        $response->headers->setCookie(new Cookie('i', $cookieToken->getToken()));
+        $response->headers->setCookie(Cookie::create('i', $cookieToken->getToken(), strtotime('+1 day')));
 
         return $response;
     }
