@@ -22,11 +22,6 @@ abstract class AbstractMetadata implements MetadataInterface
         $this->excludedSet = $excludedSet;
     }
 
-    public function getManager(): DiffManagerInterface
-    {
-        return $this->manager;
-    }
-
     public function getObjectName(): string
     {
         return $this->objectName;
@@ -43,7 +38,7 @@ abstract class AbstractMetadata implements MetadataInterface
 
         if ($className !== null)
         {
-            $metadata = $this->getManager()->getMetadataClass(ClassUtils::getRealClass($className));
+            $metadata = $this->manager->getMetadataClass(ClassUtils::getRealClass($className));
 
             if (!$metadata)
                 throw new MetadataException('Metadata not found');
