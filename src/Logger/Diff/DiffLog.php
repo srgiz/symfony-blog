@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Logger\Diff;
 
-#[\Attribute]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class DiffLog
 {
     public string $metadataClass;
