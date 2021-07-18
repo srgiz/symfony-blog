@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Logger\Diff;
 
-use App\Logger\RemoveWatcherInterface;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Logger;
+namespace App\Logger\Diff;
 
 use Doctrine\Persistence\ObjectManager;
 
