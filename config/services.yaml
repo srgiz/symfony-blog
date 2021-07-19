@@ -22,7 +22,6 @@ services:
             - '../src/Kernel.php'
             - '../src/Logger/Diff/DiffEvents.php'
             - '../src/Logger/Diff/DiffLog.php'
-            - '../src/Logger/Diff/Exception/'
             - '../src/Logger/Diff/Metadata/'
             - '../src/Response/'
             - '../src/Tests/'
