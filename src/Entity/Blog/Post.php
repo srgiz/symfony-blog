@@ -25,8 +25,13 @@ class Post
     #[ORM\Column(type: 'text')]
     private ?string $content;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
