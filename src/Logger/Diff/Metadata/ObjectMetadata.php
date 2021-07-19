@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace App\Logger\Diff\Metadata;
 
 use App\Logger\Diff\DiffManagerInterface;
-use App\Logger\Diff\Exception\MetadataException;
-use Doctrine\Common\Util\ClassUtils;
 
-abstract class AbstractMetadata implements MetadataInterface
+class ObjectMetadata implements MetadataInterface
 {
     private DiffManagerInterface $manager;
 
@@ -32,20 +30,18 @@ abstract class AbstractMetadata implements MetadataInterface
         return $this->excludedSet;
     }
 
-    protected function genPartUid(string $id, string $className = null): string
+    public function getRelatedIds(object $object): array
     {
-        $objectName = $this->getObjectName();
+        if (!method_exists($object, 'getId'))
+            return [];
 
-        if ($className !== null)
-        {
-            $metadata = $this->manager->getMetadataClass(ClassUtils::getRealClass($className));
+        return [
+            $this->getObjectName() => (string)$object->getId(),
+        ];
+    }
 
-            if (!$metadata)
-                throw new MetadataException('Metadata not found');
-
-            $objectName = $metadata->getObjectName();
-        }
-
-        return $objectName . ':' . $id;
+    protected function getRelatedMetadata(string $className): MetadataInterface
+    {
+        return $this->manager->getMetadataClass($className);
     }
 }

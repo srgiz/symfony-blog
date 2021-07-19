@@ -8,7 +8,7 @@ interface MetadataInterface
     public function getExcludedSet(): array;
 
     /**
-     * @return array<string> entity:id
+     * @return array<string, string> ($objectName, $uid)
      */
-    public function genUid(object $object): array;
+    public function getRelatedIds(object $object): array;
 }

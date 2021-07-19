@@ -4,18 +4,18 @@ declare(strict_types=1);
 namespace App\Logger\Diff\Metadata;
 
 use App\Entity\User\Token;
+use App\Entity\User\User;
 
-class TokenMetadata extends AbstractMetadata
+class TokenMetadata extends ObjectMetadata
 {
-    public function genUid(object $object): array
+    public function getRelatedIds(object $object): array
     {
         /** @var Token $object */
-        $id = $object->getId();
-        $user = $object->getUser();
+        $ids = parent::getRelatedIds($object);
 
-        return $id && $user ? [
-            $this->genPartUid((string)$id),
-            $this->genPartUid((string)$user->getId(), $user::class),
-        ] : [];
+        $userMetadata = $this->getRelatedMetadata(User::class);
+        $ids[$userMetadata->getObjectName()] = (string)$object->getUserId();
+
+        return $ids;
     }
 }

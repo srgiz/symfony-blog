@@ -5,6 +5,7 @@ namespace App\Logger\Diff;
 
 use App\Logger\Diff\Metadata\MetadataInterface;
 
+use Doctrine\Common\Util\ClassUtils;
 use ReflectionClass;
 use ReflectionException;
 
@@ -14,6 +15,8 @@ class DiffManager implements DiffManagerInterface
 
     public function getMetadataClass(string $className): ?MetadataInterface
     {
+        $className = ClassUtils::getRealClass($className);
+
         if (isset($this->cache[$className]))
             return $this->cache[$className];
 
