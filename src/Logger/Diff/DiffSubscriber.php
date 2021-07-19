@@ -10,30 +10,36 @@ use Doctrine\ORM\Events;
 
 class DiffSubscriber implements EventSubscriberInterface
 {
-    private RemoveWatcherInterface $removeWatcher;
+    private ObjectWatcherInterface $objectWatcher;
 
     private DiffLoggerInterface $logger;
 
-    public function __construct(RemoveWatcherInterface $removeWatcher, DiffLoggerInterface $logger)
+    public function __construct(ObjectWatcherInterface $objectWatcher, DiffLoggerInterface $logger)
     {
-        $this->removeWatcher = $removeWatcher;
+        $this->objectWatcher = $objectWatcher;
         $this->logger = $logger;
     }
 
     public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $this->log(DiffEvents::UPDATE, $args->getObject(), $args->getEntityChangeSet());
+        $this->objectWatcher->setChangeSet($args->getObject(), $args->getEntityChangeSet());
+    }
+
+    public function postUpdate(LifecycleEventArgs $args): void
+    {
+        $object = $args->getObject();
+        $this->log(DiffEvents::UPDATE, $object, $this->objectWatcher->getChangeSet($object));
     }
 
     public function preRemove(LifecycleEventArgs $args): void
     {
-        $this->removeWatcher->setPrimaryKeys($args->getObjectManager(), $args->getObject());
+        $this->objectWatcher->setPrimaryKeys($args->getObjectManager(), $args->getObject());
     }
 
     public function postRemove(LifecycleEventArgs $args): void
     {
         $object = $args->getObject();
-        $primaryKeys = $this->removeWatcher->getPrimaryKeys($object);
+        $primaryKeys = $this->objectWatcher->getPrimaryKeys($object);
         $reflectionClass = $args->getObjectManager()->getClassMetadata($object::class)->getReflectionClass();
         $changeSet = [];
 
@@ -83,6 +89,7 @@ class DiffSubscriber implements EventSubscriberInterface
     {
         return [
             Events::preUpdate,
+            Events::postUpdate,
             Events::preRemove,
             Events::postRemove,
             Events::postPersist,
