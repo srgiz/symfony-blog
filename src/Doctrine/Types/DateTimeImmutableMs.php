@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\PhpIntegerMappingType;
  */
 class DateTimeImmutableMs extends DateTimeType implements PhpIntegerMappingType
 {
-    const DATETIME_IMMUTABLE_MS = 'date_immutable_ms';
+    const DATETIME_IMMUTABLE_MS = 'datetime_immutable_ms';
 
     private const FORMAT = 'Y-m-d H:i:s.u';
 
