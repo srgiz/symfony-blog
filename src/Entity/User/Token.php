@@ -9,6 +9,7 @@ use App\Repository\User\TokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
+#[ORM\Table(name: 'user_token')]
 #[DiffLog(metadataClass: TokenMetadata::class)]
 class Token
 {
@@ -20,8 +21,8 @@ class Token
     #[ORM\Column(type: 'integer')]
     private ?int $user_id;
 
-    #[ORM\Column(type: 'string', unique: true)]
-    private ?string $token;
+    #[ORM\Column(name: '`key`', type: 'string', unique: true, options: ['collation' => 'utf8mb4_bin'])]
+    private ?string $key;
 
     #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at;
@@ -51,14 +52,14 @@ class Token
         return $this;
     }
 
-    public function getToken(): ?string
+    public function getKey(): ?string
     {
-        return $this->token;
+        return $this->key;
     }
 
-    public function setToken(string $token): static
+    public function setKey(string $key): static
     {
-        $this->token = $token;
+        $this->key = $key;
         return $this;
     }
 

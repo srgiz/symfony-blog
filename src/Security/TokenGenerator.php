@@ -22,10 +22,10 @@ class TokenGenerator implements TokenGeneratorInterface
 
     public function generate(UserInterface $user): Token
     {
-        $value = $this->passwordHasher->hashPassword($user, $user->getPassword());
+        $key = $this->passwordHasher->hashPassword($user, $user->getPassword());
 
         $token = (new Token())
-            ->setToken($value)
+            ->setKey($key)
             ->setUser($user);
 
         $this->doctrine->getManager()->persist($token);

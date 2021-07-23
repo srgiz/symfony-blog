@@ -30,12 +30,12 @@ class TokenAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): PassportInterface
     {
-        $cookie = (string)$request->cookies->get('i', '');
+        $key = (string)$request->cookies->get('i', '');
 
-        if (empty($cookie))
+        if (empty($key))
             throw new CustomUserMessageAuthenticationException('Token not passed');
 
-        $token = $this->tokenRepository->findByToken($cookie);
+        $token = $this->tokenRepository->findByKey($key);
 
         if (!$token)
             throw new CustomUserMessageAuthenticationException('Invalid token');

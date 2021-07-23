@@ -20,10 +20,10 @@ class TokenRepository extends ServiceEntityRepository
         parent::__construct($registry, Token::class);
     }
 
-    public function findByToken(string $token): ?Token
+    public function findByKey(string $key): ?Token
     {
         return $this->findOneBy([
-            'token' => $token,
+            'key' => $key,
         ]);
     }
 }
