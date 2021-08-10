@@ -25,9 +25,9 @@ class DiffLogger implements DiffLoggerInterface
             return;
 
         $this->logger->info($event, [
-            'obj' => $object,
-            'uid' => $metadata->getRelatedIds($object),
-            'diff' => $changeSet,
+            'objectName' => $metadata->getObjectName(),
+            'relatedIds' => $metadata->getRelatedIds($object),
+            'changeSet' => $changeSet,
         ]);
     }
 }

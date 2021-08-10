@@ -3,7 +3,7 @@ monolog:
   channels: [obj]
   handlers:
     obj:
-      type: stream
-      path: "%kernel.logs_dir%/obj.log"
+      type: service
+      id: App\Logger\Monolog\DiffLogDoctrineHandler
       level: debug
       channels: [ "obj" ]
