@@ -27,12 +27,14 @@ class DiffLogDoctrineHandler extends AbstractProcessingHandler
      */
     protected function write(array $record): void
     {
+        /** @var \DateTimeImmutable $createdAt */
+        $createdAt = $record['datetime'];
         $context = &$record['context'];
 
         $log = new Entity();
         $log->setName($context['objectName']);
         $log->setChangeSet($context['changeSet']);
-        $log->setCreatedAt($record['datetime']);
+        $log->setCreatedAt($createdAt->setTimezone(new \DateTimeZone('UTC')));
 
         foreach ($context['relatedIds'] as $objectName => $uid)
         {

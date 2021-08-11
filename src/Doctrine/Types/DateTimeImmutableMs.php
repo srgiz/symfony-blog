@@ -20,6 +20,8 @@ class DateTimeImmutableMs extends Type implements PhpIntegerMappingType
 
     protected string $sqlDeclaration = 'DATETIME';
 
+    protected ?string $timezone;
+
     /**
      * {@inheritdoc}
      */
@@ -46,14 +48,26 @@ class DateTimeImmutableMs extends Type implements PhpIntegerMappingType
         if ($value === null)
             return null;
 
-        if ($value instanceof \DateTimeImmutable)
-            return $value->format(self::FORMAT);
+        if (!$value instanceof \DateTimeImmutable) {
+            throw ConversionException::conversionFailedInvalidType(
+                $value,
+                $this->getName(),
+                ['null', \DateTimeImmutable::class]
+            );
+        }
 
-        throw ConversionException::conversionFailedInvalidType(
-            $value,
-            $this->getName(),
-            ['null', \DateTimeImmutable::class]
-        );
+        if ($this->timezone && $value->getTimezone()->getName() !== $this->timezone) {
+            throw new ConversionException(
+                sprintf(
+                    'Could not convert database value "%s" to Doctrine Type "%s". Expected time zone: %s.',
+                    $value,
+                    $this->getName(),
+                    $this->timezone,
+                ),
+            );
+        }
+
+        return $value->format(self::FORMAT);
     }
 
     /**
@@ -65,10 +79,16 @@ class DateTimeImmutableMs extends Type implements PhpIntegerMappingType
         if ($value === null || $value instanceof \DateTimeImmutable)
             return $value;
 
-        $dateTime = \DateTimeImmutable::createFromFormat(self::FORMAT, $value);
+        $dateTimeZone = null;
+
+        if ($this->timezone) {
+            $dateTimeZone = new \DateTimeZone($this->timezone);
+        }
+
+        $dateTime = \DateTimeImmutable::createFromFormat(self::FORMAT, $value, $dateTimeZone);
 
         if (!$dateTime) {
-            $dateTime = date_create_immutable($value);
+            $dateTime = date_create_immutable($value, $dateTimeZone);
         }
 
         if ($dateTime)

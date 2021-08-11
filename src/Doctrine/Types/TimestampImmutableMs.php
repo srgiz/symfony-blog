@@ -7,6 +7,8 @@ class TimestampImmutableMs extends DateTimeImmutableMs
 {
     protected string $sqlDeclaration = 'TIMESTAMP';
 
+    protected ?string $timezone = 'UTC';
+
     /**
      * {@inheritdoc}
      */

@@ -34,7 +34,7 @@ class Entity
 
     public function __construct()
     {
-        $this->created_at = new \DateTimeImmutable();
+        $this->created_at = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         $this->relations = new ArrayCollection();
     }
 
