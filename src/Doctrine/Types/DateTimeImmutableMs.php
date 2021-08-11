@@ -5,8 +5,8 @@ namespace App\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\PhpIntegerMappingType;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * todo: PhpIntegerMappingType костыль для DEFAULT CURRENT_TIMESTAMP(6)
@@ -14,18 +14,18 @@ use Doctrine\DBAL\Types\PhpIntegerMappingType;
  * @see \Doctrine\DBAL\Platforms\AbstractPlatform::getColumnDeclarationSQL
  * @see \Doctrine\DBAL\Platforms\AbstractPlatform::getDefaultValueDeclarationSQL
  */
-class DateTimeImmutableMs extends DateTimeType implements PhpIntegerMappingType
+class DateTimeImmutableMs extends Type implements PhpIntegerMappingType
 {
-    const DATETIME_IMMUTABLE_MS = 'datetime_immutable_ms';
-
     private const FORMAT = 'Y-m-d H:i:s.u';
+
+    protected string $sqlDeclaration = 'DATETIME';
 
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return self::DATETIME_IMMUTABLE_MS;
+        return 'datetime_immutable_ms';
     }
 
     /**
@@ -34,12 +34,7 @@ class DateTimeImmutableMs extends DateTimeType implements PhpIntegerMappingType
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $precision = $column['precision'] > 6 ? 6 : $column['precision'];
-
-        //if (isset($column['version']) && $column['version'] === true) {
-        //    return "TIMESTAMP({$precision})";
-        //}
-
-        return "DATETIME({$precision})";
+        return "{$this->sqlDeclaration}({$precision})";
     }
 
     /**

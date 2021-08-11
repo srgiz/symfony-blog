@@ -26,7 +26,7 @@ class Entity
     #[ORM\Column(type: 'json')]
     private array $changeSet = [];
 
-    #[ORM\Column(type: 'datetime_immutable_ms', precision: 6, options: ['default' => 'CURRENT_TIMESTAMP(6)'])]
+    #[ORM\Column(type: 'timestamp_immutable_ms', precision: 6, options: ['default' => 'CURRENT_TIMESTAMP(6)'])]
     private ?\DateTimeImmutable $created_at;
 
     #[ORM\OneToMany(mappedBy: 'entity', targetEntity: EntityRelation::class)]
