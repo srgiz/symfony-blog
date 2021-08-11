@@ -19,7 +19,7 @@ class EntityRelation
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $uuid;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', options: ['collation' => 'utf8mb4_bin'])]
     private ?string $related;
 
     #[ORM\ManyToOne(targetEntity: Entity::class, cascade: ['all'], inversedBy: 'relations')]

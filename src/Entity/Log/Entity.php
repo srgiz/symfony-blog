@@ -20,7 +20,7 @@ class Entity
     #[ORM\CustomIdGenerator(class: UuidV6Generator::class)]
     private ?Uuid $uuid;
 
-    #[ORM\Column(type: 'string', length: 16)]
+    #[ORM\Column(type: 'string', length: 16, options: ['collation' => 'utf8mb4_bin'])]
     private ?string $name;
 
     #[ORM\Column(type: 'json')]
