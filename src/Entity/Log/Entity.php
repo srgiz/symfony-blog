@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: EntityRepository::class)]
+##[ORM\Entity(repositoryClass: EntityRepository::class)]
 #[ORM\Table(name: 'log_entity')]
 class Entity
 {

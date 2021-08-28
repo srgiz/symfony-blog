@@ -5,31 +5,31 @@ namespace App\Entity\User;
 
 use App\Logger\Diff\DiffLog;
 use App\Logger\Diff\Metadata\TokenMetadata;
-use App\Repository\User\TokenRepository;
+use App\Repository\User\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TokenRepository::class)]
+#[ORM\Entity(repositoryClass: UserTokenRepository::class)]
 #[ORM\Table(name: 'user_token')]
 #[DiffLog(metadataClass: TokenMetadata::class)]
-class Token
+class UserToken
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: 'bigint')]
-    private ?int $id;
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private ?int $user_id;
+    #[ORM\Column(type: 'bigint')]
+    private ?int $user_id = null;
 
-    #[ORM\Column(name: '`key`', type: 'string', unique: true, options: ['collation' => 'utf8mb4_bin'])]
-    private ?string $key;
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private ?string $token = null;
 
-    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(type: 'datetimetz_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at;
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['all'])]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?User $user;
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -52,14 +52,14 @@ class Token
         return $this;
     }
 
-    public function getKey(): ?string
+    public function getToken(): ?string
     {
-        return $this->key;
+        return $this->token;
     }
 
-    public function setKey(string $key): static
+    public function setToken(string $token): static
     {
-        $this->key = $key;
+        $this->token = $token;
         return $this;
     }
 

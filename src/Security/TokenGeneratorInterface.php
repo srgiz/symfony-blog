@@ -1,10 +1,10 @@
 <?php
 namespace App\Security;
 
-use App\Entity\User\Token;
 use App\Entity\User\UserInterface;
+use App\Entity\User\UserToken;
 
 interface TokenGeneratorInterface
 {
-    public function generate(UserInterface $user): Token;
+    public function generate(UserInterface $user): UserToken;
 }

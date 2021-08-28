@@ -7,7 +7,7 @@ use App\Logger\Diff\Metadata\ObjectMetadata;
 use App\Repository\Blog\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PostRepository::class)]
+##[ORM\Entity(repositoryClass: PostRepository::class)]
 #[DiffLog(metadataClass: ObjectMetadata::class)]
 class Post
 {

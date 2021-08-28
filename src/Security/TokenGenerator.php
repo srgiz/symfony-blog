@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Entity\User\Token;
 use App\Entity\User\UserInterface;
+use App\Entity\User\UserToken;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -20,17 +20,18 @@ class TokenGenerator implements TokenGeneratorInterface
         $this->doctrine = $doctrine;
     }
 
-    public function generate(UserInterface $user): Token
+    public function generate(UserInterface $user): UserToken
     {
         $key = $this->passwordHasher->hashPassword($user, $user->getPassword());
 
-        $token = (new Token())
-            ->setKey($key)
-            ->setUser($user);
+        $userToken = (new UserToken())
+            ->setToken($key)
+            ->setUser($user)
+        ;
 
-        $this->doctrine->getManager()->persist($token);
+        $this->doctrine->getManager()->persist($userToken);
         $this->doctrine->getManager()->flush();
 
-        return $token;
+        return $userToken;
     }
 }

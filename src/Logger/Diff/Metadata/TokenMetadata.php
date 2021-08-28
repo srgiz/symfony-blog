@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Logger\Diff\Metadata;
 
-use App\Entity\User\Token;
 use App\Entity\User\User;
+use App\Entity\User\UserToken;
 
 class TokenMetadata extends ObjectMetadata
 {
     public function getRelatedIds(object $object): array
     {
-        /** @var Token $object */
+        /** @var UserToken $object */
         $ids = parent::getRelatedIds($object);
 
         $userMetadata = $this->getRelatedMetadata(User::class);

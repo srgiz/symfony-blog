@@ -8,22 +8,31 @@ use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '"user"')]
 #[DiffLog(metadataClass: ObjectMetadata::class)]
 class User implements UserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private ?int $id;
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: 'bigint')]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $email;
+    #[ORM\Column(type: 'string', length: 128, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private ?string $password;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $password = null;
+
+    #[ORM\Column(type: 'datetimetz_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -39,24 +48,6 @@ class User implements UserInterface
     {
         $this->email = $email;
         return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string)$this->email;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string)$this->email;
     }
 
     /**
@@ -78,6 +69,7 @@ class User implements UserInterface
     }
 
     /**
+     * password_hash
      * @see \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
@@ -91,10 +83,37 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->created_at = $createdAt;
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string)$this->getEmail();
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
+    }
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
      * @see UserInterface
      */
     public function getSalt(): ?string

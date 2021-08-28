@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Repository\User\TokenRepository;
+use App\Repository\User\UserTokenRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -16,11 +16,11 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class TokenAuthenticator extends AbstractAuthenticator
 {
-    private TokenRepository $tokenRepository;
+    private UserTokenRepository $userTokenRepository;
 
-    public function __construct(TokenRepository $tokenRepository)
+    public function __construct(UserTokenRepository $userTokenRepository)
     {
-        $this->tokenRepository = $tokenRepository;
+        $this->userTokenRepository = $userTokenRepository;
     }
 
     public function supports(Request $request): ?bool
@@ -30,17 +30,17 @@ class TokenAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): PassportInterface
     {
-        $key = (string)$request->cookies->get('i', '');
+        $token = (string)$request->cookies->get('i', '');
 
-        if (empty($key))
+        if (empty($token))
             throw new CustomUserMessageAuthenticationException('Token not passed');
 
-        $token = $this->tokenRepository->findByKey($key);
+        $userToken = $this->userTokenRepository->findByKey($token);
 
-        if (!$token)
+        if (!$userToken)
             throw new CustomUserMessageAuthenticationException('Invalid token');
 
-        return new SelfValidatingPassport(new UserBadge($token->getUser()->getEmail()));
+        return new SelfValidatingPassport(new UserBadge($userToken->getUser()->getEmail()));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

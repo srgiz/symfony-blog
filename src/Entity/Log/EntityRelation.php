@@ -7,7 +7,7 @@ use App\Repository\Log\EntityRelationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: EntityRelationRepository::class)]
+##[ORM\Entity(repositoryClass: EntityRelationRepository::class)]
 #[ORM\Table(name: 'log_entity_relation')]
 class EntityRelation
 {

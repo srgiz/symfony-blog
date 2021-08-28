@@ -27,6 +27,7 @@ class DiffLogDoctrineHandler extends AbstractProcessingHandler
      */
     protected function write(array $record): void
     {
+        return; // TODO.
         /** @var \DateTimeImmutable $createdAt */
         $createdAt = $record['datetime'];
         $context = &$record['context'];
