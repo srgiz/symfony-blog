@@ -3,44 +3,45 @@ version: '3.8'
 services:
   nginx:
     container_name: blog-nginx
-    image: serginhold/blog-nginx:latest
-    build:
-      context: ./docker/nginx
+    image: nginx:1.21.1-alpine
     ports:
-      - ${APP_IP}:${APP_PORT}:80
+      - ${DOCKER_APP_IP}:80:80
     volumes:
-      - ./docker/nginx/blog.conf:/etc/nginx/conf.d/blog.conf
+      - ./docker/nginx/conf.d/blog.conf:/etc/nginx/conf.d/blog.conf
       - ./:/var/www
     depends_on:
       - php
+
   php:
     container_name: blog-php
     image: serginhold/blog-php:latest
     build:
       context: ./docker/php
     environment:
+      PS1: "\\u:\\w$$ "
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
     volumes:
-      - ./docker/php:/usr/local/etc/php/conf.d_ext
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
       - ./:/var/www
     depends_on:
-      - mysql
-  mysql:
-    container_name: blog-db
-    image: mysql:8.0.25
-    command: --default-authentication-plugin=mysql_native_password
+      - postgres
+
+  postgres:
+    # https://www.postgresql.org/ftp/pgadmin/pgadmin4/v5.6/
+    container_name: blog-pg
+    image: postgres:13.4-alpine3.14
+    restart: always
     ports:
-      - ${APP_IP}:3306:3306
+      - ${DOCKER_APP_IP}:5432:5432
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_PASSWORD: root
     volumes:
-      - blog-db:/var/lib/mysql
-    #restart: always
+      - blog-pg:/var/lib/postgresql/data
 
 networks:
   default:
     name: blog.local
 
 volumes:
-  blog-db:
-    name: blog-db
+  blog-pg:
+    name: blog-pg
