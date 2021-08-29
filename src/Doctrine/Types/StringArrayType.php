@@ -50,7 +50,15 @@ class StringArrayType extends Type
                     $escape = true;
                 }
 
-                if (false !== mb_strrpos($str, ',') || false !== mb_strrpos($str, '{') || false !== mb_strrpos($str, '}')) {
+                if (
+                    !$escape
+                    && (
+                        false !== mb_strrpos($str, ',')
+                        || false !== mb_strrpos($str, '{')
+                        || false !== mb_strrpos($str, '}')
+                        || false !== mb_strrpos($str, "\n")
+                    )
+                ) {
                     $escape = true;
                 }
 
