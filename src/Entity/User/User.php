@@ -20,7 +20,7 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 128, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: 'json', options: ['jsonb' => true])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string', length: 255)]
