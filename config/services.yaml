@@ -23,7 +23,7 @@ services:
             - '../src/Logger/Diff/DiffEvents.php'
             - '../src/Logger/Diff/DiffLog.php'
             - '../src/Logger/Diff/Metadata/'
-            - '../src/Response/'
+            - '../src/Response/Format/'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed

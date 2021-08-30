@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Response;
+namespace App\Response\Format;
 
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
