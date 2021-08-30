@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Dto\Response;
 
+use Symfony\Component\HttpFoundation\Cookie;
+
 class ResponseDto implements ResponseDtoInterface, \JsonSerializable
 {
     private ?array $meta = null;
@@ -10,6 +12,8 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
     private ?array $data = null;
 
     private ?array $error = null;
+
+    private array $cookies = [];
 
     public function setMetaPage(int $page, int $size, int $totalCount): static
     {
@@ -36,6 +40,17 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
             $this->error['data'] = $data;
         }
 
+        return $this;
+    }
+
+    public function getCookies(): array
+    {
+        return $this->cookies;
+    }
+
+    public function setCookie(Cookie $cookie): static
+    {
+        $this->cookies[] = $cookie;
         return $this;
     }
 

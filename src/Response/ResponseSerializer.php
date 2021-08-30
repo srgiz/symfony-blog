@@ -22,6 +22,12 @@ class ResponseSerializer implements ResponseSerializerInterface
             'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
         ], $context));
 
-        return new JsonResponse($json, $status, $headers, true);
+        $response = new JsonResponse($json, $status, $headers, true);
+
+        foreach ($data->getCookies() as $cookie) {
+            $response->headers->setCookie($cookie);
+        }
+
+        return $response;
     }
 }
