@@ -29,8 +29,6 @@ class ArrayText extends FunctionNode
 
         if (!$count) {
             $format = '';
-        } else if ($count === 1) {
-            $format = '%s';
         } else {
             $format = str_repeat('%s, ', $count - 1) . '%s';
         }
