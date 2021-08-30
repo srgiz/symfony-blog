@@ -26,10 +26,9 @@ class ArrayText extends FunctionNode
         }
 
         $count = count($values);
+        $format = '';
 
-        if (!$count) {
-            $format = '';
-        } else {
+        if ($count) {
             $format = str_repeat('%s, ', $count - 1) . '%s';
         }
 
