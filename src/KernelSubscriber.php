@@ -29,9 +29,11 @@ class KernelSubscriber implements EventSubscriberInterface
         $exception = $event->getThrowable();
         $statusCode = $exception->getCode();
         $message = $exception->getMessage();
+        $headers = [];
 
         if ($exception instanceof HttpExceptionInterface) {
             $statusCode = $exception->getStatusCode();
+            $headers = $exception->getHeaders();
         }
 
         $isClientError = $statusCode >= 400 && $statusCode < 500;
@@ -55,6 +57,7 @@ class KernelSubscriber implements EventSubscriberInterface
             $this->responseSerializer->serialize(
                 (new ResponseDto())->setError($statusCode, $message, $data),
                 $statusCode,
+                $headers,
             ),
         );
     }

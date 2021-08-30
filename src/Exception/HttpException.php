@@ -52,5 +52,4 @@ class HttpException extends KernelHttpException implements DataExceptionInterfac
 
         return $this->setData($data);
     }
-
 }
