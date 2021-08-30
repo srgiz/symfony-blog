@@ -49,7 +49,7 @@ class ArrayText extends FunctionNode
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        while ($parser->getLexer()->isNextToken(Lexer::T_STRING)) {
+        while ($parser->getLexer()->isNextTokenAny([Lexer::T_INPUT_PARAMETER, Lexer::T_STRING])) {
             $this->array[] = $parser->StringPrimary();
 
             if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
