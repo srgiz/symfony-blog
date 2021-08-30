@@ -25,20 +25,13 @@ class ArrayText extends FunctionNode
             $values[] = $node->dispatch($sqlWalker);
         }
 
-        $count = count($values);
-        $format = '';
+        $format = 'array[' . implode(', ', $values) . ']';
 
-        if ($count) {
-            $format = str_repeat('%s, ', $count - 1) . '%s';
-        }
-
-        $format = 'array[' . $format . ']';
-
-        if (!$count) {
+        if (empty($values)) {
             $format .= '::text[]';
         }
 
-        return vsprintf($format, $values);
+        return $format;
     }
 
     public function parse(Parser $parser): void
