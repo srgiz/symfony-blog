@@ -21,3 +21,4 @@ doctrine:
         dql:
             string_functions:
                 ARRAY_TEXT: App\Doctrine\Functions\ArrayText
+                JSONB_EXTRACT: App\Doctrine\Functions\JsonbExtract
