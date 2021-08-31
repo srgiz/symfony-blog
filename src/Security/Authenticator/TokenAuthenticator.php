@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Security\Authenticator;
 
 use App\Repository\User\UserTokenRepository;
 use Symfony\Component\HttpFoundation\Request;

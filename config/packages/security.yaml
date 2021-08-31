@@ -22,8 +22,8 @@ security:
             stateless: true
             provider: app_user_provider
             custom_authenticators:
-                - App\Security\TokenAuthenticator
-                - App\Security\LoginFormAuthenticator
+                - App\Security\Authenticator\TokenAuthenticator
+                - App\Security\Authenticator\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
