@@ -18,9 +18,7 @@ class SecurityController extends Controller
         $this->userProfile = $userProfile;
     }
 
-    /**
-     * @Route("/login", name="app_login")
-     */
+    #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
@@ -41,9 +39,7 @@ class SecurityController extends Controller
         return $this->json($this->userProfile->register($userRequest->email, $userRequest->password));
     }
 
-    /**
-     * @Route("/logout", name="app_logout")
-     */
+    #[Route(path: '/logout', name: 'app_logout', methods: ['GET'])]
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

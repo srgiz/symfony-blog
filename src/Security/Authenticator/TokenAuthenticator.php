@@ -4,23 +4,24 @@ declare(strict_types=1);
 namespace App\Security\Authenticator;
 
 use App\Repository\User\UserTokenRepository;
+use App\Security\Profile\UserCookieInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\Authenticator\Passport;
 
 class TokenAuthenticator extends AbstractAuthenticator
 {
-    private UserTokenRepository $userTokenRepository;
+    private UserTokenRepository $tokenRepository;
 
-    public function __construct(UserTokenRepository $userTokenRepository)
+    private UserCookieInterface $userCookie;
+
+    public function __construct(UserTokenRepository $tokenRepository, UserCookieInterface $userCookie)
     {
-        $this->userTokenRepository = $userTokenRepository;
+        $this->tokenRepository = $tokenRepository;
+        $this->userCookie = $userCookie;
     }
 
     public function supports(Request $request): ?bool
@@ -28,19 +29,19 @@ class TokenAuthenticator extends AbstractAuthenticator
         return LoginFormAuthenticator::LOGIN_ROUTE !== $request->attributes->get('_route');
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport\PassportInterface
     {
-        $token = (string)$request->cookies->get('i', '');
+        $token = (string)$request->cookies->get($this->userCookie->getName());
 
         if (empty($token))
-            throw new CustomUserMessageAuthenticationException('Token not passed');
+            throw new Exception\CustomUserMessageAuthenticationException('Token not passed');
 
-        $userToken = $this->userTokenRepository->findByKey($token);
+        $userToken = $this->tokenRepository->findByKey($token);
 
         if (!$userToken)
-            throw new CustomUserMessageAuthenticationException('Invalid token');
+            throw new Exception\CustomUserMessageAuthenticationException('Invalid token');
 
-        return new SelfValidatingPassport(new UserBadge($userToken->getUser()->getEmail()));
+        return new Passport\SelfValidatingPassport(new Passport\Badge\UserBadge($userToken->getUser()->getEmail()));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -48,7 +49,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         return null;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, Exception\AuthenticationException $exception): ?Response
     {
         return null;
     }
