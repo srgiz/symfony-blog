@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Security\Authenticator;
 
 use App\Repository\User\UserTokenRepository;
-use App\Security\Profile\UserCookieInterface;
+use App\Security\Profile\TokenCookieInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -16,12 +16,12 @@ class TokenAuthenticator extends AbstractAuthenticator
 {
     private UserTokenRepository $tokenRepository;
 
-    private UserCookieInterface $userCookie;
+    private TokenCookieInterface $tokenCookie;
 
-    public function __construct(UserTokenRepository $tokenRepository, UserCookieInterface $userCookie)
+    public function __construct(UserTokenRepository $tokenRepository, TokenCookieInterface $tokenCookie)
     {
         $this->tokenRepository = $tokenRepository;
-        $this->userCookie = $userCookie;
+        $this->tokenCookie = $tokenCookie;
     }
 
     public function supports(Request $request): ?bool
@@ -31,7 +31,7 @@ class TokenAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport\PassportInterface
     {
-        $token = (string)$request->cookies->get($this->userCookie->getName());
+        $token = (string)$request->cookies->get($this->tokenCookie->getName());
 
         if (empty($token))
             throw new Exception\CustomUserMessageAuthenticationException('Token not passed');

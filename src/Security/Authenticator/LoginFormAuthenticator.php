@@ -4,7 +4,7 @@ namespace App\Security\Authenticator;
 
 use App\Entity\User\User;
 use App\Repository\User\UserTokenRepository;
-use App\Security\Profile\UserCookieInterface;
+use App\Security\Profile\TokenCookieInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,13 +25,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     private UserTokenRepository $tokenRepository;
 
-    private UserCookieInterface $userCookie;
+    private TokenCookieInterface $tokenCookie;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, UserTokenRepository $tokenRepository, UserCookieInterface $userCookie)
+    public function __construct(UrlGeneratorInterface $urlGenerator, UserTokenRepository $tokenRepository, TokenCookieInterface $tokenCookie)
     {
         $this->urlGenerator = $urlGenerator;
         $this->tokenRepository = $tokenRepository;
-        $this->userCookie = $userCookie;
+        $this->tokenCookie = $tokenCookie;
     }
 
     public function authenticate(Request $request): Passport\PassportInterface
@@ -62,7 +62,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $userToken = $this->tokenRepository->createNew($user);
 
         $response = new RedirectResponse($redirectPath);
-        $response->headers->setCookie($this->userCookie->create($userToken));
+        $response->headers->setCookie($this->tokenCookie->create($userToken));
 
         return $response;
     }

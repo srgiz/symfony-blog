@@ -14,13 +14,13 @@ class UserProfile implements UserProfileInterface
 
     private UserTokenRepository $tokenRepository;
 
-    private UserCookieInterface $userCookie;
+    private TokenCookieInterface $tokenCookie;
 
-    public function __construct(UserRepository $userRepository, UserTokenRepository $tokenRepository, UserCookieInterface $userCookie)
+    public function __construct(UserRepository $userRepository, UserTokenRepository $tokenRepository, TokenCookieInterface $tokenCookie)
     {
         $this->userRepository = $userRepository;
         $this->tokenRepository = $tokenRepository;
-        $this->userCookie = $userCookie;
+        $this->tokenCookie = $tokenCookie;
     }
 
     public function register(string $email, string $password): ResponseDtoInterface
@@ -30,7 +30,7 @@ class UserProfile implements UserProfileInterface
 
         return (new ResponseDto())
             ->setData(true)
-            ->setCookie($this->userCookie->create($userToken))
+            ->setCookie($this->tokenCookie->create($userToken))
         ;
     }
 }

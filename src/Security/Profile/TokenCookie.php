@@ -7,7 +7,7 @@ use App\Entity\User\UserToken;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class UserCookie implements UserCookieInterface
+class TokenCookie implements TokenCookieInterface
 {
     private string $name;
 

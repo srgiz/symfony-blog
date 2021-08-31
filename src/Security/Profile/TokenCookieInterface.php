@@ -4,7 +4,7 @@ namespace App\Security\Profile;
 use App\Entity\User\UserToken;
 use Symfony\Component\HttpFoundation\Cookie;
 
-interface UserCookieInterface
+interface TokenCookieInterface
 {
     public function getName(): string;
 
