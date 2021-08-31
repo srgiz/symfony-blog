@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\Request\Security\UserPasswordRequest;
 use App\Dto\Request\Security\UserRegisterRequest;
 use App\Security\Profile\UserProfileInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,6 +38,12 @@ class SecurityController extends Controller
     public function register(UserRegisterRequest $userRequest): JsonResponse
     {
         return $this->json($this->userProfile->register($userRequest->email, $userRequest->password));
+    }
+
+    #[Route(path: '/user/password', name: 'user_password', methods: ['POST'])]
+    public function password(UserPasswordRequest $passwordRequest): JsonResponse
+    {
+        return $this->json($this->userProfile->upgradePassword($passwordRequest->oldPassword, $passwordRequest->newPassword));
     }
 
     #[Route(path: '/logout', name: 'app_logout', methods: ['GET'])]

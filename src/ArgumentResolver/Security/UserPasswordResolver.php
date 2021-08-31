@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver\Security;
 
-use App\Dto\Request\Security\UserRegisterRequest;
+use App\Dto\Request\Security\UserPasswordRequest;
 use App\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class UserRegisterResolver extends AbstractResolver
+class UserPasswordResolver extends AbstractResolver
 {
     protected function getClassName(): string
     {
-        return UserRegisterRequest::class;
+        return UserPasswordRequest::class;
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $userRequest = new UserRegisterRequest();
-        $userRequest->email = $request->request->get('email');
-        $userRequest->password = $request->request->get('password');
+        $userRequest = new UserPasswordRequest();
+        $userRequest->oldPassword = $request->request->get('oldPassword');
+        $userRequest->newPassword = $request->request->get('newPassword');
 
         $errors = $this->validator->validate($userRequest);
 
@@ -30,4 +30,3 @@ class UserRegisterResolver extends AbstractResolver
         yield $userRequest;
     }
 }
-
