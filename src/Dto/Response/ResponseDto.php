@@ -9,7 +9,7 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
 {
     private ?array $meta = null;
 
-    private ?array $data = null;
+    private mixed $data = null;
 
     private ?array $error = null;
 

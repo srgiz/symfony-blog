@@ -2,13 +2,22 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Dto\Request\Security\UserRegisterRequest;
+use App\Security\Profile\UserProfileInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends Controller
 {
+    private UserProfileInterface $userProfile;
+
+    public function __construct(UserProfileInterface $userProfile)
+    {
+        $this->userProfile = $userProfile;
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -24,6 +33,12 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    #[Route(path: '/user', name: 'user_register', methods: ['POST'])]
+    public function register(UserRegisterRequest $userRequest): JsonResponse
+    {
+        return $this->json($this->userProfile->register($userRequest->email, $userRequest->password));
     }
 
     /**
