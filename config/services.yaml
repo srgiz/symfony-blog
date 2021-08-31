@@ -20,6 +20,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/Doctrine/Validator/Constraints/'
             - '../src/Dto/'
             - '../src/Entity/'
             - '../src/Exception/'

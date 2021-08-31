@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Dto\Request\Security;
 
+use App\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\User\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
-##[UniqueEntity(fields: ['email'], em: 'default', entityClass: User::class)]
-// todo. сделать свой валидатор, этот кривой какой-то, обязательно вешать на сущность
-// use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+#[UniqueEntity(fields: ['email'], entityClass: User::class)]
 class UserRegisterRequest
 {
     #[Assert\NotBlank]
