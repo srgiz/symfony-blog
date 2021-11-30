@@ -1,4 +1,4 @@
-FROM php:8.0.10-fpm-alpine3.14
+FROM php:8.1-fpm-alpine3.15
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog-php:latest .
 # docker exec -i -t blog-php sh
@@ -15,7 +15,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
     # Make sure we're installing what we think we're installing!
     && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-    && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=2.1.6 --snapshot \
+    && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=2.1.14 --snapshot \
     && rm -f /tmp/composer-setup.*
 
 # php
@@ -29,7 +29,7 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
         opcache \
         intl \
         pdo_pgsql \
-    && pecl install xdebug-3.0.4 \
+    && pecl install xdebug-3.1.1 \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps
 

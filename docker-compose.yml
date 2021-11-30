@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nginx:
     container_name: blog-nginx
-    image: nginx:1.21.1-alpine
+    image: nginx:1.21.4-alpine
     ports:
       - ${DOCKER_APP_IP}:80:80
     volumes:
@@ -29,7 +29,7 @@ services:
   postgres:
     # https://www.postgresql.org/ftp/pgadmin/pgadmin4/v5.6/
     container_name: blog-pg
-    image: postgres:13.4-alpine3.14
+    image: postgres:14.1-alpine3.15
     restart: always
     ports:
       - ${DOCKER_APP_IP}:5432:5432
