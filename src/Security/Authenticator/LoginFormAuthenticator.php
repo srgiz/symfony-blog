@@ -34,7 +34,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->tokenCookie = $tokenCookie;
     }
 
-    public function authenticate(Request $request): Passport\PassportInterface
+    public function authenticate(Request $request): Passport\Passport
     {
         $email = $request->request->get('email', '');
 

@@ -29,7 +29,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         return LoginFormAuthenticator::LOGIN_ROUTE !== $request->attributes->get('_route');
     }
 
-    public function authenticate(Request $request): Passport\PassportInterface
+    public function authenticate(Request $request): Passport\Passport
     {
         $token = (string)$request->cookies->get($this->tokenCookie->getName());
 
