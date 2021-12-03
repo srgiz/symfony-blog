@@ -25,6 +25,11 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
         return $this;
     }
 
+    public function getData(): mixed
+    {
+        return $this->data;
+    }
+
     public function setData(mixed $data): static
     {
         $this->data = $data;

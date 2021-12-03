@@ -1,0 +1,16 @@
+{# templates/backend/users/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <div>
+            {% for user in paginate.items %}
+                {{ user.email|e }}
+            {% endfor %}
+        </div>
+        <div>
+            prev: {{ paginate.prevOffset }},
+            next: {{ paginate.nextOffset }}
+        </div>
+    </div>
+{% endblock %}
