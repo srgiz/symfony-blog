@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\ArgumentResolver\Security;
 
 use App\Dto\Request\Security\UserRegisterRequest;
-use App\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
@@ -15,19 +14,13 @@ class UserRegisterResolver extends AbstractResolver
         return UserRegisterRequest::class;
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument): iterable
+    protected function createRequestDto(Request $request, ArgumentMetadata $argument): object
     {
-        $userRequest = new UserRegisterRequest();
-        $userRequest->email = $request->request->get('email');
-        $userRequest->password = $request->request->get('password');
+        $dto = new UserRegisterRequest();
+        $dto->email = $request->request->get('email');
+        $dto->password = $request->request->get('password');
 
-        $errors = $this->validator->validate($userRequest);
-
-        if ($errors->count()) {
-            throw (new HttpException(400))->setDataValidatorErrors($errors);
-        }
-
-        yield $userRequest;
+        return $dto;
     }
 }
 
