@@ -12,12 +12,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
-    private UserProfileInterface $userProfile;
-
-    public function __construct(UserProfileInterface $userProfile)
-    {
-        $this->userProfile = $userProfile;
-    }
+    public function __construct(
+        private UserProfileInterface $userProfile,
+    ) {}
 
     #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response

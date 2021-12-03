@@ -14,15 +14,10 @@ use Symfony\Component\Security\Http\Authenticator\Passport;
 
 class TokenAuthenticator extends AbstractAuthenticator
 {
-    private UserTokenRepository $tokenRepository;
-
-    private TokenCookieInterface $tokenCookie;
-
-    public function __construct(UserTokenRepository $tokenRepository, TokenCookieInterface $tokenCookie)
-    {
-        $this->tokenRepository = $tokenRepository;
-        $this->tokenCookie = $tokenCookie;
-    }
+    public function __construct(
+        private UserTokenRepository $tokenRepository,
+        private TokenCookieInterface $tokenCookie,
+    ) {}
 
     public function supports(Request $request): ?bool
     {

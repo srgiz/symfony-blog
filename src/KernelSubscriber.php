@@ -14,15 +14,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class KernelSubscriber implements EventSubscriberInterface
 {
-    private ResponseSerializerInterface $responseSerializer;
-
-    private string $kernelEnvironment;
-
-    public function __construct(ResponseSerializerInterface $responseSerializer, string $kernelEnvironment)
-    {
-        $this->responseSerializer = $responseSerializer;
-        $this->kernelEnvironment = $kernelEnvironment;
-    }
+    public function __construct(
+        private ResponseSerializerInterface $responseSerializer,
+        private string $kernelEnvironment,
+    ) {}
 
     public function onKernelException(ExceptionEvent $event)
     {

@@ -14,29 +14,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserProfile implements UserProfileInterface
 {
-    private TokenCookieInterface $tokenCookie;
-
-    private TokenStorageInterface $tokenStorage;
-
-    private UserPasswordHasherInterface $passwordHasher;
-
-    private UserRepository $userRepository;
-
-    private UserTokenRepository $tokenRepository;
-
     public function __construct(
-        TokenCookieInterface $tokenCookie,
-        TokenStorageInterface $tokenStorage,
-        UserPasswordHasherInterface $passwordHasher,
-        UserRepository $userRepository,
-        UserTokenRepository $tokenRepository,
-    ) {
-        $this->tokenCookie = $tokenCookie;
-        $this->tokenStorage = $tokenStorage;
-        $this->passwordHasher = $passwordHasher;
-        $this->userRepository = $userRepository;
-        $this->tokenRepository = $tokenRepository;
-    }
+        private TokenCookieInterface $tokenCookie,
+        private TokenStorageInterface $tokenStorage,
+        private UserPasswordHasherInterface $passwordHasher,
+        private UserRepository $userRepository,
+        private UserTokenRepository $tokenRepository,
+    ) {}
 
     public function register(string $email, string $password): ResponseDtoInterface
     {

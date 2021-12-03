@@ -11,12 +11,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractResolver implements ArgumentValueResolverInterface
 {
-    protected ValidatorInterface $validator;
-
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-    }
+    public function __construct(
+        protected ValidatorInterface $validator,
+    ) {}
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
