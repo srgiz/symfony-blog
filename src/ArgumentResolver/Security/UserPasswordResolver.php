@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver\Security;
 
+use App\ArgumentResolver\AbstractDtoResolver;
 use App\Dto\Request\Security\UserPasswordRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class UserPasswordResolver extends AbstractResolver
+class UserPasswordResolver extends AbstractDtoResolver
 {
     protected function getClassName(): string
     {

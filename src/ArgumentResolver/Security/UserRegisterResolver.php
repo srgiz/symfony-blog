@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver\Security;
 
+use App\ArgumentResolver\AbstractDtoResolver;
 use App\Dto\Request\Security\UserRegisterRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class UserRegisterResolver extends AbstractResolver
+class UserRegisterResolver extends AbstractDtoResolver
 {
     protected function getClassName(): string
     {

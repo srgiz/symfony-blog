@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ArgumentResolver\Security;
+namespace App\ArgumentResolver;
 
 use App\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-abstract class AbstractResolver implements ArgumentValueResolverInterface
+abstract class AbstractDtoResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
         protected ValidatorInterface $validator,
