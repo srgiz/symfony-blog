@@ -6,11 +6,13 @@ use App\Logger\Diff\DiffLog;
 use App\Logger\Diff\Metadata\ObjectMetadata;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 #[DiffLog(metadataClass: ObjectMetadata::class)]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -101,24 +103,6 @@ class User implements UserInterface
     public function getUserIdentifier(): string
     {
         return (string)$this->getEmail();
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return $this->getUserIdentifier();
-    }
-
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
     }
 
     /**

@@ -22,7 +22,7 @@ abstract class Controller extends AbstractController
     public static function getSubscribedServices(): array
     {
         $services = parent::getSubscribedServices();
-        $services['response.json'] = '?'.ResponseSerializerInterface::class;
+        $services['response.json'] = ResponseSerializerInterface::class;
         return $services;
     }
 }
