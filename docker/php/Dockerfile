@@ -33,6 +33,9 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps
 
+# frontend
+RUN apk add --no-cache --update nodejs npm yarn
+
 WORKDIR /var/www
 
 ENV DOCKER_APP_UID=1000
