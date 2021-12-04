@@ -15,13 +15,14 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
 
     private array $cookies = [];
 
-    public function setMetaPage(int $page, int $size, int $totalCount): static
+    public function getMeta(): ?array
     {
-        $this->meta['page'] = $page;
-        $this->meta['size'] = $size;
-        $this->meta['total'] = $totalCount;
-        $this->meta['totalPages'] = intval(ceil($totalCount / $size));
+        return $this->meta;
+    }
 
+    public function setMetaParam(string $key, mixed $value): static
+    {
+        $this->meta[$key] = $value;
         return $this;
     }
 
@@ -68,7 +69,7 @@ class ResponseDto implements ResponseDtoInterface, \JsonSerializable
         } else {
             if (null !== $this->meta) {
                 $json['meta'] = $this->meta;
-                ksort($json['meta'], SORT_NATURAL);
+                //ksort($json['meta'], SORT_NATURAL);
             }
 
             $json['data'] = $this->data;

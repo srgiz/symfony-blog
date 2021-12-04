@@ -1,16 +1,20 @@
 {# templates/backend/users/index.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'backend.html.twig' %}
 
-{% block body %}
+{% block content %}
     <div>
         <div>
-            {% for user in paginate.items %}
+            {% for user in users %}
                 {{ user.email|e }}
             {% endfor %}
         </div>
         <div>
-            prev: {{ paginate.prevOffset }},
-            next: {{ paginate.nextOffset }}
+            {% if meta.prev is defined and meta.prev is not null %}
+                <a href="{{ meta.prev }}">Previous</a>
+            {% endif %}
+            {% if meta.next is defined and meta.next is not null %}
+                <a href="{{ meta.next }}">Next</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

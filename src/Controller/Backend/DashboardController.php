@@ -18,9 +18,11 @@ class DashboardController extends Controller
     ): Response
     {
         $dto = $userPaginate->users($userRequest->offset, $userRequest->limit);
+        //return $this->json($dto);
 
         return $this->render('backend/users/index.html.twig', [
-            'paginate' => $dto->getData(),
+            'meta' => $dto->getMeta(),
+            'users' => $dto->getData(),
         ]);
     }
 }
