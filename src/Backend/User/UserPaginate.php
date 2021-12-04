@@ -41,11 +41,17 @@ class UserPaginate implements UserPaginateInterface
         $nextOffset = $this->getNextOffset($total, $offset, $limit);
 
         if ($prevOffset !== null) {
-            $dto->setMetaParam('prev', $this->urlGenerator->generate('backend_dashboard', ['offset' => $prevOffset]));
+            $dto->setMetaParam(
+                'prev',
+                $this->urlGenerator->generate('backend_dashboard', $this->createPaginateQuery($prevOffset, $request))
+            );
         }
 
         if ($nextOffset !== null) {
-            $dto->setMetaParam('next', $this->urlGenerator->generate('backend_dashboard', ['offset' => $nextOffset]));
+            $dto->setMetaParam(
+                'next',
+                $this->urlGenerator->generate('backend_dashboard', $this->createPaginateQuery($nextOffset, $request))
+            );
         }
 
         return $dto;
@@ -66,6 +72,19 @@ class UserPaginate implements UserPaginateInterface
         }
 
         return $orderBy;
+    }
+
+    private function createPaginateQuery(int $offset, UserPaginateRequest $request): array
+    {
+        $query['offset'] = $offset;
+        $order = $request->order;
+
+        if ($order) {
+            $query['order'] = $order;
+            $query['sort'] = $request->sort;
+        }
+
+        return $query;
     }
 
     private function getPrevOffset(int $total, int $offset, int $limit): ?int
