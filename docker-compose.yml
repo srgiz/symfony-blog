@@ -63,7 +63,9 @@ services:
   mailer:
     container_name: blog-mailer
     image: schickling/mailcatcher
-    ports: [1025, 1080]
+    ports:
+      - ${DOCKER_APP_IP}:1025:1025
+      - ${DOCKER_APP_IP}:1080:1080
 ###< symfony/mailer ###
 
 networks:
