@@ -5,7 +5,6 @@ namespace App\Controller\Backend;
 
 use App\Backend\User\UserPaginateInterface;
 use App\Dto\Request\Backend\UserPaginateRequest;
-use App\Nav\SiteNavBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,13 +23,6 @@ class DashboardController extends Controller
         return $this->render('backend/users/index.html.twig', [
             'meta' => $dto->getMeta(),
             'users' => $dto->getData(),
-        ]);
-    }
-
-    public function nav(SiteNavBuilderInterface $navBuilder): Response
-    {
-        return $this->render('backend/dashboard/_nav.html.twig', [
-            'nav' => $navBuilder->backend(),
         ]);
     }
 }

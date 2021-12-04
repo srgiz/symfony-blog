@@ -5,6 +5,9 @@ namespace App\Nav;
 
 use App\Dto\Nav\NavCollection;
 
+/**
+ * @link https://symfony.com/doc/current/templating/global_variables.html
+ */
 interface SiteNavBuilderInterface
 {
     public function public(): NavCollection;
