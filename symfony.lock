@@ -147,6 +147,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "predis/predis": {
+        "version": "v1.1.9"
+    },
     "psr/cache": {
         "version": "3.0.0"
     },
