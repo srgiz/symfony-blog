@@ -76,7 +76,11 @@ class UserPaginate implements UserPaginateInterface
 
     private function createPaginateQuery(int $offset, UserPaginateRequest $request): array
     {
-        $query['offset'] = $offset;
+        $query = [
+            'offset' => $offset,
+            'limit' => $request->limit,
+        ];
+
         $order = $request->order;
 
         if ($order) {
