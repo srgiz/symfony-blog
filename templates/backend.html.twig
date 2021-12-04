@@ -2,13 +2,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header style="padding: 5px 10px; background: rgb(88, 66, 145)">
-        Backend<br>
-        {% for item in app_nav.backend %}
-            <li>
-                <a href="{{ item.url }}">{{ item.name|e }}</a>
-            </li>
-        {% endfor %}
+    <header class="l-header-bg">
+        <div class="l-container l-header">
+            <div class="l-header-logo"><img class="l-header-logo__img" src="/favicon.svg"><span class="l-header-logo__name">Sergey.Z</span></div>
+            <nav class="l-header-nav">
+                {% for item in app_nav.backend %}
+                    <a href="{{ item.url }}">{{ item.name|e }}</a>
+                {% endfor %}
+            </nav>
+        </div>
     </header>
-    <div style="margin-top: 20px">{% block content %}{% endblock %}</div>
+    <div class="l-container">{% block content %}{% endblock %}</div>
 {% endblock %}
