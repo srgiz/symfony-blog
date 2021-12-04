@@ -4,9 +4,14 @@
 {% block content %}
     <div>
         <div>
+            total: {{ meta.total }}
+            <br><br>
+        </div>
+        <div>
             {% for user in users %}
                 {{ user.email|e }}
             {% endfor %}
+            <br><br>
         </div>
         <div>
             {% if meta.prev is defined and meta.prev is not null %}

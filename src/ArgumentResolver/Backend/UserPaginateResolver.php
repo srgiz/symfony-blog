@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\ArgumentResolver\Backend;
 
 use App\ArgumentResolver\AbstractDtoResolver;
+use App\Backend\User\UserPaginate;
 use App\Dto\Request\Backend\UserPaginateRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -19,14 +20,26 @@ class UserPaginateResolver extends AbstractDtoResolver
     {
         $dto = new UserPaginateRequest();
         $offset = (int)$request->query->get('offset', 0);
-        $limit = (int)$request->query->get('limit', 0);
 
         if ($offset >= 0) {
             $dto->offset = $offset;
         }
 
+        $limit = (int)$request->query->get('limit', 0);
+
         if ($limit > 0) {
             $dto->limit = $limit;
+        }
+
+        $order = $request->query->get('order');
+
+        if (in_array($order, UserPaginate::getListOrderBy(), true)) {
+            $dto->order = $order;
+            $sort = mb_strtoupper((string)$request->query->get('sort'));
+
+            if (in_array($sort, ['ASC', 'DESC'], true)) {
+                $dto->sort = $sort;
+            }
         }
 
         return $dto;

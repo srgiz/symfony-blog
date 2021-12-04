@@ -17,7 +17,7 @@ class DashboardController extends Controller
         UserPaginateInterface $userPaginate,
     ): Response
     {
-        $dto = $userPaginate->users($userRequest->offset, $userRequest->limit);
+        $dto = $userPaginate->paginate($userRequest);
         //return $this->json($dto);
 
         return $this->render('backend/users/index.html.twig', [
