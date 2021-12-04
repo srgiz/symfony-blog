@@ -2,6 +2,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header style="padding: 5px 10px; background: rgb(88, 66, 145)">Backend</header>
+    <header style="padding: 5px 10px; background: rgb(88, 66, 145)">
+        Backend<br>
+        {{ render(controller('\\App\\Controller\\Backend\\DashboardController::nav')) }}
+    </header>
     <div style="margin-top: 20px">{% block content %}{% endblock %}</div>
 {% endblock %}
