@@ -17,6 +17,11 @@ body {
 
 a {
   color: $color-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 h1 {
@@ -42,7 +47,6 @@ input, button, .btn {
   color: $color-base-text;
   font-family: inherit;
   font-size: inherit;
-  text-decoration: none;
   cursor: pointer;
 }
 

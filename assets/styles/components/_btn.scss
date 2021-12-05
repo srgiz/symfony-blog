@@ -23,12 +23,4 @@
       }
     }
   }
-
-  &--sort &__item, &--sort &__item.a {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
