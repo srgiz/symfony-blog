@@ -2,24 +2,38 @@
 {% extends 'backend.html.twig' %}
 
 {% block content %}
-    <div>
-        <div>
-            total: {{ meta.total }}
-            <br><br>
+    <h1>Пользователи</h1>
+
+    <div class="list">
+        <div class="list__item">
+            <div class="list__col list__col--id">id</div>
+            <div class="list__col">E-mail</div>
+            <div class="list__col">Роли</div>
+            <div class="list__col list__col--date">Дата создания</div>
         </div>
-        <div>
-            {% for user in users %}
-                {{ user.email|e }}
-            {% endfor %}
-            <br><br>
-        </div>
-        <div>
+        {% for user in users %}
+            <div class="list__item">
+                <div class="list__col list__col--id">{{ user.id|e }}</div>
+                <div class="list__col">{{ user.email|e }}</div>
+                <div class="list__col">{{ user.roles|join(', ') }}</div>
+                <div class="list__col list__col--date">{{ user.createdAt|date(constant('DATE_RFC3339')) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="l-row-flex-space">
+        <div class="btn-group">
             {% if meta.prev is defined and meta.prev is not null %}
-                <a href="{{ meta.prev }}">Previous</a>
+                <a class="btn-group__item btn" href="{{ meta.prev }}">Предыдущая страница</a><a class="btn-group__item btn" href="">Следующая страница</a>
             {% endif %}
             {% if meta.next is defined and meta.next is not null %}
-                <a href="{{ meta.next }}">Next</a>
+                <a class="btn-group__item btn" href="{{ meta.next }}">Следующая страница</a>
             {% endif %}
+        </div>
+        <div class="btn-group">
+            <div class="btn-group__item">Отступ:&nbsp;{{ meta.offset }}</div>
+            <div class="btn-group__item">Шаг:&nbsp;{{ meta.limit }}</div>
+            <div class="btn-group__item">Всего:&nbsp;{{ meta.total }}</div>
         </div>
     </div>
 {% endblock %}

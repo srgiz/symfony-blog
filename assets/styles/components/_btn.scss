@@ -1,0 +1,33 @@
+.btn {
+  display: inline-block;
+  height: 3.2rem;
+  line-height: 3rem;
+  padding: 0 1rem;
+  border-radius: $border-radius;
+  background-color: $color-btn-bg;
+  color: $color-btn-text;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $color-btn-hover;;
+    @include transition(background-color);
+  }
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: row;
+
+  &__item {
+    line-height: 3rem;
+    padding: 0 1rem;
+
+    &.btn {
+      margin-left: 1.4rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

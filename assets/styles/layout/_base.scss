@@ -25,6 +25,8 @@ a {
   max-width: 100%;
 }
 
-.l-row {
-  margin: 0 -1rem;
+.l-row-flex-space {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

@@ -9,8 +9,12 @@ $logo-height: 3rem;
 
 $color-base-bg: #414142;
 $color-base-text: rgba(255, 255, 255, 0.93);
+$color-base-light: #6c6c6d;
 $color-header-bg: #1b1b1b;
-$color-link: #ffffb3; // #f4ff81
+$color-link: #ffffb3; // #f4ff81 #bfcc50
+$color-btn-bg: #d9e271;
+$color-btn-hover: #f4ff81;
+$color-btn-text: rgba(0, 0, 0, 0.87);
 
 $font-family-base: system-ui;
 
@@ -18,3 +22,5 @@ $font-size-html: 62.5%;
 $font-size-base: 1.6rem;
 
 $font-line-base: 2.4rem;
+
+$border-radius: 0.2rem;
