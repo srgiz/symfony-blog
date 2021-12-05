@@ -24,7 +24,7 @@
     <div class="l-row-flex-space">
         <div class="btn-group">
             {% if meta.prev is defined and meta.prev is not null %}
-                <a class="btn-group__item btn" href="{{ meta.prev }}">Предыдущая страница</a><a class="btn-group__item btn" href="">Следующая страница</a>
+                <a class="btn-group__item btn" href="{{ meta.prev }}">Предыдущая страница</a>
             {% endif %}
             {% if meta.next is defined and meta.next is not null %}
                 <a class="btn-group__item btn" href="{{ meta.next }}">Следующая страница</a>
