@@ -3,14 +3,12 @@
 
 {% block body %}
     <header class="l-container-wrap l-header-bg">
-        <div class="l-container l-header">
-            <div class="l-header-logo"><img class="l-header-logo__img" src="/favicon.svg"><span class="l-header-logo__name">Sergey.Z</span></div>
-            <nav class="l-header-nav">
-                {% for item in app_nav.backend %}
-                    <a href="{{ item.url }}">{{ item.name|e }}</a>
-                {% endfor %}
-            </nav>
-        </div>
+        <nav class="l-container l-nav">
+            <a class="l-nav__item l-logo" href="/"><img class="l-logo__img" src="/favicon.svg"><span class="l-logo__name">Sergey.Z</span></a>
+            {% for item in app_nav.backend %}
+                <a class="l-nav__item" href="{{ item.url }}">{{ item.name|e }}</a>
+            {% endfor %}
+        </nav>
     </header>
     <div class="l-container-wrap">
         <div class="l-container">{% block content %}{% endblock %}</div>

@@ -1,6 +1,6 @@
 .l-header-bg {
   background-color: $color-header-bg;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 }
 
 .l-header {
@@ -9,7 +9,29 @@
   //justify-content: space-between;
 }
 
-.l-header-logo {
+.l-nav {
+  display: flex;
+  flex-direction: row;
+
+  &__item {
+    display: block;
+    padding: $logo-height/2 2rem;
+    line-height: $logo-height + 0.2rem;
+    color: $color-base-text;
+    border-top: 0.1rem solid transparent;
+    border-bottom: 0.1rem solid transparent;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom-color: $color-base-text;
+      @include transition(border-bottom-color);
+    }
+  }
+}
+
+.l-logo {
+  padding-left: 0;
+
   &__img {
     float: left;
     height: $logo-height;
@@ -17,21 +39,5 @@
 
   &__name {
     margin-left: 0.5rem;
-    line-height: $logo-height;
-  }
-}
-
-.l-header-nav {
-  display: flex;
-  flex-direction: row;
-  margin-left: 10rem;
-
-  a {
-    display: block;
-    padding: 0 1rem;
-    line-height: $logo-height;
-    text-decoration: none;
-    color: $color-base-text;
-    //border-bottom: 1px solid $color-base-text;
   }
 }

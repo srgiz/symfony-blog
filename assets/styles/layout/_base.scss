@@ -16,11 +16,15 @@ a {
 }
 
 .l-container-wrap {
-  padding: 1.8rem 2rem;
+  padding: 0 2rem;
 }
 
 .l-container {
   margin: 0 auto;
   width: $layout-width;
   max-width: 100%;
+}
+
+.l-row {
+  margin: 0 -1rem;
 }
