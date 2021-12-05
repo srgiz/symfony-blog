@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Backend\User;
 
+use App\Dto\Paginate\PageLink;
+use App\Dto\Paginate\Paginate;
+use App\Dto\Paginate\SortLink;
 use App\Dto\Request\Backend\UserPaginateRequest;
 use App\Dto\Response\ResponseDto;
 use App\Dto\Response\ResponseDtoInterface;
@@ -13,11 +16,18 @@ class UserPaginate implements UserPaginateInterface
 {
     public const DEFAULT_LIMIT = 1;
 
-    /** @var array<string, string> public_name => column_name */
     private const ORDER_BY = [
-        'id' => 'id',
-        'createdAt' => 'created_at',
+        'id' => [
+            'column' => 'id',
+            'name' => 'id',
+        ],
+        'createdAt' => [
+            'column' => 'created_at',
+            'name' => 'Дата создания',
+        ],
     ];
+
+    private string $routeName = 'backend_dashboard';
 
     public function __construct(
         private UserRepository $userRepository,
@@ -29,29 +39,59 @@ class UserPaginate implements UserPaginateInterface
         $total = $this->userRepository->count([]);
         $offset = $request->offset;
         $limit = $request->limit;
+        $orderBy = $this->createOrderBy($request->getOrderBy());
+
+        $data = new Paginate();
+        $data->setItems($this->userRepository->findBy([], $orderBy, $limit, $offset));
 
         $dto = (new ResponseDto())
             ->setMetaParam('total', $total)
             ->setMetaParam('limit', $limit)
             ->setMetaParam('offset', $offset)
-            ->setData($this->userRepository->findBy([], $this->createOrderBy($request->getOrderBy()), $limit, $offset))
+            ->setData($data)
         ;
+
+        foreach (self::ORDER_BY as $key => $order) {
+            $name = $order['name'];
+
+            $query = $request->query;
+            unset($query['offset']);
+
+            $query['order'] = $key;
+            $query['sort'] = 'ASC';
+
+            if (isset($orderBy[$order['column']])) {
+                $name .= ' ' . ($orderBy[$order['column']] === 'DESC' ? '&darr;' : '&uarr;');
+                $query['sort'] = $orderBy[$order['column']] === 'DESC' ? 'ASC' : 'DESC'; // переворачиваем сортировку по ссылке
+            }
+
+            $data->addSortLink(new SortLink(
+                $this->urlGenerator->generate($this->routeName, $query),
+                $name,
+            ));
+        }
 
         $prevOffset = $this->getPrevOffset($total, $offset, $limit);
         $nextOffset = $this->getNextOffset($total, $offset, $limit);
 
         if ($prevOffset !== null) {
-            $dto->setMetaParam(
-                'prev',
-                $this->urlGenerator->generate('backend_dashboard', $this->createPaginateQuery($prevOffset, $request))
-            );
+            $query = $request->query;
+            $query['offset'] = $prevOffset;
+
+            $data->addPageLink(new PageLink(
+                $this->urlGenerator->generate($this->routeName, $query),
+                '&lsaquo; Назад'
+            ));
         }
 
         if ($nextOffset !== null) {
-            $dto->setMetaParam(
-                'next',
-                $this->urlGenerator->generate('backend_dashboard', $this->createPaginateQuery($nextOffset, $request))
-            );
+            $query = $request->query;
+            $query['offset'] = $nextOffset;
+
+            $data->addPageLink(new PageLink(
+                $this->urlGenerator->generate($this->routeName, $query),
+                'Вперед &rsaquo;'
+            ));
         }
 
         return $dto;
@@ -68,27 +108,12 @@ class UserPaginate implements UserPaginateInterface
         $orderBy = [];
 
         foreach ($requestOrderBy as $order => $sort) {
-            $orderBy[self::ORDER_BY[$order]] = $sort;
+            if (isset(self::ORDER_BY[$order])) {
+                $orderBy[self::ORDER_BY[$order]['column']] = $sort;
+            }
         }
 
         return $orderBy;
-    }
-
-    private function createPaginateQuery(int $offset, UserPaginateRequest $request): array
-    {
-        $query = [
-            'offset' => $offset,
-            'limit' => $request->limit,
-        ];
-
-        $order = $request->order;
-
-        if ($order) {
-            $query['order'] = $order;
-            $query['sort'] = $request->sort;
-        }
-
-        return $query;
     }
 
     private function getPrevOffset(int $total, int $offset, int $limit): ?int

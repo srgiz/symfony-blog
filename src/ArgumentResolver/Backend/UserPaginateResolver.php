@@ -19,6 +19,7 @@ class UserPaginateResolver extends AbstractDtoResolver
     protected function createRequestDto(Request $request, ArgumentMetadata $argument): object
     {
         $dto = new UserPaginateRequest();
+        $dto->query = $request->query->all();
         $offset = (int)$request->query->get('offset', 0);
 
         if ($offset >= 0) {

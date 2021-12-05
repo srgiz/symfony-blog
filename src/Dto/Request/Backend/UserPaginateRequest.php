@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserPaginateRequest
 {
+    public array $query = [];
+
     #[Assert\GreaterThanOrEqual(0)]
     public int $offset = 0;
 
