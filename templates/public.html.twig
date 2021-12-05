@@ -2,6 +2,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header style="padding: 5px 10px; background: orange">Public</header>
-    <div style="margin-top: 20px">{% block content %}{% endblock %}</div>
+    <header class="l-container-wrap l-header-bg">
+        <nav class="l-container l-nav">
+            <a class="l-nav__item l-logo" href="/"><img class="l-logo__img" src="/favicon.svg"><span class="l-logo__name">Sergey.Z</span></a>
+            {% for item in app_nav.public %}
+                <a class="l-nav__item" href="{{ item.url }}">{{ item.name|e }}</a>
+            {% endfor %}
+        </nav>
+    </header>
+    <div class="l-container-wrap">
+        <div class="l-container">{% block content %}{% endblock %}</div>
+    </div>
 {% endblock %}

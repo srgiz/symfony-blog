@@ -4,7 +4,7 @@
 {% block body %}
     <header class="l-container-wrap l-header-bg">
         <nav class="l-container l-nav">
-            <a class="l-nav__item l-logo" href="/"><img class="l-logo__img" src="/favicon.svg"><span class="l-logo__name">Sergey.Z</span></a>
+            <a class="l-nav__item l-logo" href="{{ url('backend_dashboard') }}"><img class="l-logo__img" src="/favicon.svg"><span class="l-logo__name">Sergey.Z</span></a>
             {% for item in app_nav.backend %}
                 <a class="l-nav__item" href="{{ item.url }}">{{ item.name|e }}</a>
             {% endfor %}

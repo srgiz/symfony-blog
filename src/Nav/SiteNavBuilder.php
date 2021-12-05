@@ -20,7 +20,7 @@ class SiteNavBuilder implements SiteNavBuilderInterface
     {
         $collection = new NavCollection();
 
-        $collection->add(new NavItem('/', 'Home'));
+        //$collection->add(new NavItem('/', 'Home'));
 
         return $collection;
     }
@@ -30,8 +30,7 @@ class SiteNavBuilder implements SiteNavBuilderInterface
         return $this->cache->get('app_nav_backend', function (ItemInterface $item) {
             $collection = new NavCollection();
 
-            $collection->add(new NavItem($this->urlGenerator->generate('backend_dashboard'), 'Dashboard'));
-            $collection->add(new NavItem($this->urlGenerator->generate('backend_dashboard'), 'Users'));
+            $collection->add(new NavItem($this->urlGenerator->generate('backend_dashboard'), 'Пользователи'));
 
             //$item->tag(['app1']);
             $item->expiresAfter(60);
