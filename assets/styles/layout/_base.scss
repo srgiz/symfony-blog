@@ -15,43 +15,8 @@ a {
   color: $color-link;
 }
 
-.l-header-bg {
-  padding: 1.8rem 1rem;
-  background-color: $color-header-bg;
-  margin-bottom: 3rem;
-}
-
-.l-header {
-  display: flex;
-  flex-direction: row;
-  //justify-content: space-between;
-}
-
-.l-header-logo {
-  &__img {
-    float: left;
-    height: $logo-height;
-  }
-
-  &__name {
-    margin-left: 0.5rem;
-    line-height: $logo-height;
-  }
-}
-
-.l-header-nav {
-  display: flex;
-  flex-direction: row;
-  margin-left: 10rem;
-
-  a {
-    display: block;
-    padding: 0 1rem;
-    line-height: $logo-height;
-    text-decoration: none;
-    color: $color-base-text;
-    //border-bottom: 1px solid $color-base-text;
-  }
+.l-container-wrap {
+  padding: 1.8rem 2rem;
 }
 
 .l-container {

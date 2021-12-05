@@ -1,0 +1,37 @@
+.l-header-bg {
+  background-color: $color-header-bg;
+  margin-bottom: 2rem;
+}
+
+.l-header {
+  display: flex;
+  flex-direction: row;
+  //justify-content: space-between;
+}
+
+.l-header-logo {
+  &__img {
+    float: left;
+    height: $logo-height;
+  }
+
+  &__name {
+    margin-left: 0.5rem;
+    line-height: $logo-height;
+  }
+}
+
+.l-header-nav {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10rem;
+
+  a {
+    display: block;
+    padding: 0 1rem;
+    line-height: $logo-height;
+    text-decoration: none;
+    color: $color-base-text;
+    //border-bottom: 1px solid $color-base-text;
+  }
+}

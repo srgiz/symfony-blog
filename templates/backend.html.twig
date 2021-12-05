@@ -2,7 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header class="l-header-bg">
+    <header class="l-container-wrap l-header-bg">
         <div class="l-container l-header">
             <div class="l-header-logo"><img class="l-header-logo__img" src="/favicon.svg"><span class="l-header-logo__name">Sergey.Z</span></div>
             <nav class="l-header-nav">
@@ -12,5 +12,7 @@
             </nav>
         </div>
     </header>
-    <div class="l-container">{% block content %}{% endblock %}</div>
+    <div class="l-container-wrap">
+        <div class="l-container">{% block content %}{% endblock %}</div>
+    </div>
 {% endblock %}
