@@ -4,13 +4,20 @@
   line-height: 3rem;
   padding: 0 1rem;
   border-radius: $border-radius;
-  background-color: $color-btn-bg;
-  color: $color-btn-text;
+  background-color: $color-base-light;
+  color: $color-base-text;
   text-decoration: none;
 
   &:hover {
-    background-color: $color-btn-hover;;
-    @include transition(background-color);
+    background-color: $color-btn-hover;
+    color: $color-btn-text;
+    @include transition();
+    transition-property: background-color, color;
+  }
+
+  &--primary {
+    background-color: $color-btn-bg;
+    color: $color-btn-text;
   }
 }
 
