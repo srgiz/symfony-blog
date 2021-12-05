@@ -1,20 +1,4 @@
 .btn {
-  display: inline-block;
-  height: 3.2rem;
-  line-height: 3rem;
-  padding: 0 1rem;
-  border-radius: $border-radius;
-  background-color: $color-base-light;
-  color: $color-base-text;
-  text-decoration: none;
-
-  &:hover {
-    background-color: $color-btn-hover;
-    color: $color-btn-text;
-    @include transition();
-    transition-property: background-color, color;
-  }
-
   &--primary {
     background-color: $color-btn-bg;
     color: $color-btn-text;
@@ -24,10 +8,12 @@
 .btn-group {
   display: flex;
   flex-direction: row;
+  margin-bottom: 1.4rem;
 
   &__item {
-    line-height: 3rem;
-    padding: 0 1rem;
+    line-height: $input-line-height;
+    padding: 0 1.4rem;
+    white-space: nowrap;
 
     &.btn {
       margin-left: 1.4rem;
@@ -35,6 +21,14 @@
       &:first-child {
         margin-left: 0;
       }
+    }
+  }
+
+  &--sort &__item, &--sort &__item.a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

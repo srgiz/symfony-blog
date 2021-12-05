@@ -4,6 +4,19 @@
 {% block content %}
     <h1>Пользователи</h1>
 
+    <div class="l-row-flex-space">
+        <div class="btn-group btn-group--sort">
+            <span class="btn-group__item">Сортировка:</span>
+            <a class="btn-group__item" href="#">id &uarr;</a>
+            <a class="btn-group__item" href="#">Дата создания &uarr;</a>
+        </div>
+        <div class="btn-group">
+            <div class="btn-group__item">Отступ: {{ meta.offset }}</div>
+            <div class="btn-group__item">Шаг: {{ meta.limit }}</div>
+            <div class="btn-group__item">Всего: {{ meta.total }}</div>
+        </div>
+    </div>
+
     <div class="list">
         <div class="list__item">
             <div class="list__col list__col--id">id</div>
@@ -31,9 +44,9 @@
             {% endif %}
         </div>
         <div class="btn-group">
-            <div class="btn-group__item">Отступ:&nbsp;{{ meta.offset }}</div>
-            <div class="btn-group__item">Шаг:&nbsp;{{ meta.limit }}</div>
-            <div class="btn-group__item">Всего:&nbsp;{{ meta.total }}</div>
+            <div class="btn-group__item">Отступ: {{ meta.offset }}</div>
+            <div class="btn-group__item">Шаг: {{ meta.limit }}</div>
+            <div class="btn-group__item">Всего: {{ meta.total }}</div>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+.form {
+  margin-bottom: 3rem;
+
+  &__item {
+    margin-bottom: 2rem;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+
+  &__input {
+    display: block;
+  }
+}

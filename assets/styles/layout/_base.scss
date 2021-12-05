@@ -1,20 +1,3 @@
-html {
-  font-size: $font-size-html;
-}
-
-body {
-  min-height: 100vh;
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $font-line-base;
-  background-color: $color-base-bg;
-  color: $color-base-text;
-}
-
-a {
-  color: $color-link;
-}
-
 .l-container-wrap {
   padding: 0 2rem;
 }

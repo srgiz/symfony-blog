@@ -2,7 +2,7 @@
   margin-bottom: 3rem;
 
   &__item {
-    padding: 1.6rem 0;
+    padding: 1.4rem 0;
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid $color-base-light;
@@ -13,11 +13,11 @@
   }
 
   &__col {
-    padding: 0 1.6rem;
+    padding: 0 1.4rem;
     min-width: 30rem;
 
     &--id {
-      min-width: 6rem;
+      min-width: 7rem;
       text-align: center;
     }
 
