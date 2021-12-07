@@ -1,3 +1,11 @@
 @mixin transition($property: all, $duration: 0.2s, $func: linear, $delay: 0s) {
   transition: $property $duration $func $delay;
 }
+
+@mixin media($screen) {
+  @if $screen == 'tablet' {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  }
+}

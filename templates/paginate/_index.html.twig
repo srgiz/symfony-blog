@@ -14,22 +14,32 @@
     </div>
 </div>
 
-<div class="list">
-    <div class="list__item">
-        <div class="list__col list__col--id">id</div>
-        <div class="list__col">E-mail</div>
-        <div class="list__col">Роли</div>
-        <div class="list__col list__col--date">Дата создания</div>
-    </div>
+<style>
+    td:nth-of-type(1):before { content: 'id' }
+    td:nth-of-type(2):before { content: 'E-mail' }
+    td:nth-of-type(3):before { content: 'Роли' }
+    td:nth-of-type(4):before { content: 'Дата создания' }
+</style>
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>E-mail</th>
+        <th>Роли</th>
+        <th>Дата создания</th>
+    </tr>
+    </thead>
+    <tbody>
     {% for user in data.items %}
-        <div class="list__item">
-            <div class="list__col list__col--id">{{ user.id|e }}</div>
-            <div class="list__col">{{ user.email|e }}</div>
-            <div class="list__col">{{ user.roles|join(', ') }}</div>
-            <div class="list__col list__col--date">{{ user.createdAt|date(constant('DATE_RFC3339')) }}</div>
-        </div>
+        <tr>
+            <td>{{ user.id|e }}</td>
+            <td>{{ user.email|e }}</td>
+            <td>{{ user.roles|join(', ') }}</td>
+            <td>{{ user.createdAt|date(constant('DATE_RFC3339')) }}</td>
+        </tr>
     {% endfor %}
-</div>
+    </tbody>
+</table>
 
 <div class="l-row-flex-space">
     <div class="btn-group">
