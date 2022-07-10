@@ -5,13 +5,15 @@ namespace App\Controller;
 
 use App\Entity\Blog\Post;
 use App\Entity\User\User;
-use App\Response\JsonResponse;
+#use App\Response\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    #[Route(path: '/', name: 'index', methods: ['GET'])]
     public function index(UserPasswordHasherInterface $passwordHasher)
     {
         //echo $passwordHasher->hashPassword(new User(),'1');exit;
