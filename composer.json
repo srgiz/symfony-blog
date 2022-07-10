@@ -14,7 +14,6 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
-        "laminas/laminas-code": "^4.5",
         "phpdocumentor/reflection-docblock": "^5.3",
         "predis/predis": "^1.1",
         "symfony/asset": "6.0.*",
