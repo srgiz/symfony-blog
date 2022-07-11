@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
+use App\Entity\Product\ProductAttributeValue;
 use App\Repository\Product\Query\ProductQueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,9 +18,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
+    private ProductAttributeValueRepository $productAttributeValueRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
+
+        /** @var ProductAttributeValueRepository $productAttributeValueRepository */
+        $productAttributeValueRepository = $registry->getRepository(ProductAttributeValue::class);
+        $this->productAttributeValueRepository = $productAttributeValueRepository;
     }
 
     public function createQueryBuilder($alias, $indexBy = null): ProductQueryBuilder
@@ -47,7 +54,12 @@ class ProductRepository extends ServiceEntityRepository
 
         return $builder
             ->addOrderBy('p.id')
-            ->andWhereFilter($filter)
+            ->andWhereExists(
+                $this->productAttributeValueRepository->createQueryBuilder('filter_values')
+                    ->select('1')
+                    ->andWhereFilter($filter)
+                    ->andWhere('p.id = filter_values.product_id')
+            )
             ->getQuery()
             ->getArrayResult()
         ;
