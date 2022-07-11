@@ -30,6 +30,7 @@ services:
             - '../src/Logger/Diff/DiffEvents.php'
             - '../src/Logger/Diff/DiffLog.php'
             - '../src/Logger/Diff/Metadata/'
+            - '../src/Repository/Product/Query/'
             - '../src/Response/Format/'
 
     # add more service definitions when explicit configuration is needed
