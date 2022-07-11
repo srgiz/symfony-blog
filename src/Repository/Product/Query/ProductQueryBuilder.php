@@ -60,7 +60,7 @@ class ProductQueryBuilder extends QueryBuilder
                         $paramMin = $this->createFilterParameterName($hashCode, $type, 'min');
                         $paramMax = $this->createFilterParameterName($hashCode, $type, 'max');
 
-                        $whereRange = "JSONB_EXTRACT_PATH_TEXT('real', {$alias}.values, :{$paramCode}, '0')";
+                        $whereRange = "TO_REAL(JSONB_EXTRACT_PATH_TEXT({$alias}.values, :{$paramCode}, '0'))";
 
                         $min = isset($values[0]) ? (float)$values[0] : null;
                         $max = isset($values[1]) ? (float)$values[1] : null;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Doctrine\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\AST\Literal;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
@@ -12,14 +11,12 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * jsonb #>> text
- * fn('text', jsonb, 'key1', 'key2')
- * fn('real', jsonb, 'key1', 'key2')
+ * fn(jsonb, 'key1', 'key2')
+ * fn(jsonb, 'key1', 'key2')
  * @example "SELECT oprname, oprcode FROM pg_operator WHERE oprcode::text LIKE 'jsonb%'"
  */
 class JsonbExtractPathText extends FunctionNode
 {
-    private Literal $type;
-
     private Node $jsonb;
 
     /** @var Node[] */
@@ -33,17 +30,13 @@ class JsonbExtractPathText extends FunctionNode
             $path[] = $node->dispatch($sqlWalker);
         }
 
-        return sprintf('jsonb_extract_path_text(%s, %s)::%s', $this->jsonb->dispatch($sqlWalker), implode(', ', $path), $this->type->value);
+        return sprintf('jsonb_extract_path_text(%s, %s)', $this->jsonb->dispatch($sqlWalker), implode(', ', $path));
     }
 
     public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->type = $parser->StringPrimary();
-
-        $parser->match(Lexer::T_COMMA);
 
         $this->jsonb = $parser->StringPrimary();
 

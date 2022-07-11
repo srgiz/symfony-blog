@@ -17,6 +17,7 @@ doctrine:
                 JSONB_EXISTS_ANY: App\Doctrine\Functions\JsonbExistsAny
                 JSONB_EXTRACT_PATH_TEXT: App\Doctrine\Functions\JsonbExtractPathText
                 JSONB_OBJECT_FIELD: App\Doctrine\Functions\JsonbObjectField
+                TO_REAL: App\Doctrine\Functions\ToReal
         mappings:
             App:
                 is_bundle: false
