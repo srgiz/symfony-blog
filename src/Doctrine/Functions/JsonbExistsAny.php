@@ -11,6 +11,8 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * jsonb ?| text[]
+ * fn(jsonb, text[])
+ * @see ArrayText
  * @example "SELECT oprname, oprcode FROM pg_operator WHERE oprcode::text LIKE 'jsonb%'"
  */
 class JsonbExistsAny extends FunctionNode

@@ -1,44 +1,35 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Blog\Post;
-use App\Entity\User\User;
-#use App\Response\JsonResponse;
+use App\Repository\Product\ProductRepository;
+use App\Response\Format\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
     #[Route(path: '/', name: 'index', methods: ['GET'])]
-    public function index(UserPasswordHasherInterface $passwordHasher)
+    public function index()
     {
-        //echo $passwordHasher->hashPassword(new User(),'1');exit;
+        return $this->render('default/index.html.twig');
+    }
 
-        /*
-        $repository = $this->getDoctrine()->getRepository(Post::class);
-        //$post = $repository->find(1);
-        /** @var Post $post * /
-
-        //$post->setContent($post->getContent() . '.');
-        //$post->setTitle($post->getTitle() . ',');
-        //$post->setCreatedAt(new \DateTimeImmutable());
-
-        $post = new Post();
-        $post->setSlug('pre');
-        $post->setTitle('PRE');
-        $post->setContent('cnt');
-        $post->setCreatedAt(new \DateTimeImmutable());
-        $this->getDoctrine()->getManager()->persist($post);
-
-        $this->getDoctrine()->getManager()->flush();var_dump($post);
+    #[Route(path: '/test', name: 'test', methods: ['GET'])]
+    public function test(ProductRepository $productRepository)
+    {
+        $products = $productRepository->findByFilter([
+            'enum' => [
+                'color' => ['red'],
+            ],
+            'range' => [
+                'size' => [0, 2],
+            ],
+        ]);
 
         return new JsonResponse([
-            'page' => $post,
-        ]);*/
-        return $this->render('default/index.html.twig');
+            'products' => $products,
+        ]);
     }
 }

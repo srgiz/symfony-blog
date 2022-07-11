@@ -11,8 +11,10 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * jsonb -> text
+ * fn(jsonb, 'key')
+ * @example "SELECT oprname, oprcode FROM pg_operator WHERE oprcode::text LIKE 'jsonb%'"
  */
-class JsonbExtract extends FunctionNode
+class JsonbObjectField extends FunctionNode
 {
     private Node $jsonb;
 
@@ -20,7 +22,7 @@ class JsonbExtract extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        return sprintf('%s->%s', $this->jsonb->dispatch($sqlWalker), $this->key->dispatch($sqlWalker));
+        return sprintf('jsonb_object_field(%s, %s)', $this->jsonb->dispatch($sqlWalker), $this->key->dispatch($sqlWalker));
     }
 
     public function parse(Parser $parser): void

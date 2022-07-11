@@ -14,8 +14,9 @@ doctrine:
         dql:
             string_functions:
                 ARRAY_TEXT: App\Doctrine\Functions\ArrayText
-                JSONB_EXTRACT: App\Doctrine\Functions\JsonbExtract
                 JSONB_EXISTS_ANY: App\Doctrine\Functions\JsonbExistsAny
+                JSONB_EXTRACT_PATH_TEXT: App\Doctrine\Functions\JsonbExtractPathText
+                JSONB_OBJECT_FIELD: App\Doctrine\Functions\JsonbObjectField
         mappings:
             App:
                 is_bundle: false

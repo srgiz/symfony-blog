@@ -11,6 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * array[]::text[]
+ * fn('value1', 'value2')
  */
 class ArrayText extends FunctionNode
 {
@@ -25,13 +26,7 @@ class ArrayText extends FunctionNode
             $values[] = $node->dispatch($sqlWalker);
         }
 
-        $format = 'array[' . implode(', ', $values) . ']';
-
-        if (empty($values)) {
-            $format .= '::text[]';
-        }
-
-        return $format;
+        return 'array[' . implode(', ', $values) . ']::text[]';
     }
 
     public function parse(Parser $parser): void
