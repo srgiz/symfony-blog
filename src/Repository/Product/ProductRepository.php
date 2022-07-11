@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
+use App\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @template T of Product
  */
 class ProductRepository extends ServiceEntityRepository
 {
@@ -22,29 +22,10 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    private function hasJoin(QueryBuilder $builder, string $aliasJoin): bool
-    {
-        $aliasTable = $builder->getRootAliases()[0];
-        $parts = $builder->getDQLPart('join')[$aliasTable] ?? [];
-
-        if (empty($parts)) {
-            return false;
-        }
-
-        /** @var Join $join */
-        foreach ($parts as $join) {
-            if ($join->getAlias() === $aliasJoin) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * @return Product[]
      */
-    public function findByFilter(array $filter, array $orderBy = null, int $limit = null, int $offset = null)
+    public function findByFilter(array $filter, array $orderBy = null, int $limit = null, int $offset = null): array
     {
         $builder = $this->createQueryBuilder('p')
             ->setMaxResults($limit)
@@ -82,7 +63,7 @@ class ProductRepository extends ServiceEntityRepository
                 }
 
                 if (empty($values)) {
-                    // нет передан фильтр
+                    // не передан фильтр
                     continue;
                 }
 
