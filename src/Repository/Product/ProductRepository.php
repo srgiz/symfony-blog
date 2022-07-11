@@ -24,6 +24,7 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * @param QueryBuilder $builder
      * @param array $filter ['color' => ['red', 'blue']]
+     * @example jsonb_exists_any(jsonb_object_field(v.values, 'color'), array['red']) and (jsonb_extract_path_text(v.values, 'size', '0')::real between 0 and 2)
      */
     private function filterAttributes(QueryBuilder $builder, array $filter): void
     {
