@@ -22,6 +22,9 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/Doctrine/Functions/'
+            - '../src/Doctrine/Mapping/'
+            - '../src/Doctrine/Types/'
             - '../src/Doctrine/Validator/Constraints/'
             - '../src/Dto/'
             - '../src/Entity/'

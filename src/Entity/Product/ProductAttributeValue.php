@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
+use App\Doctrine\Mapping\Trigger;
 use App\Repository\Product\ProductAttributeValueRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductAttributeValueRepository::class)]
+#[Trigger('throw_delete_product_attribute_value')]
 class ProductAttributeValue
 {
     #[ORM\Id]

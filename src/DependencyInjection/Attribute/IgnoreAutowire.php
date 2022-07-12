@@ -7,6 +7,6 @@ namespace App\DependencyInjection\Attribute;
  * @see \App\DependencyInjection\Compiler\IgnoreAutowirePass
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-class IgnoreAutowire
+final class IgnoreAutowire
 {
 }
