@@ -15,7 +15,7 @@ class ProductAttributeValue
     #[ORM\Column(type: 'bigint')]
     private ?int $product_id = null;
 
-    #[ORM\Column(type: 'json', options: ['jsonb' => true])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     private array $values = [];
 
     #[ORM\OneToOne(inversedBy: 'values', targetEntity: Product::class, cascade: ['all'])]
