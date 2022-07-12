@@ -6,6 +6,7 @@ namespace App;
 use App\Dto\Response\ResponseDto;
 use App\Exception\DataExceptionInterface;
 use App\Response\ResponseSerializerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -16,7 +17,7 @@ class KernelSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private ResponseSerializerInterface $responseSerializer,
-        private string $kernelEnvironment,
+        #[Autowire('%kernel.environment%')] private string $kernelEnvironment,
     ) {}
 
     public function onKernelException(ExceptionEvent $event)
