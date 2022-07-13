@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Repository\Product;
 
+use App\Doctrine\Query\ServiceEntityRepository;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductAttributeValue;
-use App\Repository\Product\Query\ProductQueryBuilder;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,14 +26,6 @@ class ProductRepository extends ServiceEntityRepository
         /** @var ProductAttributeValueRepository $productAttributeValueRepository */
         $productAttributeValueRepository = $registry->getRepository(ProductAttributeValue::class);
         $this->productAttributeValueRepository = $productAttributeValueRepository;
-    }
-
-    public function createQueryBuilder($alias, $indexBy = null): ProductQueryBuilder
-    {
-        return (new ProductQueryBuilder($this->_em))
-            ->select($alias)
-            ->from($this->_entityName, $alias, $indexBy)
-        ;
     }
 
     public function findById(int $id): ?Product

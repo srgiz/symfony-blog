@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Product\Query;
 
-use Doctrine\ORM\QueryBuilder;
+use App\Doctrine\Query\QueryBuilder;
 
 class ProductAttributeValueQueryBuilder extends QueryBuilder
 {
