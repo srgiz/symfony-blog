@@ -19,8 +19,8 @@ class Product
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(mappedBy: 'product', targetEntity: ProductAttributeValue::class)]
-    private ?ProductAttributeValue $values = null;
+    #[ORM\OneToOne(mappedBy: 'product', targetEntity: ProductAttributeValue::class, fetch: 'EXTRA_LAZY')]
+    private ?ProductAttributeValue $attrValues = null;
 
     public function getId(): ?int
     {
@@ -38,15 +38,15 @@ class Product
         return $this;
     }
 
-    public function getValues(): ?ProductAttributeValue
+    public function getAttrValues(): ?ProductAttributeValue
     {
-        return $this->values;
+        return $this->attrValues;
     }
 
-    public function setValues(ProductAttributeValue $values): static
+    public function setAttrValues(ProductAttributeValue $obj): static
     {
-        $values->setProduct($this);
-        $this->values = $values;
+        $obj->setProduct($this);
+        $this->attrValues = $obj;
         return $this;
     }
 }

@@ -15,10 +15,11 @@ class ProductAttributeValue
     #[ORM\Column(type: 'bigint')]
     private ?int $product_id = null;
 
+    /** @var array<string, string[]> Значения всегда в строковом виде */
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     private array $values = [];
 
-    #[ORM\OneToOne(inversedBy: 'values', targetEntity: Product::class, cascade: ['all'])]
+    #[ORM\OneToOne(inversedBy: 'attrValues', targetEntity: Product::class, cascade: ['all'])]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Product $product = null;
 
@@ -38,9 +39,23 @@ class ProductAttributeValue
         return $this->values;
     }
 
-    public function setValues(array $values): static
+    /**
+     * @param array<string, string[]> $values ['color' => ['red', 'blue'], 'width' => ['2.0']]
+     */
+    public function setValues(array $values, bool $merge = true): static
     {
-        $this->values = $values;
+        if (!$merge) {
+            $this->values = [];
+        }
+
+        foreach ($values as $attribute => $attrValues) {
+            foreach ($attrValues as $value) {
+                $this->values[$attribute][] = (string)$value;
+            }
+
+            $this->values[$attribute] = array_values(array_unique($this->values[$attribute], SORT_STRING));
+        }
+
         return $this;
     }
 

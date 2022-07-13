@@ -37,6 +37,11 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findById(int $id): ?Product
+    {
+        return $this->createQueryBuilder('p')->where("p.id = $id")->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * @param array $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
      * @return Product[]

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Repository\Product\ProductRepository;
 use App\Response\Format\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,6 +31,28 @@ class DefaultController extends AbstractController
 
         return new JsonResponse([
             'products' => $products,
+        ]);
+    }
+
+    #[Route(path: '/test/save', name: 'test-save', methods: ['GET'])]
+    public function testSave(EntityManagerInterface $em, ProductRepository $productRepository)
+    {
+        $product = $productRepository->findById(1);
+
+        $product->getAttrValues()->setValues([
+            'color' => [
+                'red',
+            ],
+            'size' => [
+                rand(0, 10),
+            ],
+        ], false);
+
+        $em->flush();
+
+        return new JsonResponse([
+            'id' => $product->getId(),
+            'values' => $product->getAttrValues()->getValues(),
         ]);
     }
 }
