@@ -8,19 +8,19 @@ use Doctrine\ORM;
 class QueryBuilder extends ORM\QueryBuilder
 {
     /**
-     * @param ORM\QueryBuilder $subQueryBuilder Вложенный запрос
+     * @param ORM\Query|ORM\QueryBuilder $subQuery Вложенный запрос
      * @return $this
      */
-    public function andWhereExists(ORM\QueryBuilder $subQueryBuilder): static
+    public function andWhereExists(ORM\Query|ORM\QueryBuilder $subQuery): static
     {
         /**
          * Переносим параметры в основной запрос
          * @var ORM\Query\Parameter $parameter
          */
-        foreach ($subQueryBuilder->getParameters() as $parameter) {
+        foreach ($subQuery->getParameters() as $parameter) {
             $this->setParameter($parameter->getName(), $parameter->getValue(), $parameter->getType());
         }
 
-        return $this->andWhere($this->expr()->exists($subQueryBuilder->getDQL()));
+        return $this->andWhere($this->expr()->exists($subQuery->getDQL()));
     }
 }
