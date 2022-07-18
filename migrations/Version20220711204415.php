@@ -17,7 +17,7 @@ final class Version20220711204415 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql('
-        CREATE OR REPLACE FUNCTION init_product_attribute_value() RETURNS TRIGGER AS $BODY$
+        CREATE OR REPLACE FUNCTION init_product_attribute_value() RETURNS TRIGGER AS $$
         BEGIN
             -- Принудительное создание записи в таблице значений свойств
             INSERT INTO product_attribute_value (product_id)
@@ -25,7 +25,7 @@ final class Version20220711204415 extends AbstractMigration
             
             RETURN NEW;
         END;
-        $BODY$ LANGUAGE plpgsql
+        $$ LANGUAGE plpgsql
         ');
 
         $this->addSql('
@@ -34,7 +34,7 @@ final class Version20220711204415 extends AbstractMigration
         ');
 
         $this->addSql("
-        CREATE OR REPLACE FUNCTION throw_delete_product_attribute_value() RETURNS TRIGGER AS \$BODY\$
+        CREATE OR REPLACE FUNCTION throw_delete_product_attribute_value() RETURNS TRIGGER AS \$\$
         DECLARE
             old_id bigint;
         BEGIN
@@ -47,7 +47,7 @@ final class Version20220711204415 extends AbstractMigration
             
             RETURN OLD;
         END;
-        \$BODY\$ LANGUAGE plpgsql
+        \$\$ LANGUAGE plpgsql
         ");
 
         $this->addSql('

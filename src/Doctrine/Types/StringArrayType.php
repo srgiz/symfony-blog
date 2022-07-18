@@ -16,7 +16,7 @@ class StringArrayType extends Type
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $column['length'] = $column['length'] ?? $platform->getVarcharDefaultLength();
+        $column['length'] = $column['length'] ?? 255;
         return "VARCHAR({$column['length']})[]";
     }
 
