@@ -19,6 +19,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            - '../src/ConsoleApplication.php'
             - '../src/DependencyInjection/'
             - '../src/Doctrine/Functions/'
             - '../src/Doctrine/Mapping/'
