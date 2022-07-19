@@ -61,7 +61,7 @@ final class Version20220718175837 extends AbstractMigration
             SELECT MAX(level) INTO new_parent_level FROM (
                 (SELECT 0 AS level)
                 UNION
-                (SELECT level FROM category_tree WHERE category_id = new_parent_id AND child_id = new_parent_id LIMIT 1)
+                (SELECT level FROM category_tree WHERE category_id = NEW_PARENT_ID AND child_id = NEW_PARENT_ID LIMIT 1)
             ) t;
                 
             -- предыдущий уровень вложенности
@@ -72,7 +72,7 @@ final class Version20220718175837 extends AbstractMigration
             ) t;
             
            DELETE FROM category_tree
-                WHERE
+           WHERE
                 -- удаляем все дочерние связи к NEW_CATEGORY_ID
                 child_id IN (
                     SELECT child_id FROM category_tree WHERE category_id = NEW_CATEGORY_ID
@@ -105,6 +105,23 @@ final class Version20220718175837 extends AbstractMigration
         ");
 
         $this->addSql("
+        CREATE OR REPLACE FUNCTION rebuild_category_tree() RETURNS void AS \$\$
+        DECLARE
+            r category%rowtype;
+        BEGIN
+            TRUNCATE category_tree RESTART IDENTITY;
+
+            FOR r IN
+                SELECT id, parent_id FROM category
+                ORDER BY COALESCE(parent_id, 0), id
+            LOOP
+                EXECUTE add_category_tree(r.id, r.parent_id);
+            END LOOP;
+        END;
+        \$\$ LANGUAGE plpgsql
+        ");
+
+        $this->addSql("
         CREATE OR REPLACE FUNCTION change_parent_category() RETURNS TRIGGER AS \$\$
         BEGIN
             IF (TG_OP = 'INSERT') THEN
@@ -127,6 +144,7 @@ final class Version20220718175837 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql('DROP FUNCTION change_parent_category() CASCADE');
+        $this->addSql('DROP FUNCTION rebuild_category_tree');
         $this->addSql('DROP FUNCTION move_category_tree');
         $this->addSql('DROP FUNCTION add_category_tree');
     }
