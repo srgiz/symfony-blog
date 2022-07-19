@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
+use App\Doctrine\Mapping\Trigger;
 use App\Repository\Category\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Index(columns: ['parent_id'], name: 'parent_id')]
 #[ORM\UniqueConstraint(name: 'uid', columns: ['uid'])]
+#[Trigger('change_parent_category')]
 class Category
 {
     #[ORM\Id]

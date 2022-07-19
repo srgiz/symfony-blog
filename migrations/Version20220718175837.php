@@ -40,6 +40,11 @@ final class Version20220718175837 extends AbstractMigration
                 SELECT NEW.id, NEW.id, new_parent_level + 1
                 ;
             ELSIF (TG_OP = 'UPDATE' AND COALESCE(OLD.parent_id, 0) != COALESCE(NEW.parent_id, 0)) THEN
+                -- запрещаем рекурсивную привязку друг к другу
+                IF (NEW.parent_id IN (SELECT child_id FROM category_tree WHERE category_id = NEW.id)) THEN
+                    RAISE EXCEPTION 'Category % is a child of category %', NEW.parent_id, NEW.id;
+                END IF;
+                
                 -- предыдущий уровень вложенности
                 SELECT MAX(level) INTO old_parent_level FROM (
                     (SELECT 0 AS level)
@@ -49,7 +54,7 @@ final class Version20220718175837 extends AbstractMigration
             
                 DELETE FROM category_tree
                 WHERE
-                    -- удаляем все дочерние связи NEW.id
+                    -- удаляем все дочерние связи к NEW.id
                     child_id IN (
                         SELECT child_id FROM category_tree WHERE category_id = NEW.id
                     )

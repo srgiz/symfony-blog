@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
+use App\Doctrine\Mapping\Trigger;
 use App\Repository\Category\CategoryTreeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['category_id'], name: 'category_id')]
 #[ORM\Index(columns: ['child_id'], name: 'child_id')]
 #[ORM\UniqueConstraint(name: 'unique_row', columns: ['category_id', 'child_id'])]
+#[Trigger('change_parent_category', '@see Category')]
 class CategoryTree
 {
     #[ORM\Id]
