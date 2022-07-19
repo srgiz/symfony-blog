@@ -17,7 +17,7 @@ final class Version20220718175837 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql("
-        CREATE OR REPLACE FUNCTION add_category_tree(IN NEW_CATEGORY_ID integer, IN NEW_PARENT_ID integer) RETURNS void AS \$\$
+        CREATE OR REPLACE PROCEDURE add_category_tree(IN NEW_CATEGORY_ID integer, IN NEW_PARENT_ID integer) AS \$\$
         DECLARE
             new_parent_level integer;
         BEGIN
@@ -42,7 +42,7 @@ final class Version20220718175837 extends AbstractMigration
         ");
 
         $this->addSql("
-        CREATE OR REPLACE FUNCTION move_category_tree(IN NEW_CATEGORY_ID integer, IN OLD_PARENT_ID integer, IN NEW_PARENT_ID integer) RETURNS void AS \$\$
+        CREATE OR REPLACE PROCEDURE move_category_tree(IN NEW_CATEGORY_ID integer, IN OLD_PARENT_ID integer, IN NEW_PARENT_ID integer) AS \$\$
         DECLARE
             old_parent_level integer;
             new_parent_level integer;
@@ -105,7 +105,7 @@ final class Version20220718175837 extends AbstractMigration
         ");
 
         $this->addSql("
-        CREATE OR REPLACE FUNCTION rebuild_category_tree() RETURNS void AS \$\$
+        CREATE OR REPLACE PROCEDURE rebuild_category_tree() AS \$\$
         DECLARE
             r category%rowtype;
         BEGIN
@@ -115,7 +115,7 @@ final class Version20220718175837 extends AbstractMigration
                 SELECT id, parent_id FROM category
                 ORDER BY COALESCE(parent_id, 0), id
             LOOP
-                EXECUTE add_category_tree(r.id, r.parent_id);
+                CALL add_category_tree(r.id, r.parent_id);
             END LOOP;
         END;
         \$\$ LANGUAGE plpgsql
@@ -125,9 +125,9 @@ final class Version20220718175837 extends AbstractMigration
         CREATE OR REPLACE FUNCTION change_parent_category() RETURNS TRIGGER AS \$\$
         BEGIN
             IF (TG_OP = 'INSERT') THEN
-                EXECUTE add_category_tree(NEW.id, NEW.parent_id);
+                CALL add_category_tree(NEW.id, NEW.parent_id);
             ELSIF (TG_OP = 'UPDATE') THEN
-                EXECUTE move_category_tree(NEW.id, OLD.parent_id, NEW.parent_id);
+                CALL move_category_tree(NEW.id, OLD.parent_id, NEW.parent_id);
             END IF;
             
             RETURN NULL;
@@ -144,8 +144,8 @@ final class Version20220718175837 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql('DROP FUNCTION change_parent_category() CASCADE');
-        $this->addSql('DROP FUNCTION rebuild_category_tree');
-        $this->addSql('DROP FUNCTION move_category_tree');
-        $this->addSql('DROP FUNCTION add_category_tree');
+        $this->addSql('DROP PROCEDURE rebuild_category_tree');
+        $this->addSql('DROP PROCEDURE move_category_tree');
+        $this->addSql('DROP PROCEDURE add_category_tree');
     }
 }

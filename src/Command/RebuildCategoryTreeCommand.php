@@ -27,7 +27,7 @@ class RebuildCategoryTreeCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $this->em->createNativeQuery('SELECT rebuild_category_tree()', new ResultSetMapping())->execute();
+            $this->em->createNativeQuery('CALL rebuild_category_tree()', new ResultSetMapping())->execute();
             $io->success('Category tree rebuilt');
         } catch (\Throwable $e) {
             $io->error($e->getMessage());
