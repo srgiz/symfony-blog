@@ -17,6 +17,22 @@ final class Version20220718175837 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql("
+        CREATE OR REPLACE FUNCTION add_category_tree(IN new_category_id integer, IN new_parent_id integer, IN new_parent_level integer) RETURNS void AS \$\$
+        BEGIN
+            INSERT INTO category_tree (category_id, child_id, level)
+            -- добавляем все категории внутри которых есть new_parent_id
+            SELECT category_id, new_category_id, /*new_parent_level*/level + 1
+            FROM category_tree
+            WHERE child_id = new_parent_id
+            UNION
+            -- добавляем ссылку на себя же
+            SELECT new_category_id, new_category_id, new_parent_level + 1
+            ;
+        END;
+        \$\$ LANGUAGE plpgsql
+        ");
+
+        $this->addSql("
         CREATE OR REPLACE FUNCTION change_parent_category() RETURNS TRIGGER AS \$\$
         DECLARE
             old_parent_level integer;
@@ -30,15 +46,7 @@ final class Version20220718175837 extends AbstractMigration
             ) t;
             
             IF (TG_OP = 'INSERT') THEN
-                INSERT INTO category_tree (category_id, child_id, level)
-                -- добавляем все категории внутри которых есть NEW.parent_id
-                SELECT category_id, NEW.id, level + 1
-                FROM category_tree
-                WHERE child_id = NEW.parent_id
-                UNION
-                -- добавляем ссылку на себя же
-                SELECT NEW.id, NEW.id, new_parent_level + 1
-                ;
+                EXECUTE add_category_tree(NEW.id, NEW.parent_id, new_parent_level);
             ELSIF (TG_OP = 'UPDATE' AND COALESCE(OLD.parent_id, 0) != COALESCE(NEW.parent_id, 0)) THEN
                 -- запрещаем рекурсивную привязку друг к другу
                 IF (NEW.parent_id IN (SELECT child_id FROM category_tree WHERE category_id = NEW.id)) THEN
@@ -97,5 +105,6 @@ final class Version20220718175837 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql('DROP FUNCTION change_parent_category() CASCADE');
+        $this->addSql('DROP FUNCTION add_category_tree');
     }
 }
