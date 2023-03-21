@@ -1,17 +1,17 @@
-FROM php:8.1-fpm-alpine3.16
+FROM php:8.2-fpm-alpine3.17
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog-php:latest .
 # docker exec -i -t blog-php sh
 # docker exec -i -t blog-php bash
 
-RUN apk add --no-cache bash shadow git
+RUN apk add --no-cache bash shadow git linux-headers
 
 # symfony cli
 RUN wget https://get.symfony.com/cli/installer -O - | bash \
     && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 # composer
-ENV COMPOSER_VERSION=2.3.9
+ENV COMPOSER_VERSION=2.5.5
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
     # Make sure we're installing what we think we're installing!
@@ -20,7 +20,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && rm -f /tmp/composer-setup.*
 
 # php
-ENV XDEBUG_VERSION=3.1.5
+ENV XDEBUG_VERSION=3.2.0
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
     && apk add --no-cache \
         # intl
