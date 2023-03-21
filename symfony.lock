@@ -2,16 +2,6 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
-    "doctrine/annotations": {
-        "version": "1.13",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        },
-        "files": []
-    },
     "doctrine/cache": {
         "version": "2.1.1"
     },
@@ -98,15 +88,6 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.3.0"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.5.1"
     },
     "phpspec/prophecy": {
         "version": "1.14.0"
@@ -550,8 +531,5 @@
     },
     "twig/twig": {
         "version": "v3.3.4"
-    },
-    "webmozart/assert": {
-        "version": "1.10.0"
     }
 }
