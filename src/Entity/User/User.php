@@ -2,8 +2,6 @@
 
 namespace App\Entity\User;
 
-use App\Logger\Diff\DiffLog;
-use App\Logger\Diff\Metadata\ObjectMetadata;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

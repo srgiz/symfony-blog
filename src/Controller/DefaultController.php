@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\Category\CategoryRepository;
 use App\Repository\Product\ProductRepository;
 use App\Response\Format\JsonResponse;
+use App\Service\Category\Tree\CategoryTreeFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,6 +55,23 @@ class DefaultController extends AbstractController
         return new JsonResponse([
             'id' => $product->getId(),
             'values' => $product->getAttrValues()->getValues(),
+        ]);
+    }
+
+    #[Route(path: '/test-categories', name: 'test-categories', methods: ['GET'])]
+    public function testCategories(CategoryRepository $categoryRepository, CategoryTreeFactory $treeFactory)
+    {
+        $categories = $categoryRepository->findAll();
+        $tree = $treeFactory->create($categories);
+
+        foreach ($tree as $category) {
+            var_dump([
+                $category->getId() => $category->getChildren()
+            ]);
+        }
+
+        return new JsonResponse([
+            'tree' => $tree,
         ]);
     }
 }

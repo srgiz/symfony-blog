@@ -5,6 +5,8 @@ namespace App\Entity\Category;
 
 use App\Doctrine\Mapping\Trigger;
 use App\Repository\Category\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -19,7 +21,7 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 128)]
-    private ?int $uid = null;
+    private ?string $uid = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $parentId = null;
@@ -29,8 +31,64 @@ class Category
 
     #[ORM\ManyToOne(targetEntity: self::class, fetch: 'EXTRA_LAZY', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?self $parent;
+    private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class, fetch: 'EXTRA_LAZY')]
-    private iterable $children;
+    private Collection $children;
+
+    /** @var self[] То же самое что и $children, только заполняется отдельно от doctrine */
+    private array $childCategories = [];
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function getParentId(): ?int
+    {
+        return $this->parentId;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    /** @return Collection<self> */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function hasChildCategories(): bool
+    {
+        return !empty($this->childCategories);
+    }
+
+    /** @return self[] */
+    public function getChildCategories(): array
+    {
+        return $this->childCategories;
+    }
+
+    public function addChildCategory(self $category): self
+    {
+        $this->childCategories[] = $category;
+        return $this;
+    }
 }

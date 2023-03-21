@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entity\User;
 
-use App\Logger\Diff\DiffLog;
-use App\Logger\Diff\Metadata\TokenMetadata;
 use App\Repository\User\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserTokenRepository::class)]
 #[ORM\Table(name: 'user_token')]
-#[DiffLog(metadataClass: TokenMetadata::class)]
 class UserToken
 {
     #[ORM\Id]

@@ -8,7 +8,7 @@ RUN apk add --no-cache bash shadow git
 
 # symfony cli
 RUN wget https://get.symfony.com/cli/installer -O - | bash \
-    && mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+    && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 # composer
 ENV COMPOSER_VERSION=2.3.9
