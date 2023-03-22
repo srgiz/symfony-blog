@@ -30,11 +30,13 @@ services:
             - '../src/Entity/'
             - '../src/Exception/'
             - '../src/Kernel.php'
-            - '../src/Logger/Diff/DiffEvents.php'
-            - '../src/Logger/Diff/DiffLog.php'
-            - '../src/Logger/Diff/Metadata/'
             - '../src/Repository/Product/Query/'
             - '../src/Response/Format/'
+            #
+            - '../src/*/Dto/'
+            - '../src/*/Entity/'
+            - '../src/*/Repository/Query/'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

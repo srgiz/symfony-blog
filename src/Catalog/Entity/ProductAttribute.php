@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity\Product;
+namespace App\Catalog\Entity;
 
-use App\Repository\Product\ProductAttributeRepository;
+use App\Catalog\Repository\ProductAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]

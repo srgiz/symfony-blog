@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Dto\Nav;
+namespace App\Nav\Dto;
 
 class NavItem
 {
@@ -21,9 +21,8 @@ class NavItem
         return $this->items;
     }
 
-    public function addItem(NavItem $item): static
+    public function addItem(NavItem $item): void
     {
         $this->items[] = $item;
-        return $this;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\Product;
+namespace App\Catalog\Repository;
 
+use App\Catalog\Entity\Product;
+use App\Catalog\Entity\ProductAttributeValue;
 use App\Doctrine\Query\ServiceEntityRepository;
-use App\Entity\Product\Product;
-use App\Entity\Product\ProductAttributeValue;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

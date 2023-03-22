@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\Category;
+namespace App\Catalog\Repository;
 
+use App\Catalog\Entity\Category;
 use App\Doctrine\Query\ServiceEntityRepository;
-use App\Entity\Category\Category;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

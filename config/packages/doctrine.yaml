@@ -22,10 +22,13 @@ doctrine:
         mappings:
             App:
                 is_bundle: false
-                #type: attribute
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
-                alias: App
+            Catalog:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/Entity'
+                prefix: 'App\Catalog\Entity'
+
 
 when@test:
     doctrine:

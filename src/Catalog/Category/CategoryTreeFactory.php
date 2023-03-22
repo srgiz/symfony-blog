@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Category\Tree;
+namespace App\Catalog\Category;
 
-use App\Entity\Category\Category;
+use App\Catalog\Entity\Category;
 
-class CategoryTreeFactory
+readonly class CategoryTreeFactory
 {
     /**
      * @param Category[] $categories

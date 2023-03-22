@@ -3,39 +3,46 @@ declare(strict_types=1);
 
 namespace App\Nav;
 
-use App\Dto\Nav\NavCollection;
-use App\Dto\Nav\NavItem;
+use App\Nav\Dto\NavItem;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
-class SiteNavBuilder implements SiteNavBuilderInterface
+readonly class SiteNavBuilder implements SiteNavBuilderInterface
 {
     public function __construct(
         private TagAwareCacheInterface $cache,
         private UrlGeneratorInterface $urlGenerator,
     ) {}
 
-    public function public(): NavCollection
+    /**
+     * @return array<NavItem>
+     */
+    public function public(): array
     {
-        $collection = new NavCollection();
-
-        //$collection->add(new NavItem('/', 'Home'));
-
-        return $collection;
+        return [];
     }
 
-    public function backend(): NavCollection
+    /**
+     * @return array<NavItem>
+     * @throws InvalidArgumentException
+     */
+    public function backend(): array
     {
         return $this->cache->get('app_nav_backend', function (ItemInterface $item) {
-            $collection = new NavCollection();
-
-            $collection->add(new NavItem($this->urlGenerator->generate('backend_dashboard'), 'Пользователи'));
+            $list = [];
+            $list[] = $this->genItem('index', 'Главная');
+            $list[] = $this->genItem('backend_dashboard', 'Пользователи');
 
             //$item->tag(['app1']);
             $item->expiresAfter(60);
-
-            return $collection;
+            return $list;
         });
+    }
+
+    private function genItem(string $route, string $title): NavItem
+    {
+        return new NavItem($this->urlGenerator->generate($route), $title);
     }
 }

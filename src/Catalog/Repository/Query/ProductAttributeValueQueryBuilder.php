@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\Product\Query;
+namespace App\Catalog\Repository\Query;
 
 use App\Doctrine\Query\QueryBuilder;
 

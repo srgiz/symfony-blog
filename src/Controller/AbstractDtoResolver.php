@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ArgumentResolver;
+namespace App\Controller;
 
 use App\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;

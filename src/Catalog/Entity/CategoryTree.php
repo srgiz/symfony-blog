@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity\Category;
+namespace App\Catalog\Entity;
 
+use App\Catalog\Repository\CategoryTreeRepository;
 use App\Doctrine\Mapping\Trigger;
-use App\Repository\Category\CategoryTreeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryTreeRepository::class)]

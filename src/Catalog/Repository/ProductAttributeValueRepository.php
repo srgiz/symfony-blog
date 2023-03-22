@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\Product;
+namespace App\Catalog\Repository;
 
-use App\Entity\Product\ProductAttributeValue;
-use App\Repository\Product\Query\ProductAttributeValueQueryBuilder;
+use App\Catalog\Entity\ProductAttributeValue;
+use App\Catalog\Repository\Query\ProductAttributeValueQueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

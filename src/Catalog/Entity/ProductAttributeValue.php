@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity\Product;
+namespace App\Catalog\Entity;
 
+use App\Catalog\Repository\ProductAttributeValueRepository;
 use App\Doctrine\Mapping\Trigger;
-use App\Repository\Product\ProductAttributeValueRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductAttributeValueRepository::class)]

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver\Backend;
 
-use App\ArgumentResolver\AbstractDtoResolver;
 use App\Backend\User\UserPaginate;
+use App\Controller\AbstractDtoResolver;
 use App\Dto\Request\Backend\UserPaginateRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

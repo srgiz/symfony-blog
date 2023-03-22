@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Backend;
 
 use App\Backend\User\UserPaginateInterface;
+use App\Controller\Controller;
 use App\Dto\Request\Backend\UserPaginateRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

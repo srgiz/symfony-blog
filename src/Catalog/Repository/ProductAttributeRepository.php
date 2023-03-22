@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\Product;
+namespace App\Catalog\Repository;
 
-use App\Entity\Product\ProductAttribute;
+use App\Catalog\Entity\ProductAttribute;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

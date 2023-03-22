@@ -1,25 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Catalog\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\ResultSetMapping;
+use App\Catalog\Category\CategoryTreeBuilder;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'app:rebuild-category-tree', description: 'Rebuild category tree')]
+#[AsCommand(name: 'app:catalog:rebuild-category-tree', description: 'Пересоздание связей дерева категорий')]
 class RebuildCategoryTreeCommand extends Command
 {
-    private EntityManagerInterface $em;
+    private CategoryTreeBuilder $builder;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(CategoryTreeBuilder $builder)
     {
         parent::__construct();
-        $this->em = $em;
+        $this->builder = $builder;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -27,7 +26,7 @@ class RebuildCategoryTreeCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $this->em->createNativeQuery('CALL rebuild_category_tree()', new ResultSetMapping())->execute();
+            $this->builder->rebuild();
             $io->success('Category tree rebuilt');
         } catch (\Throwable $e) {
             $io->error($e->getMessage());

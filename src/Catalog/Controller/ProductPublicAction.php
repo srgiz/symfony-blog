@@ -1,24 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Catalog\Controller;
 
-use App\Repository\Category\CategoryRepository;
-use App\Repository\Product\ProductRepository;
-use App\Response\Format\JsonResponse;
-use App\Service\Category\Tree\CategoryTreeFactory;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+#[Route(path: '/product', name: 'product', methods: ['GET'])]
+class ProductPublicAction extends Controller
 {
-    #[Route(path: '/', name: 'index', methods: ['GET'])]
-    public function index()
+    public function __invoke(): JsonResponse
     {
-        return $this->render('default/index.html.twig');
+        return $this->json(['id' => 0, 'name' => 'virtual product']);
     }
 
+    /*
     #[Route(path: '/test', name: 'test', methods: ['GET'])]
     public function test(ProductRepository $productRepository)
     {
@@ -73,5 +70,5 @@ class DefaultController extends AbstractController
         return new JsonResponse([
             'tree' => $tree,
         ]);
-    }
+    }*/
 }
