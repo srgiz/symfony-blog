@@ -7,9 +7,8 @@ use App\Dto\Paginate\PageLink;
 use App\Dto\Paginate\Paginate;
 use App\Dto\Paginate\SortLink;
 use App\Dto\Request\Backend\UserPaginateRequest;
-use App\Dto\Response\ResponseDto;
-use App\Dto\Response\ResponseDtoInterface;
 use App\Repository\User\UserRepository;
+use App\Response\JsonResponseDto;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserPaginate implements UserPaginateInterface
@@ -34,7 +33,7 @@ class UserPaginate implements UserPaginateInterface
         private UrlGeneratorInterface $urlGenerator,
     ) {}
 
-    public function paginate(UserPaginateRequest $request): ResponseDtoInterface
+    public function paginate(UserPaginateRequest $request): JsonResponseDto
     {
         $total = $this->userRepository->count([]);
         $offset = $request->offset;
@@ -44,11 +43,11 @@ class UserPaginate implements UserPaginateInterface
         $data = new Paginate();
         $data->setItems($this->userRepository->findBy([], $orderBy, $limit, $offset));
 
-        $dto = (new ResponseDto())
-            ->setMetaParam('total', $total)
-            ->setMetaParam('limit', $limit)
-            ->setMetaParam('offset', $offset)
-            ->setData($data)
+        $dto = (new JsonResponseDto($data))
+            //->setMetaParam('total', $total)
+            //->setMetaParam('limit', $limit)
+            //->setMetaParam('offset', $offset)
+            //->setData($data)
         ;
 
         foreach (self::ORDER_BY as $key => $order) {

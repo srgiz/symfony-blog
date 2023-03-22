@@ -22,7 +22,7 @@ class DashboardController extends Controller
         //return $this->json($dto);
 
         return $this->render('backend/users/index.html.twig', [
-            'meta' => $dto->getMeta(),
+            //'meta' => $dto->getMeta(),
             'data' => $dto->getData(),
         ]);
     }

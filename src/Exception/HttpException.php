@@ -3,53 +3,21 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException as KernelHttpException;
-use Symfony\Component\Validator;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class HttpException extends KernelHttpException implements DataExceptionInterface
+class HttpException extends KernelHttpException implements ViolationExceptionInterface
 {
-    private ?array $data;
+    private ?ConstraintViolationListInterface $violations = null;
 
-    public function __construct(
-        int $statusCode,
-        ?string $message = null,
-        array $data = null,
-        \Throwable $previous = null,
-        array $headers = [],
-        ?int $code = null
-    ) {
-        parent::__construct(
-            $statusCode,
-            $message ?? Response::$statusTexts[$statusCode],
-            $previous,
-            $headers,
-            $code ?? $statusCode
-        );
-
-        $this->data = $data;
+    public function getViolations(): ?ConstraintViolationListInterface
+    {
+        return $this->violations;
     }
 
-    public function getData(): ?array
+    public function setViolations(ConstraintViolationListInterface $violations): static
     {
-        return $this->data;
-    }
-
-    public function setData(?array $data): static
-    {
-        $this->data = $data;
+        $this->violations = $violations;
         return $this;
-    }
-
-    public function setDataValidatorErrors(Validator\ConstraintViolationListInterface $errors): static
-    {
-        $data = [];
-
-        /** @var Validator\ConstraintViolationInterface $error */
-        foreach ($errors as $error) {
-            $data[$error->getPropertyPath()][] = $error->getMessage();
-        }
-
-        return $this->setData($data);
     }
 }

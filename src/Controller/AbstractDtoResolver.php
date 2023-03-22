@@ -25,7 +25,7 @@ abstract class AbstractDtoResolver implements ValueResolverInterface
         $errors = $this->validator->validate($dto);
 
         if ($errors->count()) {
-            throw (new HttpException(400))->setDataValidatorErrors($errors);
+            throw (new HttpException(400))->setViolations($errors);
         }
 
         yield $dto;

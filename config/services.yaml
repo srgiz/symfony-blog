@@ -30,9 +30,8 @@ services:
             - '../src/Entity/'
             - '../src/Exception/'
             - '../src/Kernel.php'
-            - '../src/Repository/Product/Query/'
-            - '../src/Response/Format/'
-            #
+            - '../src/Response/'
+            # module
             - '../src/*/Dto/'
             - '../src/*/Entity/'
             - '../src/*/Repository/Query/'

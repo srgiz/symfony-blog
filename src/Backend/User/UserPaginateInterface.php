@@ -2,11 +2,11 @@
 namespace App\Backend\User;
 
 use App\Dto\Request\Backend\UserPaginateRequest;
-use App\Dto\Response\ResponseDtoInterface;
+use App\Response\JsonResponseDto;
 
 interface UserPaginateInterface
 {
-    public function paginate(UserPaginateRequest $request): ResponseDtoInterface;
+    public function paginate(UserPaginateRequest $request): JsonResponseDto;
 
     public static function getListOrderBy(): array;
 }
