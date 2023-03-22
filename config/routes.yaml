@@ -8,3 +8,7 @@ controllers:
 app_catalog:
     type: attribute
     resource: '../src/Catalog/Controller/'
+
+app_security:
+    type: attribute
+    resource: '../src/Security/Controller/'

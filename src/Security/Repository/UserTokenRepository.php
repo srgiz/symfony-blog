@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository\User;
+namespace App\Security\Repository;
 
-use App\Entity\User\User;
-use App\Entity\User\UserToken;
+use App\Security\Entity\User;
+use App\Security\Entity\UserToken;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

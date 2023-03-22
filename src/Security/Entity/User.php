@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Entity\User;
+namespace App\Security\Entity;
 
-use App\Repository\User\UserRepository;
+use App\Security\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
-#[DiffLog(metadataClass: ObjectMetadata::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -70,7 +69,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * password_hash
-     * @see \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
     {

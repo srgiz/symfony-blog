@@ -2,9 +2,9 @@
 
 namespace App\Security\Authenticator;
 
-use App\Entity\User\User;
-use App\Repository\User\UserTokenRepository;
-use App\Security\Profile\TokenCookieInterface;
+use App\Security\Entity\User;
+use App\Security\Profile\TokenCookie;
+use App\Security\Repository\UserTokenRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +19,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'login';
 
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private UserTokenRepository $tokenRepository,
-        private TokenCookieInterface $tokenCookie,
+        private TokenCookie $tokenCookie,
     ) {}
 
     public function authenticate(Request $request): Passport\Passport

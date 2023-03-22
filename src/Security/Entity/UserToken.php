@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity\User;
+namespace App\Security\Entity;
 
-use App\Repository\User\UserTokenRepository;
+use App\Security\Repository\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserTokenRepository::class)]

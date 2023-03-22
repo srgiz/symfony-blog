@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace App\EventSubscriber;
 
 use App\Exception\ViolationExceptionInterface;
 use App\Response\JsonResponseDto;

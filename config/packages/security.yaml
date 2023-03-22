@@ -1,7 +1,7 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        #App\Entity\User\User:
+        #App\Security\Entity\User:
         #    algorithm: auto
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
@@ -9,7 +9,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User\User
+                class: App\Security\Entity\User
                 property: email
         #users_in_memory: { memory: null }
     firewalls:
@@ -25,7 +25,7 @@ security:
                 - App\Security\Authenticator\TokenAuthenticator
                 - App\Security\Authenticator\LoginFormAuthenticator
             logout:
-                path: app_logout
+                path: logout
                 # where to redirect after logout
                 # target: app_any_route
                 delete_cookies: ['i']

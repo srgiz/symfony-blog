@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Security\Authenticator;
 
-use App\Repository\User\UserTokenRepository;
-use App\Security\Profile\TokenCookieInterface;
+use App\Security\Profile\TokenCookie;
+use App\Security\Repository\UserTokenRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -15,8 +15,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport;
 class TokenAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        private UserTokenRepository $tokenRepository,
-        private TokenCookieInterface $tokenCookie,
+        private readonly UserTokenRepository $tokenRepository,
+        private readonly TokenCookie $tokenCookie,
     ) {}
 
     public function supports(Request $request): ?bool
@@ -28,13 +28,17 @@ class TokenAuthenticator extends AbstractAuthenticator
     {
         $token = (string)$request->cookies->get($this->tokenCookie->getName());
 
-        if (empty($token))
+        if (empty($token)) {
             throw new Exception\CustomUserMessageAuthenticationException('Token not passed');
+        }
 
         $userToken = $this->tokenRepository->findByKey($token);
 
-        if (!$userToken)
+        if (!$userToken) {
             throw new Exception\CustomUserMessageAuthenticationException('Invalid token');
+        }
+
+        // todo: check password hash
 
         return new Passport\SelfValidatingPassport(new Passport\Badge\UserBadge($userToken->getUser()->getEmail()));
     }

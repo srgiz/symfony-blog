@@ -3,21 +3,16 @@ declare(strict_types=1);
 
 namespace App\Security\Profile;
 
-use App\Entity\User\UserToken;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use App\Security\Entity\UserToken;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class TokenCookie implements TokenCookieInterface
+readonly class TokenCookie
 {
-    private string $name;
-
-    private string $expire;
-
-    public function __construct(ParameterBagInterface $params)
-    {
-        $this->name = $params->get('app.security.token.cookie');
-        $this->expire = $params->get('app.security.token.expire');
-    }
+    public function __construct(
+        #[Autowire('%app.security.token.cookie%')] private string $name,
+        #[Autowire('%app.security.token.expire%')] private string $expire,
+    ) {}
 
     public function getName(): string
     {
@@ -26,6 +21,6 @@ class TokenCookie implements TokenCookieInterface
 
     public function create(UserToken $token): Cookie
     {
-        return Cookie::create($this->name, $token->getToken(), strtotime($this->expire));
+        return Cookie::create($this->getName(), $token->getToken(), strtotime($this->expire));
     }
 }

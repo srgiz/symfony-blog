@@ -20,14 +20,14 @@ doctrine:
                 JSONB_OBJECT_FIELD: App\Doctrine\Functions\JsonbObjectField
                 TO_REAL: App\Doctrine\Functions\ToReal
         mappings:
-            App:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
             Catalog:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Catalog/Entity'
                 prefix: 'App\Catalog\Entity'
+            Security:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Security/Entity'
+                prefix: 'App\Security\Entity'
 
 
 when@test:

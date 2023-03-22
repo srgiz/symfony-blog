@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Dto\Request\Security;
+namespace App\Security\Dto\Request;
 
 use App\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Entity\User\User;
+use App\Security\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(fields: ['email'], entityClass: User::class)]
