@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exception\ViolationExceptionInterface;
-use App\Response\JsonResponse;
 use App\Response\JsonResponseDto;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -57,7 +57,7 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
         }
 
         $json = $this->serializer->serialize(new JsonResponseDto($data, $statusCode), 'json', [
-            'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
+            'json_encode_options' => JsonResponseDto::ENCODING_OPTIONS,
         ]);
 
         $event->setResponse(new JsonResponse($json, $statusCode, $headers, true));
