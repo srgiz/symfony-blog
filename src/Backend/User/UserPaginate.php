@@ -6,8 +6,8 @@ namespace App\Backend\User;
 use App\Dto\Paginate\PageLink;
 use App\Dto\Paginate\Paginate;
 use App\Dto\Paginate\SortLink;
-use App\Dto\Request\Backend\UserPaginateRequest;
 use App\Response\JsonResponseDto;
+use App\Security\Dto\Request\UserPaginateRequest;
 use App\Security\Repository\UserRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

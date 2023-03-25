@@ -1,8 +1,8 @@
 <?php
 namespace App\Backend\User;
 
-use App\Dto\Request\Backend\UserPaginateRequest;
 use App\Response\JsonResponseDto;
+use App\Security\Dto\Request\UserPaginateRequest;
 
 interface UserPaginateInterface
 {
