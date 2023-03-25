@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ArgumentResolver\Backend;
+namespace App\Security\ArgumentResolver;
 
 use App\Backend\User\UserPaginate;
 use App\Controller\AbstractDtoResolver;
