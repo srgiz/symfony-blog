@@ -7,8 +7,10 @@ use App\EventSubscriber\KernelResponseHeadersSubscriber;
 use App\Exception\HttpException;
 use App\Response\JsonResponseDto;
 use App\Security\Entity\User;
-use App\Security\Repository\UserTokenRepository;
+use App\Security\Entity\UserToken;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -16,12 +18,22 @@ readonly class CurrentProfile
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private TokenCookie $tokenCookie,
-        private TokenStorageInterface $tokenStorage,
+        private TokenStorageInterface $currentToken,
         private UserPasswordHasherInterface $passwordHasher,
-        private UserTokenRepository $tokenRepository,
-        private KernelResponseHeadersSubscriber $headers
+        private KernelResponseHeadersSubscriber $headers,
+        #[Autowire('%app.security.token.cookie%')] private string $name,
+        #[Autowire('%app.security.token.expire%')] private string $expire,
     ) {}
+
+    public function getCookieName(): string
+    {
+        return $this->name;
+    }
+
+    public function createCookie(UserToken $token): Cookie
+    {
+        return Cookie::create($this->getCookieName(), $token->getToken(), strtotime($this->expire));
+    }
 
     public function register(string $email, string $password): JsonResponseDto
     {
@@ -29,18 +41,29 @@ readonly class CurrentProfile
         $user->setEmail($email);
         $user->setPassword($this->passwordHasher->hashPassword($user, $password));
 
-        $this->em->persist($user);
+        $userToken = $this->createUserToken($user);
+
+        $this->em->persist($userToken);
         $this->em->flush();
 
-        $userToken = $this->tokenRepository->createNew($user);
-        $this->headers->setCookie($this->tokenCookie->create($userToken));
+        $this->headers->setCookie($this->createCookie($userToken));
 
         return new JsonResponseDto(null);
     }
 
+    private function createUserToken(User $user): UserToken
+    {
+        $token = $this->passwordHasher->hashPassword($user, $user->getPassword());
+
+        return (new UserToken())
+            ->setToken($token)
+            ->setUser($user)
+        ;
+    }
+
     public function upgradePassword(string $oldPassword, string $newPassword): JsonResponseDto
     {
-        $user = $this->tokenStorage?->getToken()?->getUser();
+        $user = $this->currentToken?->getToken()?->getUser();
 
         if (!$user instanceof User) {
             throw new HttpException(403);
@@ -51,11 +74,12 @@ readonly class CurrentProfile
         }
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));
-        $this->em->persist($user);
+        $userToken = $this->createUserToken($user);
+
+        $this->em->persist($userToken);
         $this->em->flush();
 
-        $userToken = $this->tokenRepository->createNew($user);
-        $this->headers->setCookie($this->tokenCookie->create($userToken));
+        $this->headers->setCookie($this->createCookie($userToken));
 
         return new JsonResponseDto(null);
     }
