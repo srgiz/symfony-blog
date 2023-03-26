@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Core\EventSubscriber;
 
 use App\Core\Dto\Response\JsonResponseDto;
-use App\Exception\ViolationExceptionInterface;
+use App\Core\Exception\ViolationExceptionInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

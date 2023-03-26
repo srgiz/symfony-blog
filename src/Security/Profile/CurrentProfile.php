@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Security\Profile;
 
 use App\Core\Dto\Response\JsonResponseDto;
+use App\Core\Exception\HttpException;
 use App\Core\Http\HeadersHandlerInterface;
-use App\Exception\HttpException;
 use App\Security\Entity\User;
 use App\Security\Entity\UserToken;
 use Doctrine\ORM\EntityManagerInterface;

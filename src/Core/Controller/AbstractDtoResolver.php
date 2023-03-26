@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Core\Controller;
 
-use App\Exception\HttpException;
+use App\Core\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
