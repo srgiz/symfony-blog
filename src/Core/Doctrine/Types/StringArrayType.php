@@ -75,7 +75,7 @@ class StringArrayType extends Type
     }
 
     /**
-     * @return string[]|null
+     * @return array<int, mixed>|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {

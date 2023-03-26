@@ -27,10 +27,6 @@ class UniqueEntityValidator extends ConstraintValidator
             throw new Exception\UnexpectedTypeException($constraint, UniqueEntity::class);
         }
 
-        if (!is_array($constraint->fields)) {
-            throw new Exception\UnexpectedTypeException($constraint->fields, 'array');
-        }
-
         if (empty($constraint->fields)) {
             throw new Exception\MissingOptionsException('Option "fields" cannot be empty', ['fields']);
         }

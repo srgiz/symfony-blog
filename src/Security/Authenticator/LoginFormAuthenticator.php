@@ -37,7 +37,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             new Passport\Badge\UserBadge($email),
             new Passport\Credentials\PasswordCredentials((string)$request->request->get('password', '')),
             [
-                new Passport\Badge\CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
+                new Passport\Badge\CsrfTokenBadge('authenticate', (string)$request->request->get('_csrf_token')),
             ]
         );
     }

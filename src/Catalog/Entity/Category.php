@@ -69,7 +69,9 @@ class Category
         return $this->parent;
     }
 
-    /** @return Collection<self> */
+    /**
+     * @return Collection<int, Category>
+     */
     public function getChildren(): Collection
     {
         return $this->children;

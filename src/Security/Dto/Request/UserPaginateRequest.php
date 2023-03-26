@@ -33,7 +33,7 @@ class UserPaginateRequest
         }
 
         return [
-            $this->order => $this->sort,
+            $this->order => $this->sort ?? 'ASC',
         ];
     }
 }
