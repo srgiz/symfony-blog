@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security\Controller;
 
-use App\Controller\Controller;
+use App\Core\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;

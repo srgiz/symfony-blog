@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Catalog\Entity;
 
 use App\Catalog\Repository\ProductRepository;
-use App\Doctrine\Mapping\Trigger;
+use App\Core\Doctrine\Mapping\Trigger;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]

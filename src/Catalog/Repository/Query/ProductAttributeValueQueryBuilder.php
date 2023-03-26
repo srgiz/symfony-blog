@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Repository\Query;
 
-use App\Doctrine\Query\QueryBuilder;
+use App\Core\Doctrine\Query\QueryBuilder;
 
 class ProductAttributeValueQueryBuilder extends QueryBuilder
 {

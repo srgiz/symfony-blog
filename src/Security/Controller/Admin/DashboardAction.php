@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Security\Controller\Admin;
 
-use App\Backend\User\UserPaginateInterface;
-use App\Controller\Controller;
+use App\Security\Admin\UserPaginateInterface;
+use App\Core\Controller\Controller;
 use App\Security\Dto\Request\UserPaginateRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

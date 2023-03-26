@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security\ArgumentResolver;
 
-use App\Controller\AbstractDtoResolver;
+use App\Core\Controller\AbstractDtoResolver;
 use App\Security\Dto\Request\UserRegisterRequest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

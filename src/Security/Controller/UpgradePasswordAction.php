@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security\Controller;
 
-use App\Controller\Controller;
+use App\Core\Controller\Controller;
 use App\Security\Dto\Request\UserPasswordRequest;
 use App\Security\Profile\CurrentProfile;
 use Symfony\Component\HttpFoundation\JsonResponse;

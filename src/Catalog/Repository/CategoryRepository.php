@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Catalog\Repository;
 
 use App\Catalog\Entity\Category;
-use App\Doctrine\Query\ServiceEntityRepository;
+use App\Core\Doctrine\Query\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

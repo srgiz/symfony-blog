@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\DependencyInjection\Compiler\IgnoreAutowirePass;
+use App\Core\DependencyInjection\Compiler\IgnoreAutowirePass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

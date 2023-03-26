@@ -1,10 +1,3 @@
-controllers:
-    # todo: снести
-    type: attribute
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-
 app_catalog:
     type: attribute
     resource: '../src/Catalog/Controller/'

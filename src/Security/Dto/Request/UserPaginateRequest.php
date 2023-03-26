@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Security\Dto\Request;
 
-use App\Backend\User\UserPaginate;
+use App\Security\Admin\UserPaginate;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserPaginateRequest

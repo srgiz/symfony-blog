@@ -19,21 +19,17 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/ConsoleApplication.php'
-            - '../src/DependencyInjection/'
-            - '../src/Doctrine/Functions/'
-            - '../src/Doctrine/Mapping/'
-            - '../src/Doctrine/Query/'
-            - '../src/Doctrine/Types/'
-            - '../src/Doctrine/Validator/Constraints/'
-            - '../src/Dto/'
-            - '../src/Entity/'
-            - '../src/Exception/'
             - '../src/Kernel.php'
-            - '../src/Response/'
-            # module
+            - '../src/ConsoleApplication.php'
+            - '../src/Core/Doctrine/Functions/'
+            - '../src/Core/Doctrine/Mapping/'
+            - '../src/Core/Doctrine/Query/'
+            - '../src/Core/Doctrine/Types/'
+            - '../src/Core/Doctrine/Validator/Constraints/'
+            - '../src/*/DependencyInjection/'
             - '../src/*/Dto/'
             - '../src/*/Entity/'
+            - '../src/*/Exception/'
             - '../src/*/Repository/Query/'
 
 
@@ -41,5 +37,5 @@ services:
     # please note that last definitions always *replace* previous ones
 
     _instanceof:
-        App\Doctrine\EventListener\DoctrineEventSubscriber:
+        App\Core\Doctrine\EventListener\DoctrineEventSubscriber:
             tags: [ 'doctrine.event_subscriber' ]

@@ -5,7 +5,7 @@ namespace App\Catalog\Repository;
 
 use App\Catalog\Entity\Product;
 use App\Catalog\Entity\ProductAttributeValue;
-use App\Doctrine\Query\ServiceEntityRepository;
+use App\Core\Doctrine\Query\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

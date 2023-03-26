@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Security\Profile;
 
-use App\EventSubscriber\KernelResponseHeadersSubscriber;
+use App\Core\Dto\Response\JsonResponseDto;
+use App\Core\EventSubscriber\KernelResponseHeadersSubscriber;
 use App\Exception\HttpException;
-use App\Response\JsonResponseDto;
 use App\Security\Entity\User;
 use App\Security\Entity\UserToken;
 use Doctrine\ORM\EntityManagerInterface;
