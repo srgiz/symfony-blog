@@ -25,7 +25,7 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $statusCode = $exception->getCode();
+        $statusCode = (int)$exception->getCode();
         $message = $exception->getMessage();
         $headers = [];
 

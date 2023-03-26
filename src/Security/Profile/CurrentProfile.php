@@ -32,7 +32,7 @@ readonly class CurrentProfile
 
     public function createCookie(UserToken $token): Cookie
     {
-        return Cookie::create($this->getCookieName(), $token->getToken(), strtotime($this->expire));
+        return Cookie::create($this->getCookieName(), $token->getToken(), (int)strtotime($this->expire));
     }
 
     public function register(string $email, string $password): JsonResponseDto

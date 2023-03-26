@@ -37,7 +37,7 @@ class ToReal extends FunctionNode
         if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
 
-            $this->default = $parser->ArithmeticPrimary();
+            $this->default = $parser->ArithmeticPrimary(); // @phpstan-ignore-line
         }
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);

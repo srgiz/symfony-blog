@@ -1,9 +1,12 @@
 # vendor/bin/phpstan analyze src
 parameters:
-    level: 6
+    level: 7
+    #checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     paths:
         - src/
+    excludePaths:
+        - src/*/ArgumentResolver/* # этим занимается валидация
     modulite:
         # project root is where composer.json/composer.lock/vendor exist
         projectRoot: .

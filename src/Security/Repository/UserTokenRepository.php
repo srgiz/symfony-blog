@@ -34,6 +34,7 @@ class UserTokenRepository extends ServiceEntityRepository
 
     public function createNew(User $user): UserToken
     {
+        // todo. перенести в profile
         $token = $this->passwordHasher->hashPassword($user, $user->getPassword());
 
         $userToken = (new UserToken())

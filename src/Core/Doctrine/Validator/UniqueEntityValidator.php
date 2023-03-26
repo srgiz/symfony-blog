@@ -92,7 +92,7 @@ class UniqueEntityValidator extends ConstraintValidator
             return;
         }
 
-        $invalidValue = json_encode($invalidValue);
+        $invalidValue = (string)json_encode($invalidValue);
 
         $this->context->buildViolation($constraint->message)
             ->atPath($constraint->fields[0])
