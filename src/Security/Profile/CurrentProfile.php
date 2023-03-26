@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Security\Profile;
 
 use App\Core\Dto\Response\JsonResponseDto;
-use App\Core\EventSubscriber\KernelResponseHeadersSubscriber;
+use App\Core\Http\HeadersHandlerInterface;
 use App\Exception\HttpException;
 use App\Security\Entity\User;
 use App\Security\Entity\UserToken;
@@ -20,7 +20,7 @@ readonly class CurrentProfile
         private EntityManagerInterface $em,
         private TokenStorageInterface $currentToken,
         private UserPasswordHasherInterface $passwordHasher,
-        private KernelResponseHeadersSubscriber $headers,
+        private HeadersHandlerInterface $headers,
         #[Autowire('%app.security.token.cookie%')] private string $name,
         #[Autowire('%app.security.token.expire%')] private string $expire,
     ) {}

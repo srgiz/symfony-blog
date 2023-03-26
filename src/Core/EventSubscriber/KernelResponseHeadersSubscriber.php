@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Core\EventSubscriber;
 
+use App\Core\Http\HeadersHandlerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class KernelResponseHeadersSubscriber implements EventSubscriberInterface
+class KernelResponseHeadersSubscriber implements EventSubscriberInterface, HeadersHandlerInterface
 {
     /** @var array<string, string> */
     private array $headers = [];
