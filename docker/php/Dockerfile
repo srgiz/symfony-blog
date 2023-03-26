@@ -19,6 +19,9 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION --snapshot \
     && rm -f /tmp/composer-setup.*
 
+# frontend
+RUN apk add --no-cache --update nodejs npm yarn
+
 # php
 ENV XDEBUG_VERSION=3.2.0
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
@@ -27,16 +30,16 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
         icu-dev \
         # pgsql
         postgresql-dev \
+        # zip
+        libzip-dev \
     && docker-php-ext-install \
         opcache \
         intl \
         pdo_pgsql \
+        zip \
     && pecl install xdebug-$XDEBUG_VERSION \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps
-
-# frontend
-RUN apk add --no-cache --update nodejs npm yarn
 
 WORKDIR /var/www
 

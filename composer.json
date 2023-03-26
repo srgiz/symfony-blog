@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*",
+        "ext-zip": "*",
         "composer/package-versions-deprecated": "^1.0",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.1",
