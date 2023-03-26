@@ -22,7 +22,7 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
         #[Autowire('%kernel.environment%')] private readonly string $kernelEnvironment,
     ) {}
 
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         $statusCode = $exception->getCode();
@@ -63,6 +63,9 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
         $event->setResponse(new JsonResponse($json, $statusCode, $headers, true));
     }
 
+    /**
+     * @return null|array<string, mixed>
+     */
     private function formatViolations(?ConstraintViolationListInterface $violations): ?array
     {
         if (!$violations) {

@@ -8,5 +8,8 @@ interface UserPaginateInterface
 {
     public function paginate(UserPaginateRequest $request): JsonResponseDto;
 
+    /**
+     * @return string[]
+     */
     public static function getListOrderBy(): array;
 }

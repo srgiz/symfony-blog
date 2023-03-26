@@ -11,7 +11,7 @@ class UniqueEntity extends Constraint
 {
     public const NOT_UNIQUE_ERROR = '23bd9dbf-6b9b-41cd-a99e-4844bcf3077f';
 
-    /** @var array<string, string> ['assertField' => 'entityField'] or ['entityField'] */
+    /** @var array<mixed, string> ['assertField' => 'entityField'] or ['entityField'] */
     public array $fields = [];
 
     public ?string $entityClass = null;
@@ -20,6 +20,11 @@ class UniqueEntity extends Constraint
 
     public string $identifier = 'id';
 
+    /**
+     * @see \Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity
+     * @param null|array<string, mixed> $options
+     * @param null|string[] $fields
+     */
     public function __construct(
         array $options = null,
         array $fields = null,

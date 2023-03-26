@@ -1,0 +1,15 @@
+# vendor/bin/phpstan analyze src
+parameters:
+    level: 6
+    checkGenericClassInNonGenericObjectType: false
+    paths:
+        - src/
+    modulite:
+        # project root is where composer.json/composer.lock/vendor exist
+        projectRoot: .
+        # typically, projectRoot/src ; .modulite.yaml files will be searched recursively
+        srcRoot: src/
+
+# vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyze src
+includes:
+    - vendor/vkcom/modulite-phpstan/extension.neon

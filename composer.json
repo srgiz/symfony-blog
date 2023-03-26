@@ -45,6 +45,7 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "^6.2",
         "symfony/css-selector": "^6.2",
@@ -53,7 +54,8 @@
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "^6.2",
         "symfony/var-dumper": "^6.2",
-        "symfony/web-profiler-bundle": "^6.2"
+        "symfony/web-profiler-bundle": "^6.2",
+        "vkcom/modulite-phpstan": "@dev"
     },
     "config": {
         "optimize-autoloader": true,
@@ -112,5 +114,9 @@
             "allow-contrib": false,
             "require": "6.2.*"
         }
-    }
+    },
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/SerginhoLD/modulite-phpstan"
+    }]
 }

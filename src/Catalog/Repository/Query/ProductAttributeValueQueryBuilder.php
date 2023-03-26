@@ -11,7 +11,7 @@ class ProductAttributeValueQueryBuilder extends QueryBuilder
     private const FILTER_TYPE_RANGE = 'range';
 
     /**
-     * @param array $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
+     * @param array<string, mixed> $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
      * @example jsonb_exists_any(jsonb_object_field(v.values, 'color'), array['red', 'blue']) and (to_real(jsonb_extract_path_text(v.values, 'width', '0')) between 0 and 2)
      */
     public function andWhereFilter(array $filter): static

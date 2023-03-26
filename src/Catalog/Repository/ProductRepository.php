@@ -33,7 +33,8 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
+     * @param array<string, mixed> $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
+     * @param array<string, string> $orderBy
      * @return Product[]
      */
     public function findByFilter(array $filter, array $orderBy = null, int $limit = null, int $offset = null): array

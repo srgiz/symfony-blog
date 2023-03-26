@@ -96,6 +96,10 @@ class UserPaginate implements UserPaginateInterface
         return $dto;
     }
 
+    /**
+     * @param null|array<string, string> $requestOrderBy
+     * @return array<string, string>
+     */
     private function createOrderBy(?array $requestOrderBy): array
     {
         if (null === $requestOrderBy) {
@@ -140,6 +144,9 @@ class UserPaginate implements UserPaginateInterface
         return $total > $nextOffset ? $nextOffset : null;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getListOrderBy(): array
     {
         return array_keys(self::ORDER_BY);

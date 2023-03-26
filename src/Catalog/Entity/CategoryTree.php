@@ -17,22 +17,22 @@ class CategoryTree
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: 'bigint')]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\Column(type: 'integer')]
-    private ?int $categoryId = null;
+    private ?int $categoryId = null; // @phpstan-ignore-line
 
     #[ORM\Column(type: 'integer')]
-    private ?int $childId = null;
+    private ?int $childId = null; // @phpstan-ignore-line
 
     #[ORM\Column(type: 'integer')]
-    private ?int $level = null;
+    private ?int $level = null; // @phpstan-ignore-line
 
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?Category $category = null;
+    private ?Category $category = null; // @phpstan-ignore-line
 
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(name: 'child_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?Category $child = null;
+    private ?Category $child = null; // @phpstan-ignore-line
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Nav\Dto;
 
-class NavItem
+final class NavItem
 {
-    /** @var array<static> */
+    /** @var array<self> */
     private array $items = [];
 
     public function __construct(
@@ -14,14 +14,14 @@ class NavItem
     ) {}
 
     /**
-     * @return array<static>
+     * @return array<self>
      */
     public function getItems(): array
     {
         return $this->items;
     }
 
-    public function addItem(NavItem $item): void
+    public function addItem(self $item): void
     {
         $this->items[] = $item;
     }

@@ -34,6 +34,9 @@ class ProductAttributeValue
         return $this;
     }
 
+    /**
+     * @return array<string, string[]>
+     */
     public function getValues(): array
     {
         return $this->values;

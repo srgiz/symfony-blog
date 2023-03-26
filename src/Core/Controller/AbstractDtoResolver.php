@@ -15,6 +15,9 @@ abstract class AbstractDtoResolver implements ValueResolverInterface
         protected ValidatorInterface $validator,
     ) {}
 
+    /**
+     * @return iterable<object>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if ($argument->getType() !== $this->getClassName()) {

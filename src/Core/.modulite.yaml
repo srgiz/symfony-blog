@@ -1,0 +1,40 @@
+name: "@core"
+description: ""
+namespace: "App\\Core\\"
+
+# "Public API" of the modulite: classes, functions, constants, etc.
+# Symbols not listed here will be internal.
+export:
+  - "\\App\\Core\\DependencyInjection\\Compiler\\IgnoreAutowirePass"
+  - "\\App\\Core\\Dto\\Paginate\\Paginate"
+  - "\\App\\Core\\Dto\\Paginate\\SortLink"
+  - "\\App\\Core\\Dto\\Paginate\\PageLink"
+  - "\\App\\Core\\Doctrine\\Query\\QueryBuilder"
+  - "\\App\\Core\\Doctrine\\Query\\ServiceEntityRepository"
+  - "\\App\\Core\\Controller\\AbstractDtoResolver"
+  - "\\App\\Core\\Controller\\Controller"
+  - "\\App\\Core\\Http\\HeadersHandlerInterface"
+  - "\\App\\Core\\Exception\\HttpException"
+  - "\\App\\Core\\Dto\\Response\\JsonResponseDto"
+
+# Class members to exclude, they override "export".
+force-internal:
+
+# Dependencies: other modulites, global classes, defines, etc.
+require:
+  - "#doctrine/collections"
+  - "#doctrine/dbal"
+  - "#doctrine/doctrine-bundle"
+  - "#doctrine/event-manager"
+  - "#doctrine/orm"
+  - "#doctrine/persistence"
+  - "#symfony/dependency-injection"
+  - "#symfony/event-dispatcher"
+  - "#symfony/framework-bundle"
+  - "#symfony/http-foundation"
+  - "#symfony/http-kernel"
+  - "#symfony/serializer"
+  - "#symfony/validator"
+
+# Granting partial access to internal symbols, "as an exception".
+allow-internal-access:

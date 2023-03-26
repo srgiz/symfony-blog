@@ -5,6 +5,9 @@ namespace App\Core\Dto\Paginate;
 
 class Paginate
 {
+    /**
+     * @var iterable<object>
+     */
     private iterable $items = [];
 
     /** @var array<SortLink> */
@@ -13,11 +16,17 @@ class Paginate
     /** @var array<PageLink> */
     private array $pageLinks = [];
 
+    /**
+     * @return iterable<object>
+     */
     public function getItems(): iterable
     {
         return $this->items;
     }
 
+    /**
+     * @param iterable<object> $items
+     */
     public function setItems(iterable $items): static
     {
         $this->items = $items;

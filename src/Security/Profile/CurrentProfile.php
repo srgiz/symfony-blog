@@ -63,7 +63,7 @@ readonly class CurrentProfile
 
     public function upgradePassword(string $oldPassword, string $newPassword): JsonResponseDto
     {
-        $user = $this->currentToken?->getToken()?->getUser();
+        $user = $this->currentToken->getToken()?->getUser();
 
         if (!$user instanceof User) {
             throw new HttpException(403);

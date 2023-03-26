@@ -6,6 +6,7 @@ namespace App\Core\Doctrine\Validator;
 use App\Core\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -20,7 +21,7 @@ class UniqueEntityValidator extends ConstraintValidator
         $this->doctrine = $doctrine;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueEntity) {
             throw new Exception\UnexpectedTypeException($constraint, UniqueEntity::class);
@@ -42,6 +43,7 @@ class UniqueEntityValidator extends ConstraintValidator
             $fields[$assertField] = $entityField;
         }
 
+        /** @var class-string $entityClass */
         $entityClass = $constraint->entityClass ?? $value::class;
         $em = $this->doctrine->getManagerForClass($entityClass);
 
@@ -52,6 +54,7 @@ class UniqueEntityValidator extends ConstraintValidator
         }
 
         // если указан класс сущности, то нужно брать ReflectionClass от dto $value, иначе из доктрины можно взять ReflectionClass сущности $value
+        // @phpstan-ignore-next-line
         $reflectionClass = $constraint->entityClass ? new \ReflectionClass($value::class) : $em->getClassMetadata($value::class)->getReflectionClass();
         $criteria = Criteria::create();
         $invalidValue = [];
@@ -74,7 +77,10 @@ class UniqueEntityValidator extends ConstraintValidator
             }
         }
 
-        $count = $em->getRepository($entityClass)
+        /** @var EntityRepository $repository */
+        $repository = $em->getRepository($entityClass);
+
+        $count = $repository
             ->createQueryBuilder('e')
             ->select(sprintf('count(e.%s)', $constraint->identifier))
             ->addCriteria($criteria)

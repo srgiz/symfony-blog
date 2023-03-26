@@ -74,6 +74,9 @@ class StringArrayType extends Type
         return '{' . $sqlValue . '}';
     }
 
+    /**
+     * @return string[]|null
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?array
     {
         if (null === $value || is_array($value)) {

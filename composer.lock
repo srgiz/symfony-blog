@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "456142b8b39e5943ad6266bff43d25bc",
+    "content-hash": "d3dd760a81471918d80ed2d07f352858",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -6878,6 +6878,68 @@
             "time": "2022-02-21T01:04:05+00:00"
         },
         {
+            "name": "phpstan/phpstan",
+            "version": "1.10.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-03-24T10:28:16+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "9.2.26",
             "source": {
@@ -8848,11 +8910,73 @@
                 }
             ],
             "time": "2021-07-28T10:34:58+00:00"
+        },
+        {
+            "name": "vkcom/modulite-phpstan",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SerginhoLD/modulite-phpstan.git",
+                "reference": "73afb50931464508c739142115a6b81be866aee0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SerginhoLD/modulite-phpstan/zipball/73afb50931464508c739142115a6b81be866aee0",
+                "reference": "73afb50931464508c739142115a6b81be866aee0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^1.8",
+                "symfony/polyfill-php80": "^v1.27.0",
+                "symfony/yaml": "^5.4 || ^6.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan-phpunit": "^1.2",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ModulitePHPStan\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "ModuliteTests\\": "tests/"
+                },
+                "classmap": [
+                    "tests/"
+                ]
+            },
+            "scripts": {
+                "test:unit": [
+                    "vendor/bin/phpunit --configuration tests/phpunit.xml"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHPStan plugin providing Modulite support for plain PHP (not KPHP) projects",
+            "support": {
+                "source": "https://github.com/SerginhoLD/modulite-phpstan/tree/master"
+            },
+            "time": "2023-03-26T16:48:01+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "vkcom/modulite-phpstan": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
