@@ -51,6 +51,7 @@
             {% endfor #}
         </div>
         <div class="btn-group">
+            <a class="btn-group__item btn" href="{{ path('admin_product_view') }}">Создать товар</a>
             <div class="btn-group__item">Отступ: {{ data.offset }}</div>
             <div class="btn-group__item">Шаг: {{ data.limit }}</div>
             <div class="btn-group__item">Всего: {{ data.total }}</div>

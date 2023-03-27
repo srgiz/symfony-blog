@@ -1,0 +1,30 @@
+{# templates/admin/products/view.html.twig #}
+{% extends 'admin.html.twig' %}
+
+{% block title %}Редактирование товара{% endblock %}
+
+{% block content %}
+    <h1>
+        Редактирование товара
+        {% if data.id is defined and data.id %}
+            #{{ data.id }}
+        {% endif %}
+    </h1>
+
+    <form class="form" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('product_edit') }}">
+
+        {# if data.error %}
+            <div class="alert">{{ data.error }}</div>
+        {% endif #}
+
+        <div class="form__item">
+            <label class="form__label" for="inputName">Название</label>
+            <input type="text" value="{{ data.id is defined ? data.name : '' }}" name="name" id="inputName" required>
+        </div>
+
+        <div class="form__item">
+            <button class="btn--primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}
