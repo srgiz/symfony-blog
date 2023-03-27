@@ -15,9 +15,9 @@ class QueryBuilder extends ORM\QueryBuilder
     {
         /**
          * Переносим параметры в основной запрос
-         * @var ORM\Query\Parameter $parameter
          */
         foreach ($subQuery->getParameters() as $parameter) {
+            /** @psalm-suppress MixedArgument */
             $this->setParameter($parameter->getName(), $parameter->getValue(), $parameter->getType());
         }
 

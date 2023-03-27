@@ -17,6 +17,7 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class JsonbExtractPathText extends FunctionNode
 {
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Node $jsonb;
 
     /** @var Node[] */

@@ -26,7 +26,7 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
         $statusCode = (int)$exception->getCode();
-        $message = $exception->getMessage();
+        //$message = $exception->getMessage();
         $headers = [];
 
         if ($exception instanceof HttpExceptionInterface) {
@@ -43,10 +43,10 @@ class KernelExceptionSubscriber implements EventSubscriberInterface
             }
 
             $statusCode = 500;
-            $message = Response::$statusTexts[$statusCode];
+            //$message = Response::$statusTexts[$statusCode];
 
         } else if ('prod' === $this->kernelEnvironment) {
-            $message = Response::$statusTexts[$statusCode];
+            //$message = Response::$statusTexts[$statusCode];
         }
 
         $errors = $exception instanceof ViolationExceptionInterface ? $this->formatViolations($exception->getViolations()) : null;

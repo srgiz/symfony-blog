@@ -53,7 +53,7 @@ readonly class CurrentProfile
 
     private function createUserToken(User $user): UserToken
     {
-        $token = $this->passwordHasher->hashPassword($user, $user->getPassword());
+        $token = $this->passwordHasher->hashPassword($user, (string)$user->getPassword());
 
         return (new UserToken())
             ->setToken($token)

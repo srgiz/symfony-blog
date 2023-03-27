@@ -8,12 +8,13 @@ use App\Security\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueEntity(fields: ['email'], entityClass: User::class)]
-class UserRegisterRequest
+readonly class UserRegisterRequest
 {
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    public ?string $email = null;
-
-    #[Assert\NotBlank]
-    public ?string $password = null;
+    public function __construct(
+        #[Assert\NotBlank]
+        #[Assert\Email]
+        public string $email,
+        #[Assert\NotBlank]
+        public string $password,
+    ) {}
 }

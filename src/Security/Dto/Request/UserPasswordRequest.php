@@ -5,11 +5,12 @@ namespace App\Security\Dto\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserPasswordRequest
+readonly class UserPasswordRequest
 {
-    #[Assert\NotBlank]
-    public ?string $oldPassword = null;
-
-    #[Assert\NotBlank]
-    public ?string $newPassword = null;
+    public function __construct(
+        #[Assert\NotBlank]
+        public string $oldPassword,
+        #[Assert\NotBlank]
+        public string $newPassword,
+    ) {}
 }

@@ -40,7 +40,7 @@ class TokenAuthenticator extends AbstractAuthenticator
 
         // todo: check password hash
 
-        return new Passport\SelfValidatingPassport(new Passport\Badge\UserBadge($userToken->getUser()->getEmail()));
+        return new Passport\SelfValidatingPassport(new Passport\Badge\UserBadge((string)$userToken->getUser()?->getEmail()));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

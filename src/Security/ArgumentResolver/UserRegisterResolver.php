@@ -17,11 +17,10 @@ class UserRegisterResolver extends AbstractDtoResolver
 
     protected function createRequestDto(Request $request, ArgumentMetadata $argument): object
     {
-        $dto = new UserRegisterRequest();
-        $dto->email = $request->request->get('email');
-        $dto->password = $request->request->get('password');
-
-        return $dto;
+        return new UserRegisterRequest(
+            (string)$request->request->get('email'),
+            (string)$request->request->get('password'),
+        );
     }
 }
 

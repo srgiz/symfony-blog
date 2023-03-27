@@ -16,8 +16,10 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class JsonbObjectField extends FunctionNode
 {
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Node $jsonb;
 
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Node $key;
 
     public function getSql(SqlWalker $sqlWalker): string

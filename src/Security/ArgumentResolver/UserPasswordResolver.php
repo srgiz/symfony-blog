@@ -17,10 +17,9 @@ class UserPasswordResolver extends AbstractDtoResolver
 
     protected function createRequestDto(Request $request, ArgumentMetadata $argument): object
     {
-        $dto = new UserPasswordRequest();
-        $dto->oldPassword = $request->request->get('oldPassword');
-        $dto->newPassword = $request->request->get('newPassword');
-
-        return $dto;
+        return new UserPasswordRequest(
+            (string)$request->request->get('oldPassword'),
+            (string)$request->request->get('newPassword'),
+        );
     }
 }

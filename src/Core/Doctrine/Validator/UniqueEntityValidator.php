@@ -23,6 +23,7 @@ class UniqueEntityValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
+        /** @var object $value */
         if (!$constraint instanceof UniqueEntity) {
             throw new Exception\UnexpectedTypeException($constraint, UniqueEntity::class);
         }
@@ -31,7 +32,7 @@ class UniqueEntityValidator extends ConstraintValidator
             throw new Exception\MissingOptionsException('Option "fields" cannot be empty', ['fields']);
         }
 
-        /** @var array<string, string> ['assertField' => 'entityField'] */
+        /** @var array<string, string> $fields ['assertField' => 'entityField'] */
         $fields = [];
 
         foreach ($constraint->fields as $k => $entityField) {
@@ -57,26 +58,16 @@ class UniqueEntityValidator extends ConstraintValidator
 
         foreach ($fields as $assertField => $entityField) {
             $assertProperty = $reflectionClass->getProperty($assertField);
-            $isPublic = $assertProperty->isPublic();
-
-            if (!$isPublic) {
-                $assertProperty->setAccessible(true);
-            }
-
-            $assertValue = $assertProperty->getValue($value);
+            $assertValue = (string)$assertProperty->getValue($value);
 
             $criteria->andWhere(new Comparison($entityField, Comparison::EQ, $assertValue));
             $invalidValue[$entityField] = $assertValue;
-
-            if (!$isPublic) {
-                $assertProperty->setAccessible(false);
-            }
         }
 
         /** @var EntityRepository $repository */
         $repository = $em->getRepository($entityClass);
 
-        $count = $repository
+        $count = (int)$repository
             ->createQueryBuilder('e')
             ->select(sprintf('count(e.%s)', $constraint->identifier))
             ->addCriteria($criteria)

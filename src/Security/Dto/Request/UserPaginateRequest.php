@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserPaginateRequest
 {
-    /** @var array<string, mixed> */
+    /** @var array */
     public array $query = [];
 
     #[Assert\GreaterThanOrEqual(0)]

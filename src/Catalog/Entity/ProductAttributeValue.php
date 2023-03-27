@@ -53,6 +53,7 @@ class ProductAttributeValue
 
         foreach ($values as $attribute => $attrValues) {
             foreach ($attrValues as $value) {
+                /** @psalm-suppress RedundantCastGivenDocblockType */
                 $this->values[$attribute][] = (string)$value;
             }
 

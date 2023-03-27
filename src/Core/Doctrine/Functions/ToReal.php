@@ -14,6 +14,7 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class ToReal extends FunctionNode
 {
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Node $value;
 
     private ?Node $default = null;
@@ -37,7 +38,13 @@ class ToReal extends FunctionNode
         if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
 
-            $this->default = $parser->ArithmeticPrimary(); // @phpstan-ignore-line
+            $default = $parser->ArithmeticPrimary();
+
+            if (!$default instanceof Node) {
+                throw new \LogicException('Invalid type');
+            }
+
+            $this->default = $default;
         }
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);

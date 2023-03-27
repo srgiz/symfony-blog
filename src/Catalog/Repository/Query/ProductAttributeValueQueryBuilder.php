@@ -11,7 +11,7 @@ class ProductAttributeValueQueryBuilder extends QueryBuilder
     private const FILTER_TYPE_RANGE = 'range';
 
     /**
-     * @param array<string, mixed> $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
+     * @param array<string, array> $filter ['enum' => ['color' => ['red', 'blue']], 'range' => ['width' => [0, 2]]]
      * @example jsonb_exists_any(jsonb_object_field(v.values, 'color'), array['red', 'blue']) and (to_real(jsonb_extract_path_text(v.values, 'width', '0')) between 0 and 2)
      */
     public function andWhereFilter(array $filter): static
@@ -19,11 +19,8 @@ class ProductAttributeValueQueryBuilder extends QueryBuilder
         $alias = $this->getRootAliases()[0];
 
         foreach ($filter as $type => $props) {
+            /** @var array<string, array> $props */
             foreach ($props as $code => $values) {
-                if (!is_array($values)) {
-                    $values = [$values];
-                }
-
                 if (empty($values)) {
                     // не передан фильтр
                     continue;

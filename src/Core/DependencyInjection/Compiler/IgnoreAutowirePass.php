@@ -12,7 +12,7 @@ class IgnoreAutowirePass implements CompilerPassInterface
     {
         $definitions = $container->getDefinitions();
 
-        foreach ($definitions as $id => $definition) {
+        foreach ($definitions as $id => $_definition) {
             if (class_exists($id)) {
                 $reflection = new \ReflectionClass($id);
                 $attributes = $reflection->getAttributes(IgnoreAutowire::class);

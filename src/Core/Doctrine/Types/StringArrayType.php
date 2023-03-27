@@ -16,11 +16,11 @@ class StringArrayType extends Type
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $column['length'] = $column['length'] ?? 255;
-        return "VARCHAR({$column['length']})[]";
+        $length = intval($column['length'] ?? 255);
+        return "VARCHAR({$length})[]";
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
             return null;
@@ -34,6 +34,7 @@ class StringArrayType extends Type
             );
         }
 
+        /** @psalm-var string[]|null $value */
         $sqlValue = '';
 
         if (!empty($value)) {
@@ -77,10 +78,11 @@ class StringArrayType extends Type
     /**
      * @return array<int, mixed>|null
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?array
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?array
     {
-        if (null === $value || is_array($value)) {
-            return $value;
+        /** @psalm-var string|null $value */
+        if (null === $value) {
+            return null;
         }
 
         $csv = mb_substr($value, 1, mb_strlen($value) - 2); // {}
