@@ -1,0 +1,59 @@
+{# templates/admin/products/index.html.twig #}
+{% extends 'admin.html.twig' %}
+
+{% block content %}
+    <h1>Товары</h1>
+
+    <div class="l-row-flex-space">
+        <div class="btn-group">
+            <span class="btn-group__item">Сортировка:</span>
+            <!--
+            {# for sort in data.sortLinks %}
+                <a class="btn-group__item" href="{{ sort.url }}">{{ sort.name|raw }}</a>
+            {% endfor #}-->
+        </div>
+        <div class="btn-group">
+            <div class="btn-group__item">Отступ: {{ data.offset }}</div>
+            <div class="btn-group__item">Шаг: {{ data.limit }}</div>
+            <div class="btn-group__item">Всего: {{ data.total }}</div>
+        </div>
+    </div>
+
+    <style>
+        td:nth-of-type(1):before { content: 'id' }
+        td:nth-of-type(2):before { content: 'E-mail' }
+    </style>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>E-mail</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in data.items %}
+            <tr>
+                <td>{{ product.id|e }}</td>
+                <td>
+                    <a href="{{ path('admin_product_view', { id: product.id }) }}">
+                        {{ product.name|e }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="l-row-flex-space">
+        <div class="btn-group">
+            {# for btn in data.pageLinks %}
+                <a class="btn-group__item btn" href="{{ btn.url }}">{{ btn.name|raw }}</a>
+            {% endfor #}
+        </div>
+        <div class="btn-group">
+            <div class="btn-group__item">Отступ: {{ data.offset }}</div>
+            <div class="btn-group__item">Шаг: {{ data.limit }}</div>
+            <div class="btn-group__item">Всего: {{ data.total }}</div>
+        </div>
+    </div>
+{% endblock %}

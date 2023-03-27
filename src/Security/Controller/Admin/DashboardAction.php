@@ -9,7 +9,7 @@ use App\Security\Dto\Request\UserPaginateRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/backend', name: 'backend_dashboard')]
+#[Route(path: '/admin', name: 'backend_dashboard')]
 class DashboardAction extends Controller
 {
     public function __construct(
@@ -21,7 +21,7 @@ class DashboardAction extends Controller
         $dto = $this->userPaginate->paginate($userRequest);
         //return $this->json($dto);
 
-        return $this->render('backend/users/index.html.twig', [
+        return $this->render('admin/users/index.html.twig', [
             //'meta' => $dto->getMeta(),
             'data' => $dto->getData(),
         ]);

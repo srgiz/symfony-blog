@@ -16,6 +16,7 @@ final class Version20220711204415 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // todo. проверить
         $this->addSql('
         CREATE OR REPLACE FUNCTION init_product_attribute_value() RETURNS TRIGGER AS $$
         BEGIN
