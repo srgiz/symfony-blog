@@ -11,7 +11,7 @@
         {% endif %}
     </h1>
 
-    <form class="form" method="post">
+    <form class="form" method="post" action="{{ path('admin_product_edit', { id: data.id is defined ? data.id : '' }) }}">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('product_edit') }}">
 
         {# if data.error %}
