@@ -8,10 +8,10 @@ namespace App\Core\Doctrine\Mapping;
  * Атрибут для информирования использования триггера
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class Trigger
+final readonly class Trigger
 {
     public function __construct(
-        public readonly string $name,
-        public readonly ?string $description = null,
+        public string $name,
+        public ?string $description = null,
     ) {}
 }

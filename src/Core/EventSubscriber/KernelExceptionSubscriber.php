@@ -15,11 +15,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class KernelExceptionSubscriber implements EventSubscriberInterface
+readonly class KernelExceptionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly SerializerInterface $serializer,
-        #[Autowire('%kernel.environment%')] private readonly string $kernelEnvironment,
+        private SerializerInterface $serializer,
+        #[Autowire('%kernel.environment%')] private string $kernelEnvironment,
     ) {}
 
     public function onKernelException(ExceptionEvent $event): void

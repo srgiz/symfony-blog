@@ -26,6 +26,7 @@ services:
             - '../src/Core/Doctrine/Query/'
             - '../src/Core/Doctrine/Types/'
             - '../src/Core/Doctrine/Validator/Constraints/'
+            - '../src/*/Attribute/'
             - '../src/*/DependencyInjection/'
             - '../src/*/Dto/'
             - '../src/*/Entity/'
