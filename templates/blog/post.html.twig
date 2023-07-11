@@ -1,8 +1,10 @@
 {# templates/blog/post.html.twig #}
 {% extends "base.html.twig" %}
 
+{% block title %}{{ post.title }}{% endblock %}
+
 {% block body %}
     <h1>{{ post.title }}</h1>
-
-    {{ markdown.parse(post.content)|raw }}
+    <div class="md-text">{{ markdown.parse(post.preview)|raw }}</div>
+    <div class="md-text">{{ markdown.parse(post.content)|raw }}</div>
 {% endblock %}

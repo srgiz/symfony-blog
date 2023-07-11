@@ -1,16 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<html lang="ru" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦥</text></svg>">
+    <link rel="stylesheet" href="{{ asset('assets/app/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/app/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/hljs/styles/dark.css') }}">
+    <title>{% block title %}Блог SerginhoLD{% endblock %}</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-body-tertiary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">🦥</a>
+        <button data-bs-toggle="collapse" class="navbar-toggler border-0 p-0" type="button" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarText" class="collapse navbar-collapse mt-2 mt-md-0">
+            <form role="search" action="search">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="q" placeholder="Поиск" aria-label="Search" value="{% if q is defined %}{{ q | e }}{% endif %}">
+                </div>
+            </form>
+            <span class="me-auto"></span>
+            {% block nav %}
+                <ul class="navbar-nav mt-2 mt-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link icon-link" href="https://github.com/SerginhoLD" target="_blank">
+                            {% include 'icon/bs-github.html.twig' %}
+                        </a>
+                    </li>
+                </ul>
+            {% endblock %}
+        </div>
+    </div>
+</nav>
+<div class="container g-4">{% block body %}{% endblock %}</div>
+<script src="{{ asset('assets/app/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/hljs/highlight.min.js') }}"></script>
+<script src="{{ asset('assets/app/js/custom.js') }}"></script>
+</body>
 </html>
