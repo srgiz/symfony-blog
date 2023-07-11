@@ -2,5 +2,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    {{ post.title }}
+    <h1>{{ post.title }}</h1>
+
+    {{ markdown.parse(post.content)|raw }}
 {% endblock %}
