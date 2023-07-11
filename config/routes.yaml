@@ -1,7 +1,3 @@
-app_catalog:
+app_blog:
     type: attribute
-    resource: '../src/Catalog/Controller/'
-
-app_security:
-    type: attribute
-    resource: '../src/Security/Controller/'
+    resource: ../src/Blog/Controller/

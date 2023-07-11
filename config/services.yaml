@@ -4,9 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    container.dumper.inline_factories: true
-    app.security.token.cookie: 'i'
-    app.security.token.expire: '+1 day'
 
 services:
     # default configuration for services in *this* file
@@ -19,24 +16,9 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/ConsoleApplication.php'
-            - '../src/Core/Doctrine/Functions/'
-            - '../src/Core/Doctrine/Mapping/'
-            - '../src/Core/Doctrine/Query/'
-            - '../src/Core/Doctrine/Types/'
-            - '../src/Core/Doctrine/Validator/Constraints/'
-            - '../src/*/Attribute/'
-            - '../src/*/DependencyInjection/'
-            - '../src/*/Dto/'
-            - '../src/*/Entity/'
-            - '../src/*/Exception/'
-            - '../src/*/Repository/Query/'
-
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    _instanceof:
-        App\Core\Doctrine\EventListener\DoctrineEventSubscriber:
-            tags: [ 'doctrine.event_subscriber' ]

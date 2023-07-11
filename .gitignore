@@ -19,11 +19,3 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-# рассмотреть вариант коммитить все это:
-/html/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
