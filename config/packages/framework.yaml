@@ -18,6 +18,9 @@ framework:
     php_errors:
         log: true
 
+    assets:
+        version_strategy: 'App\Core\Asset\FileVersionStrategy'
+
 when@test:
     framework:
         test: true
