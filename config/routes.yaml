@@ -5,3 +5,7 @@ app_blog:
 app_markdown:
     type: attribute
     resource: ../src/Markdown/Controller/
+
+app_security:
+    type: attribute
+    resource: ../src/Security/Controller/
