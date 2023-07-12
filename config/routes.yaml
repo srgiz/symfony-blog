@@ -1,3 +1,7 @@
 app_blog:
     type: attribute
     resource: ../src/Blog/Controller/
+
+app_markdown:
+    type: attribute
+    resource: ../src/Markdown/Controller/

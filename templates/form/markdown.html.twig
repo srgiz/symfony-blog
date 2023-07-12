@@ -1,18 +1,46 @@
 {# templates/form/markdown.html.twig #}
-<div class="row">
-    <div class="col">
-        <label for="{{ field.vars.id }}" class="form-label">{{ field_label(field) }}<span class="text-info" title="Markdown">.md</span></label>
-    </div>
-    {#
-    <div class="col-auto">
-        <a href="#editableModal" class="text-decoration-none" role="button" data-bs-toggle="modal" data-textarea="#{{ field.vars.id }}">Предпросмотр</a>
-    </div>
-    #}
-</div>
 
-<div class="editable-block {{ field.vars.valid ? '' : 'is-invalid'}}">
-    <textarea id="{{ field.vars.id }}" class="form-control editable-textarea {{ field.vars.valid ? '' : 'is-invalid'}}" name="{{ field_name(field) }}" rows="{{ rows is defined ? rows : 14 }}" oninput="editable(this)" onscroll="editableSyncScroll(this)">{{ field_value(field) }}</textarea>
-    <pre class="form-control editable-content"><code class="language-markdown">{{ field_value(field) }}</code></pre>
+<ul class="nav nav-editable" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="btnWrite{{ field.vars.id }}" data-bs-toggle="tab" data-bs-target="#tabPreview{{ field.vars.id }}" type="button" role="tab" aria-selected="true">
+            {{ field_label(field) }}<span class="text-info" title="Markdown">.md</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="btnPreview{{ field.vars.id }}" data-bs-toggle="tab" data-bs-target="#tabWrite{{ field.vars.id }}" type="button" role="tab" aria-selected="false">
+            Предпросмотр
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content {{ field.vars.valid ? '' : 'is-invalid'}}">
+    <div class="tab-pane active editable-block" id="tabPreview{{ field.vars.id }}" role="tabpanel" aria-labelledby="btnWrite{{ field.vars.id }}" tabindex="0">
+        <textarea id="{{ field.vars.id }}" class="form-control editable-textarea {{ field.vars.valid ? '' : 'is-invalid'}}" name="{{ field_name(field) }}" rows="{{ rows is defined ? rows : 14 }}" oninput="editable(this)" onscroll="editableSyncScroll(this)">{{ field_value(field) }}</textarea>
+        <pre class="form-control editable-content"><code class="language-markdown">{{ field_value(field) }}</code></pre>
+    </div>
+    <div class="tab-pane" id="tabWrite{{ field.vars.id }}" role="tabpanel" aria-labelledby="btnPreview{{ field.vars.id }}" tabindex="0">
+        <div id="previewContent{{ field.vars.id }}" class="form-control md-text {{ field.vars.valid ? '' : 'is-invalid'}}"></div>
+    </div>
 </div>
 
 {% include 'form/errors.html.twig' with {'field': field} only %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('btnPreview{{ field.vars.id|e('js') }}').addEventListener('show.bs.tab', event => {
+            const textarea = document.getElementById('{{ field.vars.id|e('js') }}');
+            const content = document.getElementById('previewContent{{ field.vars.id|e('js') }}');
+            const data = new FormData();
+            data.append('content', textarea.value);
+
+            fetch('{{ url('markdown')|e('js') }}', {
+                method: 'POST',
+                body: data
+            })
+                .then(function(res) { return res.json() })
+                .then(function(data) {
+                    content.innerHTML = data.content;
+                })
+        })
+    })
+</script>
