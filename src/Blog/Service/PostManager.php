@@ -53,4 +53,10 @@ class PostManager
         $this->em->flush();
         return true;
     }
+
+    public function deleteById(int $id): void
+    {
+        $this->em->remove($this->em->getReference(Post::class, $id));
+        $this->em->flush();
+    }
 }

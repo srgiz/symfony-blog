@@ -6,11 +6,11 @@
 
 {% block body %}
     <h1>{{ title }}</h1>
-    {#% if post.validationHasFailed() %}
+    {% if form.vars.valid == false %}
         <div class="alert alert-danger" role="alert">
             Ошибка сохранения
         </div>
-    {% endif %#}
+    {% endif %}
 
     {{ form_start(form) }}
     <div class="mb-4">
@@ -30,26 +30,28 @@
     </div>
     <div class="btn-toolbar mb-4 justify-content-between">
         <button class="btn btn-primary" type="submit" name="save">Сохранить</button>
-        {#<a href="#" class="btn btn-dark" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</a>#}
+        {% if post.id %}
+            <a href="#deleteModal" class="btn btn-dark" role="button" data-bs-toggle="modal">Удалить</a>
+        {% endif %}
     </div>
     {{ form_end(form) }}
-    {#
-    <div class="modal fade" id="deleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Удалить запись #{{ post.id | e }}?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-footer border-top-0">
-                    <form method="post" action="{{ url() }}">
-                        <input type="hidden" name="id" value="{{ post.id | e }}">
-                        <button type="submit" name="delete" class="btn btn-danger">Удалить</button>
-                    </form>
+
+    {% if post.id %}
+        <div class="modal fade" id="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Удалить запись #{{ post.id }}?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <form method="post" action="{{ url('admin-post-delete') }}">
+                            <input type="hidden" name="id" value="{{ post.id }}">
+                            <button type="submit" name="delete" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    {{ partial('form/form-control-editable-modal') }}#}
+    {% endif %}
 {% endblock %}
