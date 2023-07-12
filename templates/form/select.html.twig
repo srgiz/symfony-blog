@@ -1,0 +1,8 @@
+{# templates/form/select.html.twig #}
+<label for="{{ field.vars.id }}" class="form-label">{{ field_label(field) }}</label>
+<select id="{{ field.vars.id }}" class="form-control {{ field.vars.valid ? '' : 'is-invalid'}}" name="{{ field_name(field) }}">
+    {% for label, value in field_choices(field) %}
+        <option value="{{ value }}" {{ field_value(field) == value ? 'selected' : '' }}>{{ label }}</option>
+    {% endfor %}
+</select>
+{% include 'form/errors.html.twig' with {'field': field} only %}

@@ -1,0 +1,8 @@
+{# templates/form/errors.html.twig #}
+{% if field.vars.valid == false %}
+    <div class="invalid-feedback">
+        {% for error in field.vars.errors %}
+            <div>{{ error.message() }}</div>
+        {% endfor %}
+    </div>
+{% endif %}

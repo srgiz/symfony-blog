@@ -1,0 +1,4 @@
+{# templates/form/textarea.html.twig #}
+<label for="{{ field.vars.id }}" class="form-label">{{ field_label(field) }}</label>
+<textarea id="{{ field.vars.id }}" class="form-control {{ field.vars.valid ? '' : 'is-invalid'}}" name="{{ field_name(field) }}">{{ field_value(field) }}</textarea>
+{% include 'form/errors.html.twig' with {'field': field} only %}

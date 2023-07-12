@@ -1,0 +1,55 @@
+{# templates/blog/admin/post-edit.html.twig #}
+{% extends "admin.html.twig" %}
+
+{% set title = post.id ? 'Редактирование записи #'~post.id : 'Создание записи' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    {#% if post.validationHasFailed() %}
+        <div class="alert alert-danger" role="alert">
+            Ошибка сохранения
+        </div>
+    {% endif %#}
+
+    {{ form_start(form) }}
+    <div class="mb-4">
+        {% include 'form/text.html.twig' with {'field': form.slug} only %}
+    </div>
+    <div class="mb-4">
+        {% include 'form/select.html.twig' with {'field': form.status} only %}
+    </div>
+    <div class="mb-4">
+        {% include 'form/text.html.twig' with {'field': form.title} only %}
+    </div>
+    <div class="mb-4">
+        {% include 'form/textarea.html.twig' with {'field': form.preview} only %}
+    </div>
+    <div class="mb-4">
+        {% include 'form/textarea.html.twig' with {'field': form.content} only %}
+    </div>
+    <div class="btn-toolbar mb-4 justify-content-between">
+        <button class="btn btn-primary" type="submit" name="save">Сохранить</button>
+        {#<a href="#" class="btn btn-dark" role="button" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить</a>#}
+    </div>
+    {{ form_end(form) }}
+    {#
+    <div class="modal fade" id="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Удалить запись #{{ post.id | e }}?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-footer border-top-0">
+                    <form method="post" action="{{ url() }}">
+                        <input type="hidden" name="id" value="{{ post.id | e }}">
+                        <button type="submit" name="delete" class="btn btn-danger">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ partial('form/form-control-editable-modal') }}#}
+{% endblock %}

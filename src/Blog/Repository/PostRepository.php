@@ -47,4 +47,13 @@ class PostRepository extends ServiceEntityRepository
             ])
         );
     }
+
+    public function paginateAll(int $offset, int $limit): Paginator
+    {
+        return new Paginator($this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+        );
+    }
 }

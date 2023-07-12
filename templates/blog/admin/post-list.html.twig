@@ -1,0 +1,28 @@
+{# templates/blog/admin/post-list.html.twig #}
+{% extends "admin.html.twig" %}
+
+{% block body %}
+    <div class="row align-items-center mb-4">
+        <div class="col"><h1 class="mb-2 mb-sm-0">Все записи</h1></div>
+        <div class="col-12 col-sm-auto">
+            <a class="btn btn-dark" href="{{ url('admin-post-edit') }}">Добавить запись</a>
+        </div>
+    </div>
+
+    {% for post in blog %}
+        <div class="card card-row mb-4">
+            <div class="card-body">
+                <div>
+                    <a class="mb-0 text-decoration-none fs-4 fw-bold" href="{{ url('admin-post-edit', {'id': post.id}) }}">{{ post.title }}</a>
+                    <span class="align-top badge {% if post.status is same as ('draft') %}bg-danger-subtle text-danger-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">{{ post.status }}</span>
+                </div>
+                {{ url('post', {'slug': post.slug}) }}
+                {% if post.preview is not empty %}
+                    <div class="md-text mt-3">{{ markdown.parse(post.preview)|raw }}</div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'paginate/paginate.html.twig' with {'route': 'admin-post-list', 'page': page, 'total': totalPages} only %}
+{% endblock %}

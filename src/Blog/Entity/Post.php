@@ -6,28 +6,34 @@ namespace App\Blog\Entity;
 use App\Blog\Enum\StatusEnum;
 use App\Blog\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Column;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[UniqueEntity('slug')]
 class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Column(type: 'integer')]
+    #[ORM\Column(type: 'integer')]
     public ?int $id = null;
 
-    #[Column(type: 'enum_status', options: ['default' => StatusEnum::Draft->value])]
+    #[ORM\Column(type: 'enum_status', options: ['default' => StatusEnum::Draft->value])]
+    #[Assert\Choice([StatusEnum::Draft->value, StatusEnum::Active->value])]
     public ?string $status = null;
 
-    #[Column(type: 'string', length: 32)]
+    #[ORM\Column(type: 'string', length: 32)]
+    #[Assert\NotBlank]
     public ?string $slug = null;
 
-    #[Column(type: 'string', length: 120)]
+    #[ORM\Column(type: 'string', length: 120)]
+    #[Assert\NotBlank]
     public ?string $title = null;
 
-    #[Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $preview = null;
 
-    #[Column(type: 'text')]
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     public ?string $content = null;
 }
