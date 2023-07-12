@@ -1,0 +1,18 @@
+{# templates/form/markdown.html.twig #}
+<div class="row">
+    <div class="col">
+        <label for="{{ field.vars.id }}" class="form-label">{{ field_label(field) }}<span class="text-info" title="Markdown">.md</span></label>
+    </div>
+    {#
+    <div class="col-auto">
+        <a href="#editableModal" class="text-decoration-none" role="button" data-bs-toggle="modal" data-textarea="#{{ field.vars.id }}">Предпросмотр</a>
+    </div>
+    #}
+</div>
+
+<div class="editable-block {{ field.vars.valid ? '' : 'is-invalid'}}">
+    <textarea id="{{ field.vars.id }}" class="form-control editable-textarea {{ field.vars.valid ? '' : 'is-invalid'}}" name="{{ field_name(field) }}" rows="{{ rows is defined ? rows : 14 }}" oninput="editable(this)" onscroll="editableSyncScroll(this)">{{ field_value(field) }}</textarea>
+    <pre class="form-control editable-content"><code class="language-markdown">{{ field_value(field) }}</code></pre>
+</div>
+
+{% include 'form/errors.html.twig' with {'field': field} only %}

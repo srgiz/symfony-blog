@@ -23,10 +23,10 @@
         {% include 'form/text.html.twig' with {'field': form.title} only %}
     </div>
     <div class="mb-4">
-        {% include 'form/textarea.html.twig' with {'field': form.preview} only %}
+        {% include 'form/markdown.html.twig' with {'field': form.preview, 'rows': 4} only %}
     </div>
     <div class="mb-4">
-        {% include 'form/textarea.html.twig' with {'field': form.content} only %}
+        {% include 'form/markdown.html.twig' with {'field': form.content} only %}
     </div>
     <div class="btn-toolbar mb-4 justify-content-between">
         <button class="btn btn-primary" type="submit" name="save">Сохранить</button>
