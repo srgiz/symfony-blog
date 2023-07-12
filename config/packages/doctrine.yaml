@@ -1,5 +1,6 @@
 doctrine:
     dbal:
+        profiling: '%kernel.debug%'
         url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
@@ -25,6 +26,10 @@ doctrine:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Blog/Entity'
                 prefix: 'App\Blog\Entity'
+            AppSecurity:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Security/Entity'
+                prefix: 'App\Security\Entity'
 
 when@test:
     doctrine:
