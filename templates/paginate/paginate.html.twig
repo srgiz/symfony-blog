@@ -1,0 +1,22 @@
+{# templates/paginate/paginate.html.twig #}
+{% if total > 1 %}
+    <nav class="mb-4">
+        <ul class="pagination">
+            {% for num in 1..total %}
+                {% if num is same as (page) %}
+                    <li class="page-item disabled">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        {% set _routeParams = {'page': num} %}
+                        {% if params is defined %}
+                            {% set _routeParams = params|merge(_routeParams) %}
+                        {% endif %}
+                        <a class="page-link" href="{{ url(route, _routeParams) }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

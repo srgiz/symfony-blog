@@ -9,13 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'blog', methods: ['GET'])]
-class BlogController extends AbstractController
+#[Route('/search', name: 'search', methods: ['GET'])]
+class SearchController extends AbstractController
 {
     public function __construct(private readonly PostPublicService $service) {}
 
-    public function __invoke(#[MapQueryParameter] string $page = '1'): Response
-    {
-        return $this->render('blog/blog.html.twig', $this->service->paginate((int)$page));
+    public function __invoke(
+        #[MapQueryParameter] string $q = '',
+        #[MapQueryParameter] string $page = '1',
+    ): Response {
+        return $this->render('blog/search.html.twig', $this->service->search($q, (int)$page));
     }
 }

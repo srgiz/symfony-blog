@@ -1,0 +1,12 @@
+{# templates/blog/search.html.twig #}
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1>Поиск</h1>
+
+    {% for post in blog %}
+        {% include 'blog/card.html.twig' with {'post': post} only %}
+    {% endfor %}
+
+    {% include 'paginate/paginate.html.twig' with {'route': 'search', 'params': {'q': q}, 'page': page, 'total': totalPages} only %}
+{% endblock %}

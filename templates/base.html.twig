@@ -17,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="navbarText" class="collapse navbar-collapse mt-2 mt-md-0">
-            <form role="search" action="search">
+            <form role="search" action="{{ url('search') }}">
                 <div class="input-group">
                     <input type="search" class="form-control" name="q" placeholder="Поиск" aria-label="Search" value="{% if q is defined %}{{ q | e }}{% endif %}">
                 </div>

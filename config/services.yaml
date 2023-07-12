@@ -16,6 +16,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            - '../src/Core/Doctrine/'
             - '../src/*/Entity/'
             - '../src/*/Enum/'
             - '../src/Kernel.php'
