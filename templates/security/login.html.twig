@@ -2,37 +2,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row justify-content-center mt-5">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header"><h4 class="mb-0">Вход</h4></div>
-                <form class="card-body" method="post" action="{{ path('login') }}">
-                    {% if error %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ error.messageKey|trans(error.messageData, 'security') }}
+    {% if 0 %}isAuthorized
+        <h1>Текущий пользователь</h1>
+
+        <p>{{ username }}</p>
+
+        <form method="post" action="logout">
+            <p><button class="btn btn-danger" type="submit" name="logout">Выйти</button></p>
+        </form>
+    {% else %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header"><h4 class="mb-0">Вход</h4></div>
+                    <form class="card-body" method="post" action="{{ path('login') }}">
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endif %}
+                        <div class="mb-4">
+                            <label for="form-email" class="form-label">E-mail</label>
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <input id="form-email" class="form-control" name="_username" type="email" value="{{ username }}">
+                            </div>
                         </div>
-                    {% endif %}
-                    <div class="mb-4">
-                        <label for="form-email" class="form-label">E-mail</label>
-                        <div class="input-group">
-                            <span class="input-group-text">@</span>
-                            <input id="form-email" class="form-control" name="_username" type="email" value="{{ username }}">
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="form-password" class="form-label">Пароль</label>
-                        <div class="input-group">
+                        <div class="mb-4">
+                            <label for="form-password" class="form-label">Пароль</label>
+                            <div class="input-group">
                             <span class="input-group-text icon-link">
                                 {% include 'icon/password.html.twig' %}
                             </span>
-                            <input id="form-password" class="form-control" name="_password" type="password">
+                                <input id="form-password" class="form-control" name="_password" type="password">
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit" name="submit">Войти</button>
-                    </div>
-                </form>
+                        <div>
+                            <button class="btn btn-primary" type="submit" name="submit">Войти</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

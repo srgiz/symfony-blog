@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Security\Entity;
 
-use App\Security\Repository\UserRepository;
-
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]

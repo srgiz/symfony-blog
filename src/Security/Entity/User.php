@@ -31,9 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $passwordHash = null;
 
-    #[ORM\Column(type: 'json', options: ['jsonb' => true])]
-    private array $roles = [];
-
     #[ORM\OneToMany(targetEntity: UserToken::class, mappedBy: 'user')]
     private Collection $tokens;
 
@@ -71,19 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-
-        if (!in_array('ROLE_USER', $roles, true)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return $roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-        return $this;
+        return ['ROLE_ADMIN'];
     }
 
     public function eraseCredentials(): void {}
