@@ -2,12 +2,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if 0 %}isAuthorized
+    {% if isAuthorized %}
         <h1>Текущий пользователь</h1>
 
         <p>{{ username }}</p>
 
-        <form method="post" action="logout">
+        <form method="post" action="{{ path('logout') }}">
             <p><button class="btn btn-danger" type="submit" name="logout">Выйти</button></p>
         </form>
     {% else %}

@@ -21,6 +21,9 @@ security:
             lazy: true
             provider: app_user_provider
 
+            logout:
+                path: logout
+
             custom_authenticators:
                 - App\Security\Authenticator\LoginFormAuthenticator
                 - App\Security\Authenticator\TokenAuthenticator

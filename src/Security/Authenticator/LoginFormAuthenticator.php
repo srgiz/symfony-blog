@@ -68,7 +68,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
             time() + TokenAuthenticator::COOKIE_TIME,
         ));
 
-        return new RedirectResponse($request->getRequestUri(), 302);
+        return new RedirectResponse($request->getRequestUri());
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
