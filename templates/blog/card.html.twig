@@ -3,7 +3,7 @@
     <div class="card-body">
         <a class="d-block h4 text-decoration-none" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
         <div class="mt-3">
-            <div class="md-text">{{ markdown.parse(post.preview)|raw }}</div>
+            <div class="md-text">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
             <a class="btn btn-outline-group" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
         </div>
     </div>
