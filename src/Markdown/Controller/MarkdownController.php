@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Extra\Markdown\MarkdownInterface;
 
-#[Route('/markdown', name: 'markdown', methods: ['POST'])]
+#[Route('/admin/markdown', name: 'markdown', methods: ['POST'])]
 class MarkdownController extends AbstractController
 {
     private MarkdownInterface $markdown;
