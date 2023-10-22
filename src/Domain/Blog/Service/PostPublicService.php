@@ -4,11 +4,17 @@ declare(strict_types=1);
 namespace App\Domain\Blog\Service;
 
 use App\Domain\Blog\Entity\Post;
-use App\Infrastructure\Blog\Repository\PostRepository;
+use App\Domain\Blog\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 readonly class PostPublicService
 {
-    public function __construct(private PostRepository $postRepository) {}
+    private PostRepository $postRepository;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->postRepository = $em->getRepository(Post::class);
+    }
 
     public function getBySlug(string $slug): ?Post
     {

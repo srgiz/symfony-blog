@@ -1,22 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\Blog\Repository;
+namespace App\Domain\Blog\Repository;
 
 use App\Domain\Blog\Entity\Post;
 use App\Domain\Blog\Enum\StatusEnum;
-use App\Domain\Blog\Repository\PostRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Persistence\ManagerRegistry;
 
-class PostRepository extends ServiceEntityRepository implements PostRepositoryInterface
+/**
+ * @template T of Post
+ * @template-extends EntityRepository<T>
+ */
+class PostRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Post::class);
-    }
-
     public function findPublic(string $slug): ?Post
     {
         return $this->findOneBy(['slug' => $slug, 'status' => StatusEnum::Active->value]);

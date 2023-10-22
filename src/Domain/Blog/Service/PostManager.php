@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Domain\Blog\Service;
 
 use App\Domain\Blog\Entity\Post;
-use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostManager
 {
-    private PostRepositoryInterface $postRepository;
+    private PostRepository $postRepository;
 
     public function __construct(
         private EntityManagerInterface $em,
