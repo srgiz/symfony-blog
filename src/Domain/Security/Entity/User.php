@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Security\Entity;
 
-use App\Infrastructure\Security\Repository\UserRepository;
+use App\Domain\Security\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
