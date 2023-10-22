@@ -3,14 +3,14 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-        App\Security\Entity\UserToken:
+        App\Domain\Security\Entity\UserToken:
             algorithm: 'auto'
             cost: 4
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
             entity:
-                class: App\Security\Entity\User
+                class: App\Domain\Security\Entity\User
                 property: email
     firewalls:
         dev:
@@ -25,8 +25,8 @@ security:
                 path: logout
 
             custom_authenticators:
-                - App\Security\Authenticator\LoginFormAuthenticator
-                - App\Security\Authenticator\TokenAuthenticator
+                - App\Symfony\Security\Authenticator\LoginFormAuthenticator
+                - App\Symfony\Security\Authenticator\TokenAuthenticator
 
             #remember_me:
             #    secret: '%kernel.secret%' # required

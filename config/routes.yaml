@@ -1,11 +1,3 @@
-app_blog:
+app:
     type: attribute
-    resource: ../src/Blog/Controller/
-
-app_markdown:
-    type: attribute
-    resource: ../src/Markdown/Controller/
-
-app_security:
-    type: attribute
-    resource: ../src/Security/Controller/
+    resource: ../src/Symfony/Controller/

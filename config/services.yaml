@@ -16,9 +16,12 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Core/Doctrine/'
             - '../src/*/Entity/'
             - '../src/*/Enum/'
+            - '../src/Domain/*/Entity/'
+            - '../src/Domain/*/Enum/'
+            - '../src/Infrastructure/Doctrine/'
+            - '../src/Symfony/Form/'
             - '../src/ConsoleApplication.php'
             - '../src/Kernel.php'
 

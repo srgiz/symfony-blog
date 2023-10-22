@@ -8,7 +8,7 @@ doctrine:
         #server_version: '15'
 
         types:
-            enum_status: App\Core\Doctrine\Types\EnumStatus
+            enum_status: App\Infrastructure\Doctrine\Types\EnumStatus
         mapping_types:
             enum_status: string
     orm:
@@ -20,7 +20,7 @@ doctrine:
         auto_mapping: true
         dql:
             numeric_functions:
-                TS_MATCH_VQ: App\Core\Doctrine\Fn\TsMatchVqFn
+                TS_MATCH_VQ: App\Infrastructure\Doctrine\Fn\TsMatchVqFn
         mappings:
             AppBlog:
                 is_bundle: false
@@ -28,8 +28,8 @@ doctrine:
                 prefix: 'App\Blog\Entity'
             AppSecurity:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Security/Entity'
-                prefix: 'App\Security\Entity'
+                dir: '%kernel.project_dir%/src/Domain/Security/Entity'
+                prefix: 'App\Domain\Security\Entity'
 
 when@test:
     doctrine:

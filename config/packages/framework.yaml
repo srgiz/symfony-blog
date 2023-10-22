@@ -19,7 +19,7 @@ framework:
         log: true
 
     assets:
-        version_strategy: 'App\Core\Asset\FileVersionStrategy'
+        version_strategy: 'App\Symfony\Asset\FileVersionStrategy'
 
 when@test:
     framework:
