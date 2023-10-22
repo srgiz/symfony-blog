@@ -8,18 +8,19 @@
     findUnusedBaselineEntry="true"
 >
     <projectFiles>
-        <directory name="src" />
+        <directory name="src"/>
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
-        <PropertyNotSetInConstructor>
+        <MissingTemplateParam>
             <errorLevel type="suppress">
-                <referencedProperty name="Symfony\Bundle\FrameworkBundle\Controller\AbstractController::$container"/>
-                <referencedProperty name="Symfony\Component\Validator\Constraint::$groups"/>
-                <referencedProperty name="Symfony\Component\Validator\ConstraintValidator::$context"/>
+                <directory name="src/Symfony/Form/Type"/>
             </errorLevel>
-        </PropertyNotSetInConstructor>
+        </MissingTemplateParam>
     </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+    </plugins>
 </psalm>

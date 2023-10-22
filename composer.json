@@ -28,6 +28,7 @@
         "twig/markdown-extra": "^3.6"
     },
     "require-dev": {
+        "psalm/plugin-symfony": "^5.0",
         "symfony/maker-bundle": "^1.50",
         "symfony/stopwatch": "6.3.*",
         "symfony/web-profiler-bundle": "6.3.*",

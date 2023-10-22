@@ -40,6 +40,8 @@ class PostManager
     public function edit(Request $request, FormInterface $form): bool
     {
         $form->handleRequest($request);
+
+        /** @var Post $post */
         $post = $form->getData();
 
         if (!$form->isValid()) {

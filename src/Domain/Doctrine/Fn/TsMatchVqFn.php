@@ -43,6 +43,7 @@ class TsMatchVqFn extends FunctionNode
         $parser->match(Lexer::T_COMMA);
 
         while (!$parser->getLexer()->isNextToken(Lexer::T_CLOSE_PARENTHESIS)) {
+            /** @psalm-suppress InvalidPropertyAssignmentValue */
             $this->columns[] = $parser->StringExpression();
 
             if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {

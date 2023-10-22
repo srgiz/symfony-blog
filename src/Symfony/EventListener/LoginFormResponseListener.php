@@ -29,7 +29,9 @@ class LoginFormResponseListener implements EventSubscriberInterface
         $response = $event->getResponse();
 
         if ($request->attributes->has(self::COOKIE_ATTR_NAME)) {
-            $response->headers->setCookie($request->attributes->get(self::COOKIE_ATTR_NAME));
+            /** @var Cookie $cookie */
+            $cookie = $request->attributes->get(self::COOKIE_ATTR_NAME);
+            $response->headers->setCookie($cookie);
         }
     }
 
