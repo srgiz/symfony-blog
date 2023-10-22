@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
 
-use App\Blog\Repository\PostRepository;
+use App\Domain\Blog\Repository\PostRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/post/{slug}', name: 'post', methods: ['GET'])]
 class PostController extends AbstractController
 {
-    public function __construct(private readonly PostRepository $postRepository) {}
+    public function __construct(private readonly PostRepositoryInterface $postRepository) {}
 
     public function __invoke(string $slug): Response
     {

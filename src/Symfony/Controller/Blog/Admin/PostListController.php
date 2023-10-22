@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
 
-use App\Blog\Service\PostManager;
+use App\Domain\Blog\Service\PostManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/blog', name: 'admin-post-list', methods: ['GET'])]
 class PostListController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager) {}
+    public function __construct(private readonly PostManagerInterface $manager) {}
 
     public function __invoke(#[MapQueryParameter] string $page = '1'): Response
     {

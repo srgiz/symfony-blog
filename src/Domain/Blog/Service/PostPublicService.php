@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Blog\Service;
+namespace App\Domain\Blog\Service;
 
-use App\Blog\Repository\PostRepository;
+use App\Domain\Blog\Repository\PostRepositoryInterface;
 
 readonly class PostPublicService
 {
-    public function __construct(private PostRepository $postRepository) {}
+    public function __construct(private PostRepositoryInterface $postRepository) {}
 
     public function paginate(int $page, int $limit = 1): array
     {

@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Blog\Repository;
+namespace App\Infrastructure\Blog\Repository;
 
-use App\Blog\Entity\Post;
-use App\Blog\Enum\StatusEnum;
+use App\Domain\Blog\Entity\Post;
+use App\Domain\Blog\Enum\StatusEnum;
+use App\Domain\Blog\Repository\PostRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
-class PostRepository extends ServiceEntityRepository
+class PostRepository extends ServiceEntityRepository implements PostRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

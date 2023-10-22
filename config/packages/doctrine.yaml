@@ -24,8 +24,8 @@ doctrine:
         mappings:
             AppBlog:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Blog/Entity'
-                prefix: 'App\Blog\Entity'
+                dir: '%kernel.project_dir%/src/Domain/Blog/Entity'
+                prefix: 'App\Domain\Blog\Entity'
             AppSecurity:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Domain/Security/Entity'

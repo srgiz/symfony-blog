@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Form\Type;
 
-use App\Blog\Enum\StatusEnum;
+use App\Domain\Blog\Enum\StatusEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
