@@ -16,15 +16,13 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/*/Entity/'
-            - '../src/*/Enum/'
             - '../src/Domain/*/Entity/'
             - '../src/Domain/*/Enum/'
             - '../src/Domain/*/Repository/'
             - '../src/Domain/Doctrine/'
             - '../src/Symfony/Form/'
-            - '../src/ConsoleApplication.php'
-            - '../src/Kernel.php'
+            - '../src/Symfony/ConsoleApplication.php'
+            - '../src/Symfony/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
