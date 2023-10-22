@@ -20,6 +20,7 @@ services:
             - '../src/*/Enum/'
             - '../src/Domain/*/Entity/'
             - '../src/Domain/*/Enum/'
+            - '../src/Domain/*/Repository/'
             - '../src/Domain/Doctrine/'
             - '../src/Symfony/Form/'
             - '../src/ConsoleApplication.php'

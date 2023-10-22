@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Symfony\Controller\Blog\Admin;
 
 use App\Domain\Blog\Entity\Post;
-use App\Domain\Blog\Service\PostManagerInterface;
+use App\Domain\Blog\Service\PostManager;
 use App\Symfony\Form\Type\PostForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/blog/edit', name: 'admin-post-edit', methods: ['GET', 'POST'])]
 class PostEditController extends AbstractController
 {
-    public function __construct(private readonly PostManagerInterface $manager) {}
+    public function __construct(private readonly PostManager $manager) {}
 
     public function __invoke(Request $request, #[MapQueryParameter] string $id = ''): Response
     {

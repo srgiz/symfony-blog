@@ -1,16 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Infrastructure\Blog\Service;
+namespace App\Domain\Blog\Service;
 
 use App\Domain\Blog\Entity\Post;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
-use App\Domain\Blog\Service\PostManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PostManager implements PostManagerInterface
+class PostManager
 {
     private PostRepositoryInterface $postRepository;
 
