@@ -3,11 +3,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\Service;
 
-use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\Entity\Post;
+use App\Infrastructure\Blog\Repository\PostRepository;
 
 readonly class PostPublicService
 {
-    public function __construct(private PostRepositoryInterface $postRepository) {}
+    public function __construct(private PostRepository $postRepository) {}
+
+    public function getBySlug(string $slug): ?Post
+    {
+        return $this->postRepository->findPublic($slug);
+    }
 
     public function paginate(int $page, int $limit = 1): array
     {
