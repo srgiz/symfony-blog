@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Security\Service;
+namespace App\Infrastructure\Blog\Service;
 
 use App\Domain\Blog\Entity\Post;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
