@@ -13,6 +13,7 @@ readonly class PostPublicService
 
     public function __construct(EntityManagerInterface $em)
     {
+        /** @psalm-suppress PropertyTypeCoercion */
         $this->postRepository = $em->getRepository(Post::class);
     }
 

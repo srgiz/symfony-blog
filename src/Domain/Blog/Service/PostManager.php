@@ -16,6 +16,7 @@ class PostManager
     public function __construct(
         private EntityManagerInterface $em,
     ) {
+        /** @psalm-suppress PropertyTypeCoercion */
         $this->postRepository = $em->getRepository(Post::class);
     }
 
@@ -58,7 +59,9 @@ class PostManager
 
     public function deleteById(int $id): void
     {
-        $this->em->remove($this->em->getReference(Post::class, $id));
-        $this->em->flush();
+        if ($post = $this->em->getReference(Post::class, $id)) {
+            $this->em->remove($post);
+            $this->em->flush();
+        }
     }
 }

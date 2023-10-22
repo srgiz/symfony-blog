@@ -47,9 +47,9 @@ class TokenAuthenticator implements AuthenticatorInterface
     public function authenticate(Request $request): Passport
     {
         $token = (string)$request->cookies->get(self::COOKIE_NAME);
-        $userToken = $this->tokenRepository->findOneBy(['token' => $token]);
 
-        /** @var User|null $user */
+        /** @var UserToken|null $userToken */
+        $userToken = $this->tokenRepository->findOneBy(['token' => $token]);
         $user = $userToken?->user;
 
         if (!$user) {
