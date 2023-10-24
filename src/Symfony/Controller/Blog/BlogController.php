@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
 
-use App\Domain\Blog\Service\PostPublicService;
+use App\Core\Blog\Service\PostPublicService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;

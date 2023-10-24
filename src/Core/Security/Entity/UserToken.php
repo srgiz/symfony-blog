@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Security\Entity;
+namespace App\Core\Security\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

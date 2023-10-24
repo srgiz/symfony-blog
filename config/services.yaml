@@ -16,10 +16,10 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Domain/*/Entity/'
-            - '../src/Domain/*/Enum/'
-            - '../src/Domain/*/Repository/'
-            - '../src/Domain/Doctrine/'
+            - '../src/Core/*/Entity/'
+            - '../src/Core/*/Enum/'
+            - '../src/Core/*/Repository/'
+            - '../src/Core/Doctrine/'
             - '../src/Symfony/Form/'
             - '../src/Symfony/ConsoleApplication.php'
             - '../src/Symfony/Kernel.php'

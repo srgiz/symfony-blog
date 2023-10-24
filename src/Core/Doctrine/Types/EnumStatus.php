@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Doctrine\Types;
+namespace App\Core\Doctrine\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

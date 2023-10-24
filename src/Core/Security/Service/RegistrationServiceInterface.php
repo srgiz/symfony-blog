@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Security\Service;
+namespace App\Core\Security\Service;
 
 interface RegistrationServiceInterface
 {

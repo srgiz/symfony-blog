@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
 
-use App\Domain\Blog\Entity\Post;
-use App\Domain\Blog\Service\PostManager;
+use App\Core\Blog\Entity\Post;
+use App\Core\Blog\Service\PostManager;
 use App\Symfony\Form\Type\PostForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

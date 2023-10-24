@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
 
-use App\Domain\Blog\Service\PostManager;
+use App\Core\Blog\Service\PostManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

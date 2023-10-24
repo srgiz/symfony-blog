@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Command;
 
-use App\Domain\Security\Service\RegistrationServiceInterface;
+use App\Core\Security\Service\RegistrationServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

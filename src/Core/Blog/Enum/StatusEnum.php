@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Blog\Enum;
+namespace App\Core\Blog\Enum;
 
 enum StatusEnum: string
 {

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Domain\Security\Entity\User;
-use App\Domain\Security\Entity\UserToken;
+use App\Core\Security\Entity\User;
+use App\Core\Security\Entity\UserToken;
 use App\Symfony\EventListener\LoginFormResponseListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -48,7 +48,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        /** @var \App\Domain\Security\Entity\User $user */
+        /** @var \App\Core\Security\Entity\User $user */
         $user = $token->getUser();
         $hasher = $this->hasherFactory->getPasswordHasher(UserToken::class);
 

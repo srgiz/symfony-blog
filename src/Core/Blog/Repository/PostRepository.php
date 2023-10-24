@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Blog\Repository;
+namespace App\Core\Blog\Repository;
 
-use App\Domain\Blog\Entity\Post;
-use App\Domain\Blog\Enum\StatusEnum;
+use App\Core\Blog\Entity\Post;
+use App\Core\Blog\Enum\StatusEnum;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
