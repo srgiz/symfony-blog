@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Core\Blog\Entity;
+namespace App\Core\Entity;
 
 use App\Core\Blog\Enum\StatusEnum;
-use App\Core\Blog\Repository\PostRepository;
+use App\Core\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;

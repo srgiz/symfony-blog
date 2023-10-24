@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security\Service;
 
-use App\Core\Security\Entity\User;
+use App\Core\Entity\User;
 use App\Core\Security\Service\RegistrationServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

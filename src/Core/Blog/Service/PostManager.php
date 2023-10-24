@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Core\Blog\Service;
 
-use App\Core\Blog\Entity\Post;
-use App\Core\Blog\Repository\PostRepository;
+use App\Core\Entity\Post;
+use App\Core\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

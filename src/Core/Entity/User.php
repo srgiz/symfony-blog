@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Core\Security\Entity;
+namespace App\Core\Entity;
 
-use App\Core\Security\Repository\UserRepository;
+use App\Core\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

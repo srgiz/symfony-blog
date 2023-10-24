@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Core\Security\Repository;
+namespace App\Core\Repository;
 
-use App\Core\Security\Entity\User;
+use App\Core\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 /**

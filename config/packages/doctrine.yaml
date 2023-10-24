@@ -22,14 +22,10 @@ doctrine:
             numeric_functions:
                 TS_MATCH_VQ: App\Core\Doctrine\Fn\TsMatchVqFn
         mappings:
-            AppBlog:
+            AppCore:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Core/Blog/Entity'
-                prefix: 'App\Core\Blog\Entity'
-            AppSecurity:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Core/Security/Entity'
-                prefix: 'App\Core\Security\Entity'
+                dir: '%kernel.project_dir%/src/Core/Entity'
+                prefix: 'App\Core\Entity'
 
 when@test:
     doctrine:

@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Core\Security\Entity\User;
-use App\Core\Security\Entity\UserToken;
+use App\Core\Entity\UserToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
