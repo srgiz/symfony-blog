@@ -14,7 +14,7 @@ class PostManager
     private PostRepository $postRepository;
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
     ) {
         /** @psalm-suppress PropertyTypeCoercion */
         $this->postRepository = $em->getRepository(Post::class);
