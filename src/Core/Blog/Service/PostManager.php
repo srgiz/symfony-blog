@@ -6,8 +6,6 @@ namespace App\Core\Blog\Service;
 use App\Core\Entity\Post;
 use App\Core\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class PostManager
 {
@@ -38,17 +36,8 @@ class PostManager
         return $this->postRepository->findOneBy(['id' => $id]);
     }
 
-    public function edit(Request $request, FormInterface $form): bool
+    public function edit(Post $post): bool
     {
-        $form->handleRequest($request);
-
-        /** @var Post $post */
-        $post = $form->getData();
-
-        if (!$form->isValid()) {
-            return false;
-        }
-
         if (!$this->em->getUnitOfWork()->isInIdentityMap($post)) {
             $this->em->persist($post);
         }

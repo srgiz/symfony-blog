@@ -20,6 +20,7 @@ services:
             - '../src/Core/Entity/'
             - '../src/Core/Repository/'
             - '../src/Core/*/Enum/'
+            - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'
             - '../src/Symfony/ConsoleApplication.php'
             - '../src/Symfony/Kernel.php'
