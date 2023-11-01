@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     image: nginx:1.23.0-alpine
     ports:
-      - ${DOCKER_APP_IP}:80:80
+      - "${DOCKER_APP_IP}:80:80"
     volumes:
       - ./docker/nginx/conf.d/blog.conf:/etc/nginx/conf.d/blog.conf
       - ./:/var/www
@@ -33,9 +33,23 @@ services:
   redis:
     container_name: blog-redis
     restart: unless-stopped
-    image: redis:7.0.2-alpine3.16
+    image: redis:7.2.2-alpine3.18
     ports:
-      - ${DOCKER_APP_IP}:6379:6379
+      - "${DOCKER_APP_IP}:6379:6379"
+    volumes:
+      - blog-redis:/data
+
+  redis-commander:
+    container_name: blog-redis-commander
+    hostname: blog-redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: unless-stopped
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "127.0.0.7:8081:8081"
+    depends_on:
+      - redis
 
 ###> doctrine/doctrine-bundle ###
   database:
@@ -43,7 +57,7 @@ services:
     restart: unless-stopped
     image: postgres:14.4-alpine3.16
     ports:
-      - ${DOCKER_APP_IP}:5432:5432
+      - "${DOCKER_APP_IP}:5432:5432"
     environment:
       POSTGRES_PASSWORD: root
     volumes:
@@ -56,8 +70,8 @@ services:
     restart: unless-stopped
     image: schickling/mailcatcher
     ports:
-      - ${DOCKER_APP_IP}:1025:1025
-      - ${DOCKER_APP_IP}:1080:1080
+      - "${DOCKER_APP_IP}:1025:1025"
+      - "${DOCKER_APP_IP}:1080:1080"
 ###< symfony/mailer ###
 
 networks:
@@ -67,3 +81,5 @@ networks:
 volumes:
   blog-database:
     name: blog-database
+  blog-redis:
+    name: blog-redis

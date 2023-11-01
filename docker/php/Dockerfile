@@ -6,6 +6,7 @@ FROM php:8.2-fpm-alpine3.18
 
 ENV XDEBUG_VERSION=3.2.2
 ENV DOCKER_APP_UID=1000
+ENV REDIS_VERSION=6.0.2
 
 RUN apk add --no-cache bash shadow git linux-headers
 
@@ -31,7 +32,9 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
         pdo_pgsql \
         zip \
     && pecl install xdebug-$XDEBUG_VERSION \
+        redis-$REDIS_VERSION \
     && docker-php-ext-enable xdebug \
+        redis \
     && apk del .phpize-deps
 
 COPY --from=composer:2.6.5 /usr/bin/composer /usr/local/bin/composer
