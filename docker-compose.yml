@@ -30,6 +30,19 @@ services:
       - redis
       - mailer
 
+  php-messeger:
+    container_name: blog-php-messeger
+    restart: unless-stopped
+    image: serginhold/blog-php:latest
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
+    volumes:
+      - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
+      - ./:/var/www
+    depends_on:
+      - php
+    entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
+
   redis:
     container_name: blog-redis
     restart: unless-stopped
