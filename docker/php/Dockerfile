@@ -1,8 +1,11 @@
-FROM php:8.2-fpm-alpine3.17
+FROM php:8.2-fpm-alpine3.18
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog-php:latest .
 # docker exec -i -t blog-php sh
 # docker exec -i -t blog-php bash
+
+ENV XDEBUG_VERSION=3.2.2
+ENV DOCKER_APP_UID=1000
 
 RUN apk add --no-cache bash shadow git linux-headers
 
@@ -10,26 +13,16 @@ RUN apk add --no-cache bash shadow git linux-headers
 RUN wget https://get.symfony.com/cli/installer -O - | bash \
     && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
-# composer
-ENV COMPOSER_VERSION=2.5.5
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
-    && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
-    # Make sure we're installing what we think we're installing!
-    && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-    && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION --snapshot \
-    && rm -f /tmp/composer-setup.*
-
 # frontend
 RUN apk add --no-cache --update nodejs npm yarn
 
 # php
-ENV XDEBUG_VERSION=3.2.0
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
     && apk add --no-cache \
         # intl
         icu-dev \
-        # pgsql
-        postgresql-dev \
+        # postgres
+        libpq-dev php-pdo_pgsql \
         # zip
         libzip-dev \
     && docker-php-ext-install \
@@ -41,8 +34,8 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps
 
-WORKDIR /var/www
+COPY --from=composer:2.6.5 /usr/bin/composer /usr/local/bin/composer
 
-ENV DOCKER_APP_UID=1000
+WORKDIR /var/www
 RUN usermod -u $DOCKER_APP_UID www-data
 USER www-data
