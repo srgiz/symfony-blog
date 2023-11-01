@@ -17,6 +17,13 @@ readonly class PostTestMessageHandler
 
     public function __invoke(TestMessage $message): void
     {
-        $this->output->writeln((string) $message->time);
+        //$this->output->writeln((string) $message->time);
+
+        try {
+            throw new \Exception('App exception');
+        } catch (\Throwable $e) {
+            $this->output->writeln([$e->getMessage(), (string) $message->time]);
+            throw $e;
+        }
     }
 }

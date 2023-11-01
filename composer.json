@@ -16,6 +16,7 @@
         "michelf/php-markdown": "^2.0",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
+        "symfony/doctrine-messenger": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
         "symfony/form": "6.3.*",
