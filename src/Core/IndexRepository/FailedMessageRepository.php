@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace App\Core\IndexRepository;
 
 use App\Core\Index\FailedMessage;
+use App\Core\Serializer\SerializerInterface;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * @template TData of array{ uid: string, stream: string, body: string, created_at: int }
+ */
 readonly class FailedMessageRepository
 {
     public function __construct(
         private Connection $manticoreConnection,
-        /** @var Serializer */
-        private SerializerInterface $serializer,// todo: infrastructure
+        private SerializerInterface $serializer,
     ) {}
 
     public function find(int $id): ?FailedMessage
     {
+        /** @var TData|false $result */
         $result = $this->manticoreConnection->fetchAssociative('select * from failed_message where id = :id', ['id' => $id]);
 
         if (!$result) {
@@ -28,6 +30,7 @@ readonly class FailedMessageRepository
         return $this->prepare($result);
     }
 
+    /** @psalm-suppress all */
     private function prepare(array $data): FailedMessage
     {
         $data['body'] = json_decode($data['body'], true);
@@ -36,7 +39,7 @@ readonly class FailedMessageRepository
 
     public function save(FailedMessage $message): void
     {
-        /** @var array $data */
+        /** @var TData $data */
         $data = $this->serializer->normalize($message);
         $data['body'] = json_encode($data['body'], JSON_UNESCAPED_UNICODE);
 
