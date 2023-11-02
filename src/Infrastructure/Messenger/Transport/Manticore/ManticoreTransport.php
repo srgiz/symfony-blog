@@ -11,10 +11,11 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Messenger\Stamp\TransportMessageIdStamp;
+use Symfony\Component\Messenger\Transport\Receiver\ListableReceiverInterface;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 
-readonly class ManticoreTransport implements TransportInterface
+readonly class ManticoreTransport implements TransportInterface, ListableReceiverInterface
 {
     private array $configuration;
 
@@ -31,19 +32,21 @@ readonly class ManticoreTransport implements TransportInterface
     public function get(): iterable
     {
         $row = $this->connection->fetchAssociative(
-            'select * from failed_message where failed_at = 0 order by created_at asc limit 1'
+            'select * from failed_message where queue_name = :queue_name and failed_at = 0 order by created_at asc limit 1',
+            ['queue_name' => $this->configuration['queue_name']]
         );
 
-        if (!$row) {
-            return [];
-        }
+        return $row ? [$this->decodeEnvelope($row)] : [];
+    }
 
+    private function decodeEnvelope(array $row): Envelope
+    {
         $envelope = $this->serializer->decode([
             'body' => $row['body'],
             'headers' => json_decode($row['headers'], true),
         ]);
 
-        return [$envelope->with(new TransportMessageIdStamp($row['id']))];
+        return $envelope->with(new TransportMessageIdStamp($row['id']));
     }
 
     public function ack(Envelope $envelope): void
@@ -104,5 +107,28 @@ readonly class ManticoreTransport implements TransportInterface
         }
 
         return $envelope->with(new TransportMessageIdStamp($id));
+    }
+
+    public function all(int $limit = null): iterable
+    {
+        $sql = 'select * from failed_message where queue_name = :queue_name and failed_at = 0 order by created_at asc';
+
+        if ($limit) {
+            $sql .= ' limit ' . $limit;
+        }
+
+        $rows = $this->connection->fetchAllAssociative($sql, ['queue_name' => $this->configuration['queue_name']]);
+        return array_map(fn ($row) => $this->decodeEnvelope($row), $rows);
+    }
+
+    public function find(mixed $id): ?Envelope
+    {
+        $row = $this->connection->fetchAssociative(
+            'select * from failed_message where id = :id',
+            ['id' => $id],
+            ['id' => Types::INTEGER]
+        );
+
+        return $row ? $this->decodeEnvelope($row) : null;
     }
 }
