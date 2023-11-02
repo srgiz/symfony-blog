@@ -22,6 +22,7 @@ services:
             - '../src/Core/Message/'
             - '../src/Core/Repository/'
             - '../src/Core/*/Enum/'
+            - '../src/Infrastructure/Messenger/Transport/Manticore/ManticoreTransport.php'
             - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'
             - '../src/Symfony/ConsoleApplication.php'

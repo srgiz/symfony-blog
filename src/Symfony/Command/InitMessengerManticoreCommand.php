@@ -22,7 +22,8 @@ class InitMessengerManticoreCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $this->manticoreConnection->executeStatement('CREATE TABLE failed_message(id bigint, uid string, stream string, body json, created_at timestamp)');
+            $this->manticoreConnection->executeStatement('DROP TABLE failed_message');
+            $this->manticoreConnection->executeStatement('CREATE TABLE failed_message(id bigint, queue_name string, message_class string, body text, headers json, created_at timestamp, failed_at timestamp)');
             $output->writeln('OK');
             return self::SUCCESS;
         } catch (\Throwable $e) {

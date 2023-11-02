@@ -15,7 +15,7 @@ doctrine:
 
             manticore:
                 profiling: '%kernel.debug%'
-                url: '%env(resolve:MESSENGER_MANTICORE_DNS)%'
+                url: '%env(resolve:DATABASE_MESSENGER)%'
                 driver: pdo_mysql
 
         types:
