@@ -30,6 +30,8 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
         opcache \
         intl \
         pdo_pgsql \
+        # manticore
+        pdo_mysql \
         zip \
     && pecl install xdebug-$XDEBUG_VERSION \
         redis-$REDIS_VERSION \

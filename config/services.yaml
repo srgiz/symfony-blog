@@ -18,6 +18,7 @@ services:
         exclude:
             - '../src/Core/Doctrine/'
             - '../src/Core/Entity/'
+            - '../src/Core/Index/'
             - '../src/Core/Message/'
             - '../src/Core/Repository/'
             - '../src/Core/*/Enum/'

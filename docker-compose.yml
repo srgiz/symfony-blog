@@ -28,6 +28,7 @@ services:
     depends_on:
       - database
       - redis
+      - manticore
       - mailer
 
   php-messeger:
@@ -64,6 +65,26 @@ services:
     depends_on:
       - redis
 
+  manticore:
+    container_name: blog-manticore
+    image: manticoresearch/manticore:6.2.12
+    environment:
+      - EXTRA=1
+    restart: unless-stopped
+    ports:
+      - "${DOCKER_APP_IP}:9306:9306"
+      - "${DOCKER_APP_IP}:9308:9308"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - blog-manticore:/var/lib/manticore
+
 ###> doctrine/doctrine-bundle ###
   database:
     container_name: blog-database
@@ -96,3 +117,5 @@ volumes:
     name: blog-database
   blog-redis:
     name: blog-redis
+  blog-manticore:
+    name: blog-manticore
