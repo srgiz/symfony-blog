@@ -79,10 +79,6 @@
     }
 }
 
-.h-color {
-    color: var(--bs-heading-color);
-}
-
 .h1, h1 {
     margin-bottom: 1.5rem;
 }
