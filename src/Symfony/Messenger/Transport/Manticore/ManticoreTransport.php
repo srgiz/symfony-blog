@@ -74,7 +74,7 @@ readonly class ManticoreTransport implements TransportInterface, ListableReceive
         }
 
         try {
-            $this->connection->executeStatement('delete from failed_message where id = :id', ['id' => (int)$stamp->getId()], ['id' => Types::INTEGER]);
+            $this->connection->executeStatement("delete from {$this->getTableName()} where id = :id", ['id' => (int)$stamp->getId()], ['id' => Types::INTEGER]);
         } catch (DBALException $e) {
             throw new TransportException($e->getMessage(), 0, $e);
         }
