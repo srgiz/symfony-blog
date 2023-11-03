@@ -18,10 +18,11 @@ services:
         exclude:
             - '../src/Core/Doctrine/'
             - '../src/Core/Entity/'
-            - '../src/Core/Index/'
-            - '../src/Core/Message/'
+            - '../src/Core/Utils/'
             #- '../src/Core/Repository/'
+            - '../src/Core/*/Dto/'
             - '../src/Core/*/Enum/'
+            - '../src/Core/*/Message/'
             - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'
             - '../src/Symfony/Messenger/Transport/Manticore/'

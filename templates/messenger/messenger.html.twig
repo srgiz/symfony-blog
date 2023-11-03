@@ -1,0 +1,25 @@
+{# templates/messenger/messenger.html.twig #}
+{% extends "admin.html.twig" %}
+
+{% block body %}
+    <div class="row align-items-center mb-4">
+        <div class="col"><h1 class="mb-2 mb-sm-0">Невыполненные задачи</h1></div>
+    </div>
+
+    {% for message in paginator['list'] %}
+        <div class="card card-row mb-4">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col h-color fw-semibold">ID: {{ message.id }}</div>
+                    <div class="col text-end">{{ message.createdAt|date('c') }}</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>Queue name: {{ message.queueName }}</div>
+                <div>Message class: {{ message.messageClass }}</div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include 'paginate/paginate.html.twig' with {'route': 'messenger', 'page': page, 'total': totalPages} only %}
+{% endblock %}

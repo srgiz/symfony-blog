@@ -5,6 +5,7 @@ namespace App\Core\Blog\Service;
 
 use App\Core\Entity\Post;
 use App\Core\Repository\PostRepository;
+use App\Core\Utils\PaginatorUtils;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostManager
@@ -20,14 +21,12 @@ class PostManager
 
     public function paginate(int $page, int $limit = 1): array
     {
-        $page = max($page, 1);
-        $offset = intval(($page - 1) * $limit);
-        $blog = $this->postRepository->paginateAll($offset, $limit);
+        $blog = $this->postRepository->paginateAll(PaginatorUtils::offset($limit, $page), $limit);
 
         return [
             'page' => $page,
             'blog' => $blog,
-            'totalPages' => (int)ceil($blog->count() / $limit),
+            'totalPages' => PaginatorUtils::totalPages($limit, $blog->count()),
         ];
     }
 

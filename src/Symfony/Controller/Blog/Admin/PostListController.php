@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Symfony\Controller\Blog\Admin;
 
 use App\Core\Blog\Service\PostManager;
+use App\Core\Utils\PaginatorUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -16,6 +17,6 @@ class PostListController extends AbstractController
 
     public function __invoke(#[MapQueryParameter] string $page = '1'): Response
     {
-        return $this->render('blog/admin/post-list.html.twig', $this->manager->paginate((int)$page));
+        return $this->render('blog/admin/post-list.html.twig', $this->manager->paginate(PaginatorUtils::page($page)));
     }
 }

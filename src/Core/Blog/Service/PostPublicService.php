@@ -5,6 +5,7 @@ namespace App\Core\Blog\Service;
 
 use App\Core\Entity\Post;
 use App\Core\Repository\PostRepository;
+use App\Core\Utils\PaginatorUtils;
 use Doctrine\ORM\EntityManagerInterface;
 
 readonly class PostPublicService
@@ -24,28 +25,24 @@ readonly class PostPublicService
 
     public function paginate(int $page, int $limit = 1): array
     {
-        $page = max($page, 1);
-        $offset = intval(($page - 1) * $limit);
-        $blog = $this->postRepository->paginatePublic($offset, $limit);
+        $blog = $this->postRepository->paginatePublic(PaginatorUtils::offset($limit, $page), $limit);
 
         return [
             'page' => $page,
             'blog' => $blog,
-            'totalPages' => (int)ceil($blog->count() / $limit),
+            'totalPages' => PaginatorUtils::totalPages($limit, $blog->count()),
         ];
     }
 
     public function search(string $q, int $page, int $limit = 1): array
     {
-        $page = max($page, 1);
-        $offset = intval(($page - 1) * $limit);
-        $blog = $this->postRepository->searchPublic($q, $offset, $limit);
+        $blog = $this->postRepository->searchPublic($q, PaginatorUtils::offset($limit, $page), $limit);
 
         return [
             'q' => $q,
             'page' => $page,
             'blog' => $blog,
-            'totalPages' => (int)ceil($blog->count() / $limit),
+            'totalPages' => PaginatorUtils::totalPages($limit, $blog->count()),
         ];
     }
 }
