@@ -6,7 +6,7 @@
 [data-bs-theme=dark] {
     /* custom */
     --bs-border-color: var(--bs-secondary-border-subtle);
-    --bs-heading-color: var(--bs-dark-text-emphasis);
+    --bs-heading-color: var(--bs-light-text-emphasis);
     --bs-code-color: #8fd6ea;
 }
 
@@ -69,6 +69,7 @@
 .card {
     --bs-card-cap-padding-y: 0.75rem;
     --bs-card-bg: var(--bs-tertiary-bg);
+    --bs-card-cap-color: var(--bs-heading-color);
     border: none;
 }
 
