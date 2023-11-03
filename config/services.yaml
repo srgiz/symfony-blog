@@ -20,7 +20,7 @@ services:
             - '../src/Core/Entity/'
             - '../src/Core/Index/'
             - '../src/Core/Message/'
-            - '../src/Core/Repository/'
+            #- '../src/Core/Repository/'
             - '../src/Core/*/Enum/'
             - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'

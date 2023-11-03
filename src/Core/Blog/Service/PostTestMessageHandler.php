@@ -20,6 +20,7 @@ readonly class PostTestMessageHandler
         //$this->output->writeln((string) $message->time);
 
         try {
+            //$this->output->writeln([(string) $message->time]);
             throw new \Exception('App exception');
         } catch (\Throwable $e) {
             $this->output->writeln([$e->getMessage(), (string) $message->time]);
