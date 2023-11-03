@@ -5,8 +5,12 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            failed: '%env(MESSENGER_FAILURE_TRANSPORT_DNS)%?queue_name=async'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            failed:
+                dsn: '%env(MESSENGER_FAILURE_TRANSPORT_DNS)%?queue_name=async'
+                retry_strategy:
+                    max_retries: 0
             # sync: 'sync://'
 
         routing:
@@ -14,10 +18,11 @@ framework:
             # 'App\Message\YourMessage': async
             'App\Core\Message\*': async
 
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+when@test:
+   framework:
+       messenger:
+           transports:
+               # replace with your transport name here (e.g., my_transport: 'in-memory://')
+               # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+               async: 'in-memory://'
+               failed: 'in-memory://'
