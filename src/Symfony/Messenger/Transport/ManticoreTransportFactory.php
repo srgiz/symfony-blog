@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Messenger\Transport\Manticore;
+namespace App\Symfony\Messenger\Transport;
 
+use App\Symfony\Messenger\Transport\Manticore\ManticoreTransport;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Exception\InvalidArgumentException;
