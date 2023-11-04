@@ -4,6 +4,9 @@
         <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
     </h2>
     <div class="card-body">
+        {#
+        <div class="small text-muted mb-3">2023-11-03T14:22:35+03:00</div>
+        #}
         <div class="md-text mb-3">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
         <a class="btn btn-outline-group" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
     </div>
