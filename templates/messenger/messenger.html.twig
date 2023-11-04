@@ -9,7 +9,7 @@
     {% for message in paginator['list'] %}
         <div class="card card-row mb-4">
             <div class="card-body">
-                <div class="card-title h5 mb-3">ID: {{ message.id }}</div>
+                <div class="h5 mb-3">ID: {{ message.id }}</div>
                 <div class="row gx-4">
                     <div class="col-sm-12 col-md-auto mb-sm-2 mb-md-0">
                         <div class="small text-muted fw-semibold">{% include 'icon/bs-database.svg' %} Queue name</div>
