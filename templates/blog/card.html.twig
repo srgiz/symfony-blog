@@ -1,10 +1,10 @@
 {# templates/blog/card.html.twig #}
 <div class="card card-row mb-4">
+    <h2 class="card-header">
+        <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
+    </h2>
     <div class="card-body">
-        <a class="d-block h4 text-decoration-none" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
-        <div class="mt-3">
-            <div class="md-text">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
-            <a class="btn btn-outline-group" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
-        </div>
+        <div class="md-text mb-3">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
+        <a class="btn btn-outline-group" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
     </div>
 </div>

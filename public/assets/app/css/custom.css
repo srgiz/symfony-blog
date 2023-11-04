@@ -1,5 +1,5 @@
 :root, [data-bs-theme=light] {
-    --bs-font-sans-serif: 'Open Sans', sans-serif;
+    --bs-font-sans-serif: 'Open Sans', system-ui, sans-serif;
     --bs-font-monospace: Consolas, Monaco, monospace;
 }
 
@@ -181,5 +181,9 @@ pre {
 .md-text img {
     max-width: 100%;
     height: auto;
+}
+
+.md-text > *:last-child {
+    margin-bottom: 0;
 }
 

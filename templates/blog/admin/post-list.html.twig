@@ -13,12 +13,17 @@
         <div class="card card-row mb-4">
             <div class="card-header">
                 <div class="row">
-                    <div class="col"><a class="text-decoration-none fw-bold" href="{{ url('admin-post-edit', {'id': post.id}) }}">{{ post.title }}</a></div>
+                    <div class="col h2 mb-0"><a class="link-body-emphasis link-underline-opacity-0" href="{{ url('admin-post-edit', {'id': post.id}) }}">{{ post.title }}</a></div>
                     <div class="col text-end"><span class="badge {% if post.status is same as ('draft') %}bg-danger-subtle text-danger-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">{{ post.status }}</span></div>
                 </div>
             </div>
             <div class="card-body">
-                {{ url('post', {'slug': post.slug}) }}
+                <div class="text-muted small">
+                    <span class="me-1">{{ url('post', {'slug': post.slug}) }}</span>
+                    {% if post.status is not same as ('draft') %}
+                        <a class="icon-link" href="{{ url('post', {'slug': post.slug}) }}" target="_blank">{% include 'icon/bs-box-arrow-up-right.svg' %}</a>
+                    {% endif %}
+                </div>
                 {% if post.preview is not empty %}
                     <div class="md-text mt-3">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
                 {% endif %}
