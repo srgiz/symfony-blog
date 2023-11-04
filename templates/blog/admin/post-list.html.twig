@@ -16,7 +16,7 @@
                     <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('admin-post-edit', {'id': post.id}) }}">{{ post.title }}</a>
                 </div>
                 <div class="row gx-4">
-                    <div class="col-sm-12 col-md-auto mb-sm-2 mb-md-0">
+                    <div class="col-sm-12 col-md-auto mb-2 mb-md-0">
                         <div class="small text-muted fw-semibold">Status</div>
                         <span class="badge {% if post.status is same as ('draft') %}bg-danger-subtle text-danger-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">{{ post.status }}</span>
                     </div>
