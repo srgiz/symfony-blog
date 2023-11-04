@@ -82,10 +82,16 @@
 
 .h1, h1 {
     margin-bottom: 1.5rem;
+    font-weight: lighter;
 }
 
 .h2, .h3, h2, h3 {
     margin-bottom: 1rem;
+    font-weight: lighter;
+}
+
+.h4, .h4 {
+    font-weight: lighter;
 }
 
 .bi {
