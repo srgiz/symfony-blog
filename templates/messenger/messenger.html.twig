@@ -8,17 +8,22 @@
 
     {% for message in paginator['list'] %}
         <div class="card card-row mb-4">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-sm-12 col-md fw-semibold">ID: {{ message.id }}</div>
-                    <div class="col-sm-12 col-md text-md-end text-muted">
-                        {% include 'icon/bs-clock.svg' %}<span class="ms-1">{{ message.createdAt|date('c') }}</span>
+            <div class="card-body">
+                <div class="card-title h5 mb-3">ID: {{ message.id }}</div>
+                <div class="row gx-4">
+                    <div class="col-sm-12 col-md-auto mb-sm-2">
+                        <div class="small text-muted fw-semibold">{% include 'icon/bs-database.svg' %} Queue name</div>
+                        <div>{{ message.queueName }}</div>
+                    </div>
+                    <div class="col-sm-12 col-md-auto mb-sm-2">
+                        <div class="small text-muted fw-semibold">{% include 'icon/bs-envelope-dash.svg' %} Message class</div>
+                        <div>{{ message.messageClass }}</div>
+                    </div>
+                    <div class="col-sm-12 col-md-auto">
+                        <div class="small text-muted fw-semibold">{% include 'icon/bs-clock.svg' %} Time</div>
+                        <div>{{ message.createdAt|date('c') }}</div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div>Queue name: {{ message.queueName }}</div>
-                <div>Message class: {{ message.messageClass }}</div>
             </div>
         </div>
     {% endfor %}
