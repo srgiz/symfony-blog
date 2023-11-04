@@ -19,7 +19,7 @@ class PostManager
         $this->postRepository = $em->getRepository(Post::class);
     }
 
-    public function paginate(int $page, int $limit = 1): array
+    public function paginate(int $page, int $limit = 2): array
     {
         $blog = $this->postRepository->paginateAll(PaginatorUtils::offset($limit, $page), $limit);
 
