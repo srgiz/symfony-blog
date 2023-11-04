@@ -11,7 +11,9 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-12 col-md fw-semibold">ID: {{ message.id }}</div>
-                    <div class="col-sm-12 col-md text-md-end text-muted">{{ message.createdAt|date('c') }}</div>
+                    <div class="col-sm-12 col-md text-md-end text-muted">
+                        {% include 'icon/bs-clock.svg' %}<span class="ms-1">{{ message.createdAt|date('c') }}</span>
+                    </div>
                 </div>
             </div>
             <div class="card-body">

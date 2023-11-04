@@ -20,13 +20,15 @@
             <div class="card-body">
                 <div class="row text-muted small">
                     <div class="col-sm-12 col-md">
-                        <span class="me-1">{{ url('post', {'slug': post.slug}) }}</span>
                         {% if post.status is not same as ('draft') %}
-                            <a class="icon-link" href="{{ url('post', {'slug': post.slug}) }}" target="_blank">{% include 'icon/bs-box-arrow-up-right.svg' %}</a>
+                            <a class="me-1" href="{{ url('post', {'slug': post.slug}) }}" target="_blank">{% include 'icon/bs-box-arrow-up-right.svg' %}</a>
                         {% endif %}
+                        {{ url('post', {'slug': post.slug}) }}
                     </div>
                     {#
-                    <div class="col-sm-12 col-md text-md-end">2023-11-03T14:22:35+03:00</div>
+                    <div class="col-sm-12 col-md text-md-end">
+                        {% include 'icon/bs-clock.svg' %}<span class="ms-1">2023-11-03T14:22:35+03:00</span>
+                    </div>
                     #}
                 </div>
                 {% if post.preview is not empty %}
