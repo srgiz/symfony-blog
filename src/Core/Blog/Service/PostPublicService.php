@@ -23,7 +23,7 @@ readonly class PostPublicService
         return $this->postRepository->findPublic($slug);
     }
 
-    public function paginate(int $page, int $limit = 1): array
+    public function paginate(int $page, int $limit = 2): array
     {
         $blog = $this->postRepository->paginatePublic(PaginatorUtils::offset($limit, $page), $limit);
 
@@ -34,7 +34,7 @@ readonly class PostPublicService
         ];
     }
 
-    public function search(string $q, int $page, int $limit = 1): array
+    public function search(string $q, int $page, int $limit = 2): array
     {
         $blog = $this->postRepository->searchPublic($q, PaginatorUtils::offset($limit, $page), $limit);
 

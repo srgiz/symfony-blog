@@ -1,15 +1,16 @@
 {# templates/blog/card.html.twig #}
+
 <div class="card card-row mb-4">
-    <h2 class="card-header">
-        <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
-    </h2>
     <div class="card-body">
+        <h2>
+            <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
+        </h2>
         {#
         <div class="small text-muted mb-3">
             {% include 'icon/bs-clock.svg' %}<span class="ms-1">2023-11-03T14:22:35+03:00</span>
         </div>
         #}
         <div class="md-text mb-3">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
-        <a class="btn btn-outline-group" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
+        <a class="link-underline link-underline-opacity-0 fw-semibold" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
     </div>
 </div>

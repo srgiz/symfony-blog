@@ -37,7 +37,13 @@ final readonly class FormResolver implements ValueResolverInterface
 
     private function findEntity(ObjectManager $manager, Request $request, MapForm $options): ?object
     {
-        /** @psalm-suppress InternalMethod */
-        return $manager->find($options->objectClass, $request->get($options->id));
+        /** @psalm-suppress all */
+        $id = $request->get($options->id);
+
+        if (!$id) {
+            return null;
+        }
+
+        return $manager->find($options->objectClass, $id);
     }
 }
