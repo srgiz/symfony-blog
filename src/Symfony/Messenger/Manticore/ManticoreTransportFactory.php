@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Symfony\Messenger\Transport;
+namespace App\Symfony\Messenger\Manticore;
 
-use App\Symfony\Messenger\Transport\Manticore\ManticoreTransport;
+use App\Symfony\Messenger\Manticore\Transport\ManticoreTransport;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Messenger\Exception\InvalidArgumentException;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactoryInterface;
@@ -16,6 +17,7 @@ readonly class ManticoreTransportFactory implements TransportFactoryInterface
 {
     public function __construct(
         private ManagerRegistry $registry,
+        private CacheItemPoolInterface $cache,
     ) {}
 
     public function createTransport(#[\SensitiveParameter] string $dsn, array $options, SerializerInterface $serializer): TransportInterface
@@ -36,7 +38,7 @@ readonly class ManticoreTransportFactory implements TransportFactoryInterface
 
         /** @var Connection $conn */
         $conn = $this->registry->getConnection($url['host']);
-        return new ManticoreTransport($conn, $serializer, $configuration);
+        return new ManticoreTransport($conn, $serializer, $this->cache, $configuration);
     }
 
     public function supports(#[\SensitiveParameter] string $dsn, array $options): bool

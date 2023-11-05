@@ -25,7 +25,7 @@ services:
             - '../src/Core/*/Message/'
             - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'
-            - '../src/Symfony/Messenger/Transport/Manticore/'
+            - '../src/Symfony/Messenger/Manticore/Transport/'
             - '../src/Symfony/ConsoleApplication.php'
             - '../src/Symfony/Kernel.php'
 

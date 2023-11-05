@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Command;
 
-use App\Symfony\Messenger\Transport\Manticore\ManticoreTransport;
+use App\Symfony\Messenger\Manticore\Transport\ManticoreTransport;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -41,7 +41,12 @@ class InitMessengerManticoreCommand extends Command
                 $connection->executeStatement('DROP TABLE IF EXISTS ' . $input->getOption('table_name'));
             }
 
-            $connection->executeStatement("CREATE TABLE {$input->getOption('table_name')}(id bigint, queue_name string, message_class string, body text attribute, headers json, created_at timestamp, failed_at timestamp)");
+            $connection->executeStatement("
+            CREATE TABLE {$input->getOption('table_name')}(
+                id bigint, queue_name string, message_class string, body text attribute, headers json,
+                created_at timestamp, failed_at timestamp, delivered_at timestamp
+            )
+            ");
 
             $output->writeln('OK');
             return self::SUCCESS;

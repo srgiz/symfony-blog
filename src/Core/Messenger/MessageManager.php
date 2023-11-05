@@ -6,7 +6,7 @@ namespace App\Core\Messenger;
 
 use App\Core\Repository\MessageRepository;
 use App\Core\Utils\PaginatorUtils;
-use App\Symfony\Messenger\Transport\Manticore\ManticoreTransport;
+use App\Symfony\Messenger\Manticore\Transport\ManticoreTransport;
 
 class MessageManager
 {
