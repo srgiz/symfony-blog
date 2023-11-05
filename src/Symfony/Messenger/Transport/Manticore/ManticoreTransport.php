@@ -88,11 +88,21 @@ readonly class ManticoreTransport implements TransportInterface, ListableReceive
             throw new TransportException('No TransportMessageIdStamp found on the Envelope.');
         }
 
+        $encoded = $this->serializer->encode($envelope);
+
         try {
             $this->connection->executeStatement(
-                "update {$this->getTableName()} set failed_at = :failed_at where id = :id",
-                ['id' => (int)$stamp->getId(), 'failed_at' => time()],
-                ['id' => Types::INTEGER, 'failed_at' => Types::INTEGER]
+                "update {$this->getTableName()} set headers = :headers, failed_at = :failed_at where id = :id",
+                [
+                    'body' => $encoded['body'],
+                    'headers' => json_encode($encoded['headers'] ?? [], JSON_UNESCAPED_UNICODE),
+                    'failed_at' => time(),
+                    'id' => (int)$stamp->getId(),
+                ],
+                [
+                    'failed_at' => Types::INTEGER,
+                    'id' => Types::INTEGER,
+                ]
             );
         } catch (DBALException $e) {
             throw new TransportException($e->getMessage(), 0, $e);
@@ -127,7 +137,7 @@ readonly class ManticoreTransport implements TransportInterface, ListableReceive
 
     public function all(int $limit = null): iterable
     {
-        $sql = "select * from {$this->getTableName()} where queue_name = :queue_name and failed_at = 0 order by created_at asc";
+        $sql = "select * from {$this->getTableName()} where queue_name = :queue_name order by created_at asc";
 
         if ($limit) {
             $sql .= ' limit ' . $limit;

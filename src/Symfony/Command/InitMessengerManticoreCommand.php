@@ -41,7 +41,7 @@ class InitMessengerManticoreCommand extends Command
                 $connection->executeStatement('DROP TABLE IF EXISTS ' . $input->getOption('table_name'));
             }
 
-            $connection->executeStatement("CREATE TABLE {$input->getOption('table_name')}(id bigint, queue_name string, message_class string, body text, headers json, created_at timestamp, failed_at timestamp)");
+            $connection->executeStatement("CREATE TABLE {$input->getOption('table_name')}(id bigint, queue_name string, message_class string, body text attribute, headers json, created_at timestamp, failed_at timestamp)");
 
             $output->writeln('OK');
             return self::SUCCESS;
