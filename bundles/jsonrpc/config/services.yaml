@@ -8,6 +8,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Exception/'
+            - '../src/Request/'
             - '../src/Response/'
             - '../src/JsonRpcBundle.php'
 
