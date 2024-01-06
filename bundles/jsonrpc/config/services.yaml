@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    SerginhoLD\JsonRpcBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/Exception/'
+            - '../src/Response/'
+            - '../src/JsonRpcBundle.php'
+
+    #SerginhoLD\JsonRpcBundle\Handler\RequestHandlerInterface:
+    #    class: SerginhoLD\JsonRpcBundle\Handler\RequestHandler
+    #    public: true

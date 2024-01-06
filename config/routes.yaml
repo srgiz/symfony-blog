@@ -1,3 +1,8 @@
 app:
     type: attribute
     resource: ../src/Symfony/Controller/
+
+jsonrpc:
+    path: /json
+    methods: [GET, POST]
+    controller: SerginhoLD\JsonRpcBundle\Controller\JsonRpcController
