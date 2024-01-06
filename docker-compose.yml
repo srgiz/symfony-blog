@@ -4,7 +4,7 @@ services:
   nginx:
     container_name: blog-nginx
     restart: unless-stopped
-    image: nginx:1.23.0-alpine
+    image: nginx:1.25.3-alpine3.18
     ports:
       - "${DOCKER_APP_IP}:80:80"
     volumes:
@@ -47,7 +47,7 @@ services:
   redis:
     container_name: blog-redis
     restart: unless-stopped
-    image: redis:7.2.2-alpine3.18
+    image: redis:7.2.3-alpine3.19
     ports:
       - "${DOCKER_APP_IP}:6379:6379"
     volumes:
@@ -89,7 +89,7 @@ services:
   database:
     container_name: blog-database
     restart: unless-stopped
-    image: postgres:14.4-alpine3.16
+    image: postgres:16.1-alpine3.19
     ports:
       - "${DOCKER_APP_IP}:5432:5432"
     environment:

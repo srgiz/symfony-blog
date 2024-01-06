@@ -1,10 +1,10 @@
-FROM php:8.2-fpm-alpine3.18
+FROM php:8.3.1-fpm-alpine3.19
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog-php:latest .
 # docker exec -i -t blog-php sh
 # docker exec -i -t blog-php bash
 
-ENV XDEBUG_VERSION=3.2.2
+ENV XDEBUG_VERSION=3.3.1
 ENV DOCKER_APP_UID=1000
 ENV REDIS_VERSION=6.0.2
 
@@ -39,7 +39,7 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
         redis \
     && apk del .phpize-deps
 
-COPY --from=composer:2.6.5 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.6.6 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www
 RUN usermod -u $DOCKER_APP_UID www-data
