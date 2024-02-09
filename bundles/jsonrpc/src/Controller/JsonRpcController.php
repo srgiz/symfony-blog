@@ -32,7 +32,7 @@ readonly class JsonRpcController
         private bool $catch = false,
     ) {}
 
-    public function __invoke(Request $request): JsonResponse
+    final public function __invoke(Request $request): JsonResponse
     {
         try {
             $json = $request->getPayload()->all();$json = [['jsonrpc' => '2.0', 'method' => 'test', 'id' => 'f'],['jsonrpc' => '2.0', 'method' => 'test2', 'id' => 'f2']];
@@ -136,8 +136,13 @@ readonly class JsonRpcController
             $exception instanceof JsonRpcException => JsonRpcResponse::fromError($exception->getCode(), $exception->getMessage(), $exception->getData()),
             $exception instanceof HttpExceptionInterface => JsonRpcResponse::fromError($exception->getStatusCode(), $exception->getMessage()),
             $exception instanceof AccessDeniedException => JsonRpcResponse::fromError(401, 'Unauthorized'),
-            default => JsonRpcResponse::fromError(-32603, 'Internal error'),
+            default => $this->createExceptionResponse($exception),
         };
+    }
+
+    protected function createExceptionResponse(\Throwable $exception): JsonRpcResponse
+    {
+        return JsonRpcResponse::fromError(-32603, 'Internal error');
     }
 
     /**
