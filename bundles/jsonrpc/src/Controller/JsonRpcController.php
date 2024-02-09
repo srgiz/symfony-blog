@@ -159,7 +159,7 @@ readonly class JsonRpcController
     /**
      * @param JsonRpcResponse[] $responses
      */
-    private function getHeaders(array $responses): array
+    protected function getHeaders(array $responses): array
     {
         $headers = [];
 
