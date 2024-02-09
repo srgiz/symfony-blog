@@ -6,6 +6,7 @@ namespace SerginhoLD\JsonRpcBundle\Controller;
 
 use Psr\Log\LoggerInterface;
 use SerginhoLD\JsonRpcBundle\Exception\JsonRpcException;
+use SerginhoLD\JsonRpcBundle\Exception\JsonRpcResponseException;
 use SerginhoLD\JsonRpcBundle\Request\Payload;
 use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -116,11 +117,7 @@ readonly class JsonRpcController
                 return $response;
             }
 
-            if ($response->getStatusCode() >= 400 && isset(Response::$statusTexts[$response->getStatusCode()])) {
-                throw new JsonRpcException(Response::$statusTexts[$response->getStatusCode()], $response->getStatusCode());
-            }
-
-            throw new JsonRpcException('Internal error', -32603);
+            throw new JsonRpcResponseException($response);
         } catch (\Throwable $exception) {
             return $this->createErrorResponse($exception, $payload);
         }
@@ -134,15 +131,28 @@ readonly class JsonRpcController
 
         return match (true) {
             $exception instanceof JsonRpcException => JsonRpcResponse::fromError($exception->getCode(), $exception->getMessage(), $exception->getData()),
-            $exception instanceof HttpExceptionInterface => JsonRpcResponse::fromError($exception->getStatusCode(), $exception->getMessage()),
-            $exception instanceof AccessDeniedException => JsonRpcResponse::fromError(401, 'Unauthorized'),
             default => $this->createExceptionResponse($exception),
         };
     }
 
     protected function createExceptionResponse(\Throwable $exception): JsonRpcResponse
     {
-        return JsonRpcResponse::fromError(-32603, 'Internal error');
+        switch (true) {
+            case $exception instanceof JsonRpcResponseException:
+                $code = $exception->getResponse()->getStatusCode();
+                $code = $code >= 400 ? $code : -32603;
+                $message = $code >= 400 && isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : 'Internal error';
+                return JsonRpcResponse::fromError($code, $message);
+
+            case $exception instanceof HttpExceptionInterface:
+                return JsonRpcResponse::fromError($exception->getStatusCode(), $exception->getMessage());
+
+            case $exception instanceof AccessDeniedException:
+                return JsonRpcResponse::fromError(401, 'Unauthorized');
+
+            default:
+                return JsonRpcResponse::fromError(-32603, 'Internal error');
+        }
     }
 
     /**
