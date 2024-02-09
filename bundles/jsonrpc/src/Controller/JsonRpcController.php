@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SerginhoLD\JsonRpcBundle\Controller;
 
+use Psr\Log\LoggerInterface;
 use SerginhoLD\JsonRpcBundle\Exception\JsonRpcException;
 use SerginhoLD\JsonRpcBundle\Request\Payload;
 use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
@@ -16,17 +17,18 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsController]
 readonly class JsonRpcController
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private KernelInterface $kernel,
+        protected SerializerInterface $serializer,
+        protected LoggerInterface $logger,
         private RouterInterface $router,
+        private KernelInterface $kernel,
         private string $routePrefix = '',
-        private int $maxRequests = 10,
+        private int $maxRequests = 1,
         private bool $catch = false,
     ) {}
 
@@ -47,12 +49,25 @@ readonly class JsonRpcController
             $responses = [];
 
             foreach ($json as $item) {
-                if (++$countRequests > $this->maxRequests) {
-                    $responses[] = $this->createErrorResponse(new JsonRpcException(sprintf('Only %u requests per batch are allowed', $this->maxRequests), 429));
+                ++$countRequests;
+
+                try {
+                    $payload = Payload::create($item);
+                } catch (\TypeError) {
+                    $responses[] = $this->createErrorResponse(new JsonRpcException('Parse error', -32700));
                     continue;
                 }
 
-                $response = $this->request($request, $payload = Payload::create($item));
+                if ($countRequests > $this->maxRequests) {
+                    $responses[] = $this->createErrorResponse(
+                        new JsonRpcException(sprintf('Only %u requests per batch are allowed', $this->maxRequests), 429),
+                        $payload
+                    )->setId($payload->id);
+
+                    continue;
+                }
+
+                $response = $this->request($request, $payload);
 
                 if (null !== $payload->id) {
                     // response|notification
@@ -60,18 +75,16 @@ readonly class JsonRpcController
                 }
             }
 
-            return new JsonResponse($isList ? $responses : (current($responses) ?: null), headers: $this->getResponsesHeaders($responses));
+            return $this->json($isList, $responses);
         } catch (\Throwable $exception) {
-            return new JsonResponse($this->createErrorResponse($exception));
+            return $this->json(false, [$this->createErrorResponse($exception)]);
         }
     }
 
     private function request(Request $request, Payload $payload): JsonRpcResponse
     {
         try {
-            $errors = $this->validator->validate($payload);
-
-            if (count($errors)) {
+            if ('2.0' !== $payload->jsonrpc) {
                 throw new JsonRpcException('Invalid Request', -32600);
             }
 
@@ -103,16 +116,50 @@ readonly class JsonRpcController
                 return $response;
             }
 
-            return $this->createErrorResponse($response);
+            if ($response->getStatusCode() >= 400 && isset(Response::$statusTexts[$response->getStatusCode()])) {
+                throw new JsonRpcException(Response::$statusTexts[$response->getStatusCode()], $response->getStatusCode());
+            }
+
+            throw new JsonRpcException('Internal error', -32603);
         } catch (\Throwable $exception) {
-            return $this->createErrorResponse($exception);
+            return $this->createErrorResponse($exception, $payload);
         }
+    }
+
+    private function createErrorResponse(\Throwable $exception, ?Payload $payload = null): JsonRpcResponse
+    {
+        $context = array_filter((array) $payload, fn($value) => null !== $value);
+        $context['exception'] = $exception;
+        $this->logger->error($exception->getMessage(), $context);
+
+        return match (true) {
+            $exception instanceof JsonRpcException => JsonRpcResponse::fromError($exception->getCode(), $exception->getMessage(), $exception->getData()),
+            $exception instanceof HttpExceptionInterface => JsonRpcResponse::fromError($exception->getStatusCode(), $exception->getMessage()),
+            $exception instanceof AccessDeniedException => JsonRpcResponse::fromError(401, 'Unauthorized'),
+            default => JsonRpcResponse::fromError(-32603, 'Internal error'),
+        };
     }
 
     /**
      * @param JsonRpcResponse[] $responses
      */
-    private function getResponsesHeaders(array $responses): array
+    protected function json(bool $isList, array $responses): JsonResponse
+    {
+        if (!$responses) {
+            return new JsonResponse($isList ? [] : null);
+        }
+
+        return new JsonResponse(
+            $this->serializer->serialize($isList ? $responses : current($responses), 'json'),
+            headers: $this->getHeaders($responses),
+            json: true
+        );
+    }
+
+    /**
+     * @param JsonRpcResponse[] $responses
+     */
+    private function getHeaders(array $responses): array
     {
         $headers = [];
 
@@ -123,23 +170,5 @@ readonly class JsonRpcController
         }
 
         return $headers;
-    }
-
-    private function createErrorResponse(\Throwable|Response $error): JsonRpcResponse
-    {
-        if ($error instanceof Response) {
-            if ($error->getStatusCode() >= 400 && isset(Response::$statusTexts[$error->getStatusCode()])) {
-                return JsonRpcResponse::fromError($error->getStatusCode(), Response::$statusTexts[$error->getStatusCode()]);
-            }
-
-            return JsonRpcResponse::fromError(-32603, 'Internal error');
-        }
-
-        return match (true) {
-            $error instanceof JsonRpcException => JsonRpcResponse::fromError($error->getCode(), $error->getMessage()),
-            $error instanceof HttpExceptionInterface => JsonRpcResponse::fromError($error->getStatusCode(), $error->getMessage()),
-            $error instanceof AccessDeniedException => JsonRpcResponse::fromError(401, 'Unauthorized'),
-            default => JsonRpcResponse::fromError(-32603, 'Internal error'),
-        };
     }
 }

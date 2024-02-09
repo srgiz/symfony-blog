@@ -13,27 +13,40 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
 {
     private int|string|null $id = null;
 
+    /**
+     * @throws \LogicException
+     */
     public function __construct(
         readonly public mixed $result,
         readonly public ?JsonRpcError $error = null,
         array $headers = [],
     ) {
+        if (
+            (null !== $result && null !== $this->error)
+            || (null === $result && null === $this->error)
+        ) {
+            throw new \LogicException('Only the result member or only the error member must be included');
+        }
+
         $headers['Content-Type'] = 'application/json';
         parent::__construct(data: null, headers: $headers, json: false);
     }
 
-    public function getId(): int|string|null
+    public static function fromError(int $code, string $message, ?object $data = null): self
     {
-        return $this->id;
+        return new self(null, new JsonRpcError($code, $message, $data));
     }
 
-    public function setId(int|string|null $id): static
+    /**
+     * @internal
+     */
+    final public function setId(int|string|null $id): static
     {
         $this->id = $id;
         return $this;
     }
 
-    public function jsonSerialize(): array
+    final public function jsonSerialize(): array
     {
         return array_filter([
             'jsonrpc' => '2.0',
@@ -43,9 +56,12 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
         ], fn($value, $key) => null !== $value || $key === 'id', ARRAY_FILTER_USE_BOTH);
     }
 
+    /**
+     * @throws \LogicException
+     */
     final public function setJson(string $json): static
     {
-        throw new \RuntimeException('Method not supported');
+        throw new \LogicException('Method not supported');
     }
 
     final public function setData(mixed $data = []): static
@@ -65,10 +81,5 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
     {
         echo $this->getContent();
         return $this;
-    }
-
-    public static function fromError(int $code, string $message): self
-    {
-        return new self(null, new JsonRpcError($code, $message));
     }
 }

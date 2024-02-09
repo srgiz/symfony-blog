@@ -9,7 +9,7 @@ readonly class JsonRpcError implements \JsonSerializable
     public function __construct(
         public int $code,
         public string $message,
-        public array|object|null $data = null,
+        public ?object $data = null,
     ) {}
 
     public function jsonSerialize(): array
