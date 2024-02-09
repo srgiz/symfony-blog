@@ -157,17 +157,22 @@ readonly class JsonRpcController
     /**
      * @param JsonRpcResponse[] $responses
      */
-    protected function json(bool $isList, array $responses): JsonResponse
+    private function json(bool $isList, array $responses): JsonResponse
     {
         if (!$responses) {
             return new JsonResponse($isList ? [] : null);
         }
 
         return new JsonResponse(
-            $this->serializer->serialize($isList ? $responses : current($responses), 'json'),
+            $this->serialize($isList ? $responses : current($responses)),
             headers: $this->getHeaders($responses),
             json: true
         );
+    }
+
+    protected function serialize(array|JsonRpcResponse $responses): string
+    {
+        return $this->serializer->serialize($responses, 'json');
     }
 
     /**
