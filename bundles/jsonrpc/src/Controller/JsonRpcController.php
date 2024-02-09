@@ -140,8 +140,7 @@ readonly class JsonRpcController
         switch (true) {
             case $exception instanceof JsonRpcResponseException:
                 $code = $exception->getResponse()->getStatusCode();
-                $code = $code >= 400 && isset(Response::$statusTexts[$code]) ? $code : -32603;
-                $message = $code >= 400 && isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : 'Internal error';
+                [$code, $message] = $code >= 400 && isset(Response::$statusTexts[$code]) ? [$code, Response::$statusTexts[$code]] : [-32603, 'Internal error'];
                 return JsonRpcResponse::fromError($code, $message);
 
             case $exception instanceof HttpExceptionInterface:
