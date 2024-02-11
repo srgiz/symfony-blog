@@ -61,7 +61,7 @@ readonly class JsonRpcController
 
                 if ($countRequests > $this->maxRequests) {
                     $responses[] = $this->createErrorResponse(
-                        new JsonRpcException(sprintf('Only %u requests per batch are allowed', $this->maxRequests), 429),
+                        new JsonRpcException(sprintf('Only %u requests per batch are allowed', $this->maxRequests), -32500),
                         $payload
                     )->setId($payload->id);
 
@@ -76,9 +76,15 @@ readonly class JsonRpcController
                 }
             }
 
-            return $this->json($isList, $responses);
+            if (!$responses) {
+                return new JsonResponse($isList ? [] : null);
+            }
+
+            return $this->json($isList ? $responses: current($responses));
+        } catch (JsonRpcException $exception) {
+            return $this->json($this->createErrorResponse($exception));
         } catch (\Throwable $exception) {
-            return $this->json(false, [$this->createErrorResponse($exception)]);
+            return $this->json($this->createErrorResponse(new JsonRpcException('Server error', -32000, previous: $exception)));
         }
     }
 
@@ -154,32 +160,21 @@ readonly class JsonRpcController
         }
     }
 
-    /**
-     * @param JsonRpcResponse[] $responses
-     */
-    private function json(bool $isList, array $responses): JsonResponse
+    protected function json(array|JsonRpcResponse $responses): JsonResponse
     {
-        if (!$responses) {
-            return new JsonResponse($isList ? [] : null);
-        }
-
         return new JsonResponse(
-            $this->serialize($isList ? $responses : current($responses)),
+            $this->serializer->serialize($responses, 'json'),
             headers: $this->getHeaders($responses),
             json: true
         );
     }
 
-    protected function serialize(array|JsonRpcResponse $responses): string
-    {
-        return $this->serializer->serialize($responses, 'json');
-    }
-
     /**
      * @param JsonRpcResponse[] $responses
      */
-    protected function getHeaders(array $responses): array
+    protected function getHeaders(array|JsonRpcResponse $responses): array
     {
+        $responses = is_array($responses) ? $responses : [$responses];
         $headers = [];
 
         foreach ($responses as $response) {
