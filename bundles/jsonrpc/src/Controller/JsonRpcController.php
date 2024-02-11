@@ -9,6 +9,8 @@ use SerginhoLD\JsonRpcBundle\Exception\JsonRpcException;
 use SerginhoLD\JsonRpcBundle\Exception\JsonRpcResponseException;
 use SerginhoLD\JsonRpcBundle\Request\Payload;
 use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
+use SerginhoLD\JsonRpcBundle\Serializer\NativeSerializer;
+use SerginhoLD\JsonRpcBundle\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,16 +20,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsController]
 readonly class JsonRpcController
 {
     public function __construct(
-        protected SerializerInterface $serializer,
-        protected LoggerInterface $logger,
+        private LoggerInterface $logger,
         private RouterInterface $router,
         private KernelInterface $kernel,
+        private SerializerInterface $serializer = new NativeSerializer(),
         private string $routePrefix = '',
         private int $maxRequests = 1,
         private bool $catch = false,
@@ -80,7 +81,7 @@ readonly class JsonRpcController
                 return new JsonResponse($isList ? [] : null);
             }
 
-            return $this->json($isList ? $responses: current($responses));
+            return $this->json($isList ? $responses : current($responses));
         } catch (JsonRpcException $exception) {
             return $this->json($this->createErrorResponse($exception));
         } catch (\Throwable $exception) {
@@ -106,7 +107,7 @@ readonly class JsonRpcController
                 throw new JsonRpcException('Method not found', -32601);
             }
 
-            $subRequest = $request->duplicate(null, null, [
+            $subRequest = $request->duplicate(attributes: [
                 '_controller' => $controller,
                 'payload' => $payload,
             ]);
@@ -160,19 +161,16 @@ readonly class JsonRpcController
         }
     }
 
-    protected function json(array|JsonRpcResponse $responses): JsonResponse
+    private function json(array|JsonRpcResponse $responses): JsonResponse
     {
         return new JsonResponse(
-            $this->serializer->serialize($responses, 'json'),
+            $this->serializer->serialize($responses),
             headers: $this->getHeaders($responses),
             json: true
         );
     }
 
-    /**
-     * @param JsonRpcResponse[] $responses
-     */
-    protected function getHeaders(array|JsonRpcResponse $responses): array
+    private function getHeaders(array|JsonRpcResponse $responses): array
     {
         $responses = is_array($responses) ? $responses : [$responses];
         $headers = [];

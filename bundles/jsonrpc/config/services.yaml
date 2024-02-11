@@ -10,8 +10,5 @@ services:
             - '../src/Exception/'
             - '../src/Request/'
             - '../src/Response/'
+            - '../src/Serializer/'
             - '../src/JsonRpcBundle.php'
-
-    #SerginhoLD\JsonRpcBundle\Handler\RequestHandlerInterface:
-    #    class: SerginhoLD\JsonRpcBundle\Handler\RequestHandler
-    #    public: true
