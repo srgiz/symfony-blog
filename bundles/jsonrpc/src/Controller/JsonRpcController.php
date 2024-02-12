@@ -32,12 +32,13 @@ readonly class JsonRpcController
     final public function __invoke(Request $request): JsonResponse
     {
         try {
-            $json = $request->getPayload()->all();$json = [['jsonrpc' => '2.0', 'method' => 'test', 'id' => 'f'],['jsonrpc' => '2.0', 'method' => 'test2', 'id' => 'f2']];
+            $json = $request->getPayload()->all();//$json = [['jsonrpc' => '2.0', 'method' => 'test', 'id' => 'f'],['jsonrpc' => '2.0', 'method' => 'test2', 'id' => 'f2']];
 
             if (!$json) {
                 throw new JsonRpcException('Invalid Request', -32600);
             }
 
+            /** @var array[] $json */
             if (!($isList = array_is_list($json))) {
                 $json = [$json];
             }
@@ -92,6 +93,8 @@ readonly class JsonRpcController
             }
 
             $route = $this->router->getRouteCollection()->get($this->routePrefix.$payload->method);
+
+            /** @var string|null $controller */
             $controller = $route?->getDefault('_controller');
 
             if (
@@ -153,6 +156,7 @@ readonly class JsonRpcController
 
     private function getHeaders(array|JsonRpcResponse $responses): array
     {
+        /** @var JsonRpcResponse[] $responses */
         $responses = is_array($responses) ? $responses : [$responses];
         $headers = [];
 
