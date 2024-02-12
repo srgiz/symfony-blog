@@ -13,15 +13,10 @@ use SerginhoLD\JsonRpcBundle\Serializer\NativeSerializer;
 use SerginhoLD\JsonRpcBundle\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[AsController]
 readonly class JsonRpcController
 {
     public function __construct(
@@ -55,8 +50,8 @@ readonly class JsonRpcController
 
                 try {
                     $payload = Payload::create($item);
-                } catch (\TypeError) {
-                    $responses[] = $this->createErrorResponse(new JsonRpcException('Parse error', -32700));
+                } catch (\TypeError $typeError) {
+                    $responses[] = $this->createErrorResponse(new JsonRpcException('Parse error', -32700, previous: $typeError));
                     continue;
                 }
 
@@ -144,21 +139,7 @@ readonly class JsonRpcController
 
     protected function createExceptionResponse(\Throwable $exception): JsonRpcResponse
     {
-        switch (true) {
-            case $exception instanceof JsonRpcResponseException:
-                $code = $exception->getResponse()->getStatusCode();
-                [$code, $message] = $code >= 400 && isset(Response::$statusTexts[$code]) ? [$code, Response::$statusTexts[$code]] : [-32603, 'Internal error'];
-                return JsonRpcResponse::fromError($code, $message);
-
-            case $exception instanceof HttpExceptionInterface:
-                return JsonRpcResponse::fromError($exception->getStatusCode(), $exception->getMessage());
-
-            case $exception instanceof AccessDeniedException:
-                return JsonRpcResponse::fromError(401, 'Unauthorized');
-
-            default:
-                return JsonRpcResponse::fromError(-32603, 'Internal error');
-        }
+        return JsonRpcResponse::fromError(-32603, 'Internal error');
     }
 
     private function json(array|JsonRpcResponse $responses): JsonResponse
