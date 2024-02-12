@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
@@ -13,7 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/', name: 'blog', methods: ['GET'])]
 class BlogController extends AbstractController
 {
-    public function __construct(private readonly PostPublicService $service) {}
+    public function __construct(private readonly PostPublicService $service)
+    {
+    }
 
     public function __invoke(#[MapQueryParameter] string $page = '1'): Response
     {

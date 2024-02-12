@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
@@ -14,7 +15,8 @@ class PostController extends AbstractController
 {
     public function __construct(
         private readonly PostPublicService $service,
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $slug): Response
     {

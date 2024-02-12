@@ -16,8 +16,8 @@ final class Version20220718175837 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql("
-        CREATE OR REPLACE PROCEDURE add_category_tree(IN NEW_CATEGORY_ID integer, IN NEW_PARENT_ID integer) AS \$\$
+        $this->addSql('
+        CREATE OR REPLACE PROCEDURE add_category_tree(IN NEW_CATEGORY_ID integer, IN NEW_PARENT_ID integer) AS $$
         DECLARE
             new_parent_level integer;
         BEGIN
@@ -38,8 +38,8 @@ final class Version20220718175837 extends AbstractMigration
             SELECT NEW_CATEGORY_ID, NEW_CATEGORY_ID, new_parent_level + 1
             ;
         END;
-        \$\$ LANGUAGE plpgsql
-        ");
+        $$ LANGUAGE plpgsql
+        ');
 
         $this->addSql("
         CREATE OR REPLACE PROCEDURE move_category_tree(IN NEW_CATEGORY_ID integer, IN OLD_PARENT_ID integer, IN NEW_PARENT_ID integer) AS \$\$
@@ -104,8 +104,8 @@ final class Version20220718175837 extends AbstractMigration
         \$\$ LANGUAGE plpgsql
         ");
 
-        $this->addSql("
-        CREATE OR REPLACE PROCEDURE rebuild_category_tree() AS \$\$
+        $this->addSql('
+        CREATE OR REPLACE PROCEDURE rebuild_category_tree() AS $$
         DECLARE
             r category%rowtype;
         BEGIN
@@ -118,8 +118,8 @@ final class Version20220718175837 extends AbstractMigration
                 CALL add_category_tree(r.id, r.parent_id);
             END LOOP;
         END;
-        \$\$ LANGUAGE plpgsql
-        ");
+        $$ LANGUAGE plpgsql
+        ');
 
         $this->addSql("
         CREATE OR REPLACE FUNCTION change_parent_category() RETURNS TRIGGER AS \$\$

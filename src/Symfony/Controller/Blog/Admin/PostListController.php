@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
@@ -13,7 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/blog', name: 'admin-post-list', methods: ['GET'])]
 class PostListController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager) {}
+    public function __construct(private readonly PostManager $manager)
+    {
+    }
 
     public function __invoke(#[MapQueryParameter] string $page = '1'): Response
     {

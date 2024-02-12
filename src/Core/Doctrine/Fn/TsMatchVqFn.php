@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Core\Doctrine\Fn;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * fn('query', col1, col2)
+ * fn('query', col1, col2).
  */
 class TsMatchVqFn extends FunctionNode
 {

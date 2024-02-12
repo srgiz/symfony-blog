@@ -11,7 +11,8 @@ readonly class Payload
         public string $method,
         public ?array $params = null,
         public int|string|null $id = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \TypeError

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
@@ -45,7 +46,7 @@ class TokenAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Request $request): Passport
     {
-        $token = (string)$request->cookies->get(self::COOKIE_NAME);
+        $token = (string) $request->cookies->get(self::COOKIE_NAME);
 
         /** @var UserToken|null $userToken */
         $userToken = $this->tokenRepository->findOneBy(['token' => $token]);
@@ -57,7 +58,7 @@ class TokenAuthenticator implements AuthenticatorInterface
 
         $hasher = $this->hasherFactory->getPasswordHasher(UserToken::class);
 
-        if (!$hasher->verify($token, (string)$user->getPassword())) {
+        if (!$hasher->verify($token, (string) $user->getPassword())) {
             // токен является хешем на хеш пароля
             throw new CustomUserMessageAuthenticationException('Invalid token');
         }

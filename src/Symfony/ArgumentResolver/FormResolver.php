@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\ArgumentResolver;
@@ -16,7 +17,8 @@ final readonly class FormResolver implements ValueResolverInterface
     public function __construct(
         private ManagerRegistry $registry,
         private FormFactoryInterface $formFactory,
-    ) {}
+    ) {
+    }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
@@ -16,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/blog/edit', name: 'admin-post-edit', methods: ['GET', 'POST'])]
 class PostEditController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager) {}
+    public function __construct(private readonly PostManager $manager)
+    {
+    }
 
     public function __invoke(Request $request, #[MapForm(PostType::class, Post::class)] FormInterface $form): Response
     {

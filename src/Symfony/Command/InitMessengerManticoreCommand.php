@@ -38,7 +38,7 @@ class InitMessengerManticoreCommand extends Command
             $connection = $this->doctrine->getConnection($input->getOption('connection'));
 
             if ($input->getOption('force')) {
-                $connection->executeStatement('DROP TABLE IF EXISTS ' . $input->getOption('table_name'));
+                $connection->executeStatement('DROP TABLE IF EXISTS '.$input->getOption('table_name'));
             }
 
             $connection->executeStatement("

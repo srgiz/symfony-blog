@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Infrastructure\Security\Service;
@@ -13,7 +14,8 @@ readonly class RegistrationService implements RegistrationServiceInterface
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
         private EntityManagerInterface $em,
-    ) {}
+    ) {
+    }
 
     public function register(string $email, #[\SensitiveParameter] string $password): void
     {

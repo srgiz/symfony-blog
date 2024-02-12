@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Security;
@@ -17,7 +18,7 @@ class LoginController extends AbstractController
     {
         return $this->render('security/login.html.twig', [
             'isAuthorized' => $tokenStorage->getToken() ? true : false,
-            'username' => $request->getPayload()->getString('_username', (string)$tokenStorage->getToken()?->getUser()?->getUserIdentifier()),
+            'username' => $request->getPayload()->getString('_username', (string) $tokenStorage->getToken()?->getUser()?->getUserIdentifier()),
             'error' => $request->attributes->get(LoginFormAuthenticator::ERROR_ATTR_NAME),
         ]);
     }

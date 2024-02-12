@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
@@ -12,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/blog/delete', name: 'admin-post-delete', methods: ['POST'])]
 class PostDeleteController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager) {}
+    public function __construct(private readonly PostManager $manager)
+    {
+    }
 
     public function __invoke(Request $request): Response
     {

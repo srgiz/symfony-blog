@@ -18,7 +18,8 @@ readonly class ManticoreTransportFactory implements TransportFactoryInterface
     public function __construct(
         private ManagerRegistry $registry,
         private CacheItemPoolInterface $cache,
-    ) {}
+    ) {
+    }
 
     public function createTransport(#[\SensitiveParameter] string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {

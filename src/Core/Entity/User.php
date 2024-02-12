@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Core\Entity;
@@ -46,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     public function setEmail(string $email): self
@@ -71,5 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return ['ROLE_ADMIN'];
     }
 
-    public function eraseCredentials(): void {}
+    public function eraseCredentials(): void
+    {
+    }
 }

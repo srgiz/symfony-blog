@@ -17,8 +17,8 @@ class JsonTestController
 {
     public function __invoke(Payload $payload): JsonRpcResponse
     {
-        //throw new BadRequestHttpException('fd');
-        return new JsonRpcResponse([new TestDto('A', 'b')]/*, new JsonRpcError(1, 's')*/);
+        // throw new BadRequestHttpException('fd');
+        return new JsonRpcResponse([new TestDto('A', 'b')]/* , new JsonRpcError(1, 's') */);
     }
 }
 
@@ -28,5 +28,6 @@ readonly class TestDto
         #[SerializedName('foo_c')]
         public string $foo,
         public string $bar,
-    ) {}
+    ) {
+    }
 }

@@ -6,7 +6,6 @@ namespace App\Symfony\Messenger\Manticore\Transport;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use Exception;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\TransportException;
@@ -81,7 +80,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
             $this->setup();
 
             if (filter_var($this->configuration['delete_after_ack'], FILTER_VALIDATE_BOOL)) {
-                $this->connection->executeStatement("delete from {$this->configuration['table_name']} where id = :id", ['id' => (int)$stamp->getId()], ['id' => Types::INTEGER]);
+                $this->connection->executeStatement("delete from {$this->configuration['table_name']} where id = :id", ['id' => (int) $stamp->getId()], ['id' => Types::INTEGER]);
                 return;
             }
 
@@ -89,14 +88,14 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
                 "update {$this->configuration['table_name']} set delivered_at = :delivered_at where id = :id",
                 [
                     'delivered_at' => time(),
-                    'id' => (int)$stamp->getId(),
+                    'id' => (int) $stamp->getId(),
                 ],
                 [
                     'delivered_at' => Types::INTEGER,
                     'id' => Types::INTEGER,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new TransportException($e->getMessage(), 0, $e);
         }
     }
@@ -115,7 +114,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
             $this->setup();
 
             if (filter_var($this->configuration['delete_after_reject'], FILTER_VALIDATE_BOOL)) {
-                $this->connection->executeStatement("delete from {$this->configuration['table_name']} where id = :id", ['id' => (int)$stamp->getId()], ['id' => Types::INTEGER]);
+                $this->connection->executeStatement("delete from {$this->configuration['table_name']} where id = :id", ['id' => (int) $stamp->getId()], ['id' => Types::INTEGER]);
                 return;
             }
 
@@ -126,7 +125,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
                     'headers' => $params['headers'],
                     'failed_at' => $params['failed_at'],
                     'delivered_at' => time(),
-                    'id' => (int)$stamp->getId(),
+                    'id' => (int) $stamp->getId(),
                 ],
                 [
                     'failed_at' => Types::INTEGER,
@@ -134,7 +133,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
                     'id' => Types::INTEGER,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new TransportException($e->getMessage(), 0, $e);
         }
     }
@@ -151,7 +150,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
             );
 
             $id = $this->connection->lastInsertId();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             throw new TransportException($exception->getMessage(), 0, $exception);
         }
 
@@ -174,14 +173,14 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
         ];
     }
 
-    public function all(int $limit = null): iterable
+    public function all(?int $limit = null): iterable
     {
         $this->setup();
 
         $sql = "select * from {$this->configuration['table_name']} where queue_name = :queue_name and delivered_at = 0 order by created_at asc, id asc";
 
         if ($limit) {
-            $sql .= ' limit ' . $limit;
+            $sql .= ' limit '.$limit;
         }
 
         $rows = $this->connection->fetchAllAssociative($sql, ['queue_name' => $this->configuration['queue_name']]);
@@ -212,7 +211,7 @@ class ManticoreTransport implements TransportInterface, ListableReceiverInterfac
 
         $this->tableIsCached = true;
         $name = $this->configuration['table_name'];
-        $cache = $this->cache->getItem('messenger_manticore_' . $name);
+        $cache = $this->cache->getItem('messenger_manticore_'.$name);
 
         if ($cache->isHit()) {
             return;

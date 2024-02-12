@@ -15,5 +15,6 @@ readonly class Message
         public string $messageClass,
         #[Context(normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'U'], denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'U'])]
         public \DateTimeInterface $createdAt,
-    ) {}
+    ) {
+    }
 }

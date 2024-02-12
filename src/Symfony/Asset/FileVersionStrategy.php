@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Asset;
@@ -9,11 +10,11 @@ class FileVersionStrategy implements VersionStrategyInterface
 {
     public function getVersion(string $path): string
     {
-        return (string)filemtime($path);
+        return (string) filemtime($path);
     }
 
     public function applyVersion(string $path): string
     {
-        return $path . '?v=' . $this->getVersion($path);
+        return $path.'?v='.$this->getVersion($path);
     }
 }

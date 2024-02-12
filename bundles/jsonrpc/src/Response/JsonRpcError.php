@@ -10,7 +10,8 @@ readonly class JsonRpcError implements \JsonSerializable
         public int $code,
         public string $message,
         public ?object $data = null,
-    ) {}
+    ) {
+    }
 
     public function jsonSerialize(): array
     {
@@ -18,6 +19,6 @@ readonly class JsonRpcError implements \JsonSerializable
             'code' => $this->code,
             'message' => $this->message,
             'data' => $this->data,
-        ], fn($value) => null !== $value);
+        ], fn ($value) => null !== $value);
     }
 }

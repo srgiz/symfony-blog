@@ -16,7 +16,8 @@ readonly class Serializer implements SerializerInterface
     public function __construct(
         /** @var SymfonySerializer\Serializer */
         private SymfonySerializer\SerializerInterface $serializer,
-    ) {}
+    ) {
+    }
 
     /** @psalm-suppress all */
     public function normalize(object $obj): array

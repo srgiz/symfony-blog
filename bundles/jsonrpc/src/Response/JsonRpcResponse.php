@@ -55,7 +55,7 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
             'result' => $this->result,
             'error' => $this->error,
             'id' => $this->id,
-        ], fn($value, $key) => null !== $value || $key === 'id', ARRAY_FILTER_USE_BOTH);
+        ], fn ($value, $key) => null !== $value || 'id' === $key, ARRAY_FILTER_USE_BOTH);
     }
 
     /**

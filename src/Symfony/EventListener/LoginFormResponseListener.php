@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\EventListener;
@@ -17,7 +18,9 @@ class LoginFormResponseListener implements EventSubscriberInterface
 {
     public const COOKIE_ATTR_NAME = '_security_remember_me_token';
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator) {}
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
+    {
+    }
 
     public function onRememberMe(ResponseEvent $event): void
     {

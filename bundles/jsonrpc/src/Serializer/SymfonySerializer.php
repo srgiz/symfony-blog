@@ -10,7 +10,8 @@ readonly class SymfonySerializer implements SerializerInterface
 {
     public function __construct(
         private SymfonySerializerInterface $serializer,
-    ) {}
+    ) {
+    }
 
     public function serialize(mixed $data): string
     {

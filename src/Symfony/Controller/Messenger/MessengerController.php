@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Controller\Messenger;
@@ -15,7 +16,8 @@ class MessengerController extends AbstractController
 {
     public function __construct(
         private readonly MessageManager $manager,
-    ) {}
+    ) {
+    }
 
     public function __invoke(#[MapQueryParameter] string $page = '1'): Response
     {

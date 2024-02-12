@@ -6,11 +6,13 @@ namespace App\Core\Utils;
 
 class PaginatorUtils
 {
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     public static function page(int|string $page): int
     {
-        return max((int)$page, 1);
+        return max((int) $page, 1);
     }
 
     public static function offset(int $limit, int $page): int
@@ -20,6 +22,6 @@ class PaginatorUtils
 
     public static function totalPages(int $limit, int $total): int
     {
-        return (int)ceil($total / $limit);
+        return (int) ceil($total / $limit);
     }
 }

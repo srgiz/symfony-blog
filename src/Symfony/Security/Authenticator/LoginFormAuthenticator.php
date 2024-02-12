@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
@@ -30,11 +31,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         private EntityManagerInterface $em,
         private readonly UserProviderInterface $userProvider,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
-    ) {}
+    ) {
+    }
 
     public function supports(Request $request): ?bool
     {
-        return $request->isMethod('POST') && $request->attributes->get('_route') === self::ROUTE;
+        return $request->isMethod('POST') && self::ROUTE === $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): Passport
@@ -53,7 +55,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         $hasher = $this->hasherFactory->getPasswordHasher(UserToken::class);
 
         // токен является хешем на хеш пароля
-        $tokenHash = $hasher->hash((string)$user->getPassword());
+        $tokenHash = $hasher->hash((string) $user->getPassword());
 
         $userToken = new UserToken();
         $userToken->user = $user;

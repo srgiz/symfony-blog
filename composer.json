@@ -33,6 +33,7 @@
         "twig/markdown-extra": "^3.8"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.49",
         "psalm/plugin-symfony": "^5.0",
         "symfony/maker-bundle": "^1.52",
         "symfony/stopwatch": "7.0.*",
@@ -85,6 +86,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "cs-fixer": [
+            "vendor/bin/php-cs-fixer fix"
+        ],
+        "cs-fixer-diff": [
+            "vendor/bin/php-cs-fixer fix --dry-run --diff"
         ]
     },
     "conflict": {

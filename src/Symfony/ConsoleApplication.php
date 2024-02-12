@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Symfony;
@@ -11,7 +12,7 @@ class ConsoleApplication extends Application
     {
         return
             $this->getSymfonyLongVersion()
-            . sprintf(
+            .sprintf(
                 ' (env: <comment>%s</>, debug: <comment>%s</>)',
                 $this->getKernel()->getEnvironment(),
                 $this->getKernel()->isDebug() ? 'true' : 'false'

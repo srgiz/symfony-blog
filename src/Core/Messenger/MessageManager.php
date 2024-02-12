@@ -14,7 +14,8 @@ class MessageManager
 
     public function __construct(
         private readonly MessageRepository $repository,
-    ) {}
+    ) {
+    }
 
     public function paginate(int $page, int $limit = 4): array
     {

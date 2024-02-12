@@ -17,7 +17,8 @@ readonly class MessageRepository
     public function __construct(
         private Connection $manticoreConnection,
         private SerializerInterface $serializer,
-    ) {}
+    ) {
+    }
 
     /** @psalm-suppress MixedInferredReturnType */
     public function find(string $table, int $id): ?Message
@@ -40,14 +41,14 @@ readonly class MessageRepository
         $paginator = ['list' => []];
         $sql = "select %s from {$table}";
 
-        $paginator['count'] = (int)$this->manticoreConnection->fetchOne(sprintf($sql, 'count(*)'));
+        $paginator['count'] = (int) $this->manticoreConnection->fetchOne(sprintf($sql, 'count(*)'));
 
         /** @var TPaginator $paginator */
         if (!$paginator['count']) {
             return $paginator;
         }
 
-        $list = $this->manticoreConnection->fetchAllAssociative(sprintf($sql . ' order by created_at asc, id asc limit %s, %s', '*', $offset, $limit));
+        $list = $this->manticoreConnection->fetchAllAssociative(sprintf($sql.' order by created_at asc, id asc limit %s, %s', '*', $offset, $limit));
 
         foreach ($list as $data) {
             /** @psalm-suppress all */

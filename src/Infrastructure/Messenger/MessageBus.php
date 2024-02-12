@@ -11,7 +11,8 @@ readonly class MessageBus implements MessageBusInterface
 {
     public function __construct(
         private SymfonyMessenger\MessageBusInterface $bus,
-    ) {}
+    ) {
+    }
 
     public function dispatch(object $obj): void
     {

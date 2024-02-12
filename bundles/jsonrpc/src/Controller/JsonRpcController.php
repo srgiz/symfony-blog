@@ -27,12 +27,14 @@ readonly class JsonRpcController
         private string $routePrefix = '',
         private int $maxRequests = 1,
         private bool $catch = false,
-    ) {}
+    ) {
+    }
 
     final public function __invoke(Request $request): JsonResponse
     {
         try {
-            $json = $request->getPayload()->all();//$json = [['jsonrpc' => '2.0', 'method' => 'test', 'id' => 'f'],['jsonrpc' => '2.0', 'method' => 'test2', 'id' => 'f2']];
+            $json = $request->getPayload()->all();
+            $json = [['jsonrpc' => '2.0', 'method' => 'test', 'id' => 'f'], ['jsonrpc' => '2.0', 'method' => 'test2', 'id' => 'f2']];
 
             if (!$json) {
                 throw new JsonRpcException('Invalid Request', -32600);
@@ -130,7 +132,7 @@ readonly class JsonRpcController
 
     private function createErrorResponse(\Throwable $exception, ?Payload $payload = null): JsonRpcResponse
     {
-        $context = array_filter((array) $payload, fn($value) => null !== $value);
+        $context = array_filter((array) $payload, fn ($value) => null !== $value);
         $context['exception'] = $exception;
         $this->logger->error($exception->getMessage(), $context);
 
