@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class JsonRpcResponse extends JsonResponse implements \JsonSerializable
 {
+    protected int $encodingOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE;
+
     private int|string|null $id = null;
 
     /**
@@ -72,7 +74,7 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
 
     final public function getContent(): string
     {
-        $this->data = json_encode($this->jsonSerialize(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+        $this->data = json_encode($this->jsonSerialize(), $this->encodingOptions);
         $this->update();
         return $this->content;
     }
