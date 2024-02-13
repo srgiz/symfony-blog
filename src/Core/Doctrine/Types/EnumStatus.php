@@ -16,9 +16,4 @@ class EnumStatus extends Type
     {
         return 'enum_status';
     }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
 }
