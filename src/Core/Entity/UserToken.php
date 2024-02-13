@@ -12,7 +12,7 @@ class UserToken
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: 'bigint')]
-    public ?int $id = null;
+    public int|string|null $id = null;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
     public ?int $userId = null;
