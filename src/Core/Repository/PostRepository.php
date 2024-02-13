@@ -27,9 +27,7 @@ class PostRepository extends EntityRepository
             ->orderBy('p.id', 'DESC')
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->setParameters([
-                'status' => StatusEnum::Active->value,
-            ])
+            ->setParameter('status', StatusEnum::Active->value)
         );
     }
 
@@ -40,10 +38,8 @@ class PostRepository extends EntityRepository
             ->orderBy('p.id', 'DESC')
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->setParameters([
-                'status' => StatusEnum::Active->value,
-                'q' => $q,
-            ])
+            ->setParameter('status', StatusEnum::Active->value)
+            ->setParameter('q', $q)
         );
     }
 
