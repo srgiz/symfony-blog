@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Core\Entity\User;
-use App\Core\Entity\UserToken;
+use App\Infrastructure\Doctrine\Entity\UserData;
+use App\Infrastructure\Doctrine\Entity\UserTokenData;
 use App\Symfony\EventListener\LoginFormResponseListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -45,19 +45,20 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         $password = $request->getPayload()->getString('_password');
 
         $userBadge = new UserBadge($username, $this->userProvider->loadUserByIdentifier(...));
+
         return new Passport($userBadge, new PasswordCredentials($password));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        /** @var User $user */
+        /** @var UserData $user */
         $user = $token->getUser();
-        $hasher = $this->hasherFactory->getPasswordHasher(UserToken::class);
+        $hasher = $this->hasherFactory->getPasswordHasher(UserTokenData::class);
 
         // токен является хешем на хеш пароля
         $tokenHash = $hasher->hash((string) $user->getPassword());
 
-        $userToken = new UserToken();
+        $userToken = new UserTokenData();
         $userToken->user = $user;
         $userToken->token = $tokenHash;
 
@@ -76,6 +77,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $request->attributes->set(self::ERROR_ATTR_NAME, 'Bad credentials');
+
         return null;
     }
 }

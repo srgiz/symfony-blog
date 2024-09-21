@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Symfony\Controller\Blog\Admin;
 
 use App\Core\Blog\Service\PostManager;
-use App\Core\Entity\Post;
+use App\Infrastructure\Doctrine\Entity\PostData;
 use App\Symfony\Attribute\MapForm;
 use App\Symfony\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,9 +21,9 @@ class PostEditController extends AbstractController
     {
     }
 
-    public function __invoke(Request $request, #[MapForm(PostType::class, Post::class)] FormInterface $form): Response
+    public function __invoke(Request $request, #[MapForm(PostType::class, PostData::class)] FormInterface $form): Response
     {
-        /** @var Post $post */
+        /** @var PostData $post */
         $post = $form->getData();
 
         if ($request->isMethod('POST') && $form->isValid() && $this->manager->edit($post)) {

@@ -16,6 +16,7 @@ readonly class Payload
 
     /**
      * @throws \TypeError
+     *
      * @psalm-suppress MixedArgument
      */
     public static function create(array $payload): self

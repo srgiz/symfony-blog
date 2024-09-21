@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Form\Type;
 
-use App\Core\Blog\Enum\StatusEnum;
+use App\Domain\Blog\Entity\Post\Status;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,8 +19,8 @@ class PostType extends AbstractType
             ->add('slug', TextType::class)
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    StatusEnum::Draft->name => StatusEnum::Draft->value,
-                    StatusEnum::Active->name => StatusEnum::Active->value,
+                    Status::Draft->name => Status::Draft->value,
+                    Status::Active->name => Status::Active->value,
                 ],
             ])
             ->add('title', TextType::class)

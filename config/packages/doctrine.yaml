@@ -13,19 +13,20 @@ doctrine:
                 mapping_types:
                     enum_status: enum_status
 
-            manticore:
-                profiling: '%kernel.debug%'
-                url: '%env(resolve:DATABASE_MESSENGER)%'
-                driver: pdo_mysql
+            #manticore:
+            #    profiling: '%kernel.debug%'
+            #    url: '%env(resolve:DATABASE_MESSENGER)%'
+            #    driver: pdo_mysql
 
         types:
-            enum_status: App\Core\Doctrine\Types\EnumStatus
+            enum_status: App\Infrastructure\Doctrine\Types\PostStatusType
     orm:
         #auto_generate_proxy_classes: true
         #enable_lazy_ghost_objects: true
         #report_fields_where_declared: true
         #validate_xml_mapping: true
-        #auto_mapping: true
+        controller_resolver:
+            auto_mapping: false
         default_entity_manager: default
         entity_managers:
             default:
@@ -34,11 +35,11 @@ doctrine:
                 mappings:
                     AppEntity:
                         is_bundle: false
-                        dir: '%kernel.project_dir%/src/Core/Entity'
-                        prefix: 'App\Core\Entity'
+                        dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
+                        prefix: 'App\Infrastructure\Doctrine\Entity'
                 dql:
                     numeric_functions:
-                        TS_MATCH_VQ: App\Core\Doctrine\Fn\TsMatchVqFn
+                        TS_MATCH_VQ: App\Infrastructure\Doctrine\Fn\TsMatchVqFn
 
 when@test:
     doctrine:

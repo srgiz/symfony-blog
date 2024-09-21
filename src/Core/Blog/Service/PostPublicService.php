@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Core\Blog\Service;
 
-use App\Core\Entity\Post;
-use App\Core\Repository\PostRepository;
 use App\Core\Utils\PaginatorUtils;
+use App\Infrastructure\Doctrine\Entity\PostData;
+use App\Infrastructure\Doctrine\Repository\PostDataRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 readonly class PostPublicService
 {
-    private PostRepository $postRepository;
+    private PostDataRepository $postRepository;
 
     public function __construct(EntityManagerInterface $em)
     {
         /** @psalm-suppress PropertyTypeCoercion */
-        $this->postRepository = $em->getRepository(Post::class);
+        $this->postRepository = $em->getRepository(PostData::class);
     }
 
-    public function getBySlug(string $slug): ?Post
+    public function getBySlug(string $slug): ?PostData
     {
         return $this->postRepository->findPublic($slug);
     }

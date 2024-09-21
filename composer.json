@@ -15,21 +15,22 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
         "michelf/php-markdown": "^2.0",
-        "symfony/asset": "7.0.*",
-        "symfony/console": "7.0.*",
-        "symfony/dotenv": "7.0.*",
+        "symfony/asset": "7.1.*",
+        "symfony/console": "7.1.*",
+        "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
-        "symfony/form": "7.0.*",
-        "symfony/framework-bundle": "7.0.*",
-        "symfony/property-access": "7.0.*",
-        "symfony/property-info": "7.0.*",
-        "symfony/redis-messenger": "7.0.*",
-        "symfony/runtime": "7.0.*",
-        "symfony/security-bundle": "7.0.*",
-        "symfony/serializer": "7.0.*",
-        "symfony/twig-bundle": "7.0.*",
-        "symfony/validator": "7.0.*",
-        "symfony/yaml": "7.0.*",
+        "symfony/form": "7.1.*",
+        "symfony/framework-bundle": "7.1.*",
+        "symfony/property-access": "7.1.*",
+        "symfony/property-info": "7.1.*",
+        "symfony/redis-messenger": "7.1.*",
+        "symfony/runtime": "7.1.*",
+        "symfony/security-bundle": "7.1.*",
+        "symfony/serializer": "7.1.*",
+        "symfony/twig-bundle": "7.1.*",
+        "symfony/uid": "7.1.*",
+        "symfony/validator": "7.1.*",
+        "symfony/yaml": "7.1.*",
         "twig/extra-bundle": "^3.8",
         "twig/markdown-extra": "^3.8"
     },
@@ -37,8 +38,8 @@
         "friendsofphp/php-cs-fixer": "^3.49",
         "psalm/plugin-symfony": "^5.0",
         "symfony/maker-bundle": "^1.52",
-        "symfony/stopwatch": "7.0.*",
-        "symfony/web-profiler-bundle": "7.0.*",
+        "symfony/stopwatch": "7.1.*",
+        "symfony/web-profiler-bundle": "7.1.*",
         "vimeo/psalm": "^5.18",
         "weirdan/doctrine-psalm-plugin": "^2.9"
     },
@@ -91,8 +92,11 @@
         "cs-fixer": [
             "vendor/bin/php-cs-fixer fix"
         ],
-        "cs-fixer-diff": [
+        "dry-cs-fixer": [
             "vendor/bin/php-cs-fixer fix --dry-run --diff"
+        ],
+        "quality": [
+            "@cs-fixer"
         ]
     },
     "conflict": {
@@ -101,7 +105,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "7.1.*"
         }
     }
 }

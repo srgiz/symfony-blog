@@ -4,9 +4,9 @@
 {% block body %}
     <h1>Блог</h1>
 
-    {% for post in blog %}
+    {% for post in blog.posts %}
         {% include 'blog/card.html.twig' with {'post': post} only %}
     {% endfor %}
 
-    {% include 'paginate/paginate.html.twig' with {'route': 'blog', 'page': page, 'total': totalPages} only %}
+    {% include 'paginate/paginate.html.twig' with {'route': 'blog', 'page': blog.page, 'total': blog.totalPages} only %}
 {% endblock %}

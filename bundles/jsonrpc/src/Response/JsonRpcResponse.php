@@ -45,6 +45,7 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
     final public function setId(int|string|null $id): static
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -76,12 +77,14 @@ class JsonRpcResponse extends JsonResponse implements \JsonSerializable
     {
         $this->data = json_encode($this->jsonSerialize(), $this->encodingOptions);
         $this->update();
+
         return $this->content;
     }
 
     final public function sendContent(): static
     {
         echo $this->getContent();
+
         return $this;
     }
 }

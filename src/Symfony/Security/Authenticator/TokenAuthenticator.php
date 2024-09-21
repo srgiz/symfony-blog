@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Core\Entity\UserToken;
+use App\Infrastructure\Doctrine\Entity\UserTokenData;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ class TokenAuthenticator implements AuthenticatorInterface
         private readonly TokenStorageInterface $tokenStorage,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
     ) {
-        $this->tokenRepository = $em->getRepository(UserToken::class);
+        $this->tokenRepository = $em->getRepository(UserTokenData::class);
     }
 
     public function supports(Request $request): ?bool
@@ -48,7 +48,7 @@ class TokenAuthenticator implements AuthenticatorInterface
     {
         $token = (string) $request->cookies->get(self::COOKIE_NAME);
 
-        /** @var UserToken|null $userToken */
+        /** @var UserTokenData|null $userToken */
         $userToken = $this->tokenRepository->findOneBy(['token' => $token]);
         $user = $userToken?->user;
 
@@ -56,7 +56,7 @@ class TokenAuthenticator implements AuthenticatorInterface
             throw new CustomUserMessageAuthenticationException('No token');
         }
 
-        $hasher = $this->hasherFactory->getPasswordHasher(UserToken::class);
+        $hasher = $this->hasherFactory->getPasswordHasher(UserTokenData::class);
 
         if (!$hasher->verify($token, (string) $user->getPassword())) {
             // токен является хешем на хеш пароля
@@ -64,6 +64,7 @@ class TokenAuthenticator implements AuthenticatorInterface
         }
 
         $userBadge = new UserBadge($user->getUserIdentifier(), $this->userProvider->loadUserByIdentifier(...));
+
         return new SelfValidatingPassport($userBadge, [new PreAuthenticatedUserBadge()]);
     }
 

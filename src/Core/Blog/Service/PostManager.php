@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Core\Blog\Service;
 
-use App\Core\Entity\Post;
-use App\Core\Repository\PostRepository;
 use App\Core\Utils\PaginatorUtils;
+use App\Infrastructure\Doctrine\Entity\PostData;
+use App\Infrastructure\Doctrine\Repository\PostDataRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostManager
 {
-    private PostRepository $postRepository;
+    private PostDataRepository $postRepository;
 
     public function __construct(
         private readonly EntityManagerInterface $em,
     ) {
         /** @psalm-suppress PropertyTypeCoercion */
-        $this->postRepository = $em->getRepository(Post::class);
+        $this->postRepository = $em->getRepository(PostData::class);
     }
 
     public function paginate(int $page, int $limit = 2): array
@@ -31,24 +31,25 @@ class PostManager
         ];
     }
 
-    public function getById(int $id): ?Post
+    public function getById(int $id): ?PostData
     {
         return $this->postRepository->findOneBy(['id' => $id]);
     }
 
-    public function edit(Post $post): bool
+    public function edit(PostData $post): bool
     {
         if (!$this->em->getUnitOfWork()->isInIdentityMap($post)) {
             $this->em->persist($post);
         }
 
         $this->em->flush();
+
         return true;
     }
 
     public function deleteById(int $id): void
     {
-        if ($post = $this->em->getReference(Post::class, $id)) {
+        if ($post = $this->em->getReference(PostData::class, $id)) {
             $this->em->remove($post);
             $this->em->flush();
         }

@@ -6,6 +6,6 @@ namespace PHPSTORM_META {
     ]));
 
     override(\Doctrine\ORM\EntityManagerInterface::getRepository(), map([
-        '\App\Core\Entity\Post' => \App\Core\Repository\PostRepository::class,
+        '\App\Core\Entity\Post' => \App\Infrastructure\Doctrine\Repository\PostDataRepository::class,
     ]));
 }

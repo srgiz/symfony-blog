@@ -23,6 +23,7 @@ readonly class JsonRpcController extends Controller
             case $exception instanceof JsonRpcResponseException:
                 $code = $exception->getResponse()->getStatusCode();
                 [$code, $message] = $code >= 400 && isset(Response::$statusTexts[$code]) ? [$code, Response::$statusTexts[$code]] : [-32603, 'Internal error'];
+
                 return JsonRpcResponse::fromError($code, $message);
 
             case $exception instanceof HttpExceptionInterface:

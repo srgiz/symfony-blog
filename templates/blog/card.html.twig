@@ -3,7 +3,7 @@
 <div class="card card-row mb-4">
     <div class="card-body">
         <h2>
-            <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.slug}) }}">{{ post.title }}</a>
+            <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.id}) }}">{{ post.title }}</a>
         </h2>
         {#
         <div class="small text-muted mb-3">
@@ -11,6 +11,6 @@
         </div>
         #}
         <div class="md-text mb-3">{% apply markdown_to_html %}{{ post.preview }}{% endapply %}</div>
-        <a class="link-underline link-underline-opacity-0 fw-semibold" href="{{ url('post', {'slug': post.slug}) }}">Читать далее</a>
+        <a class="link-underline link-underline-opacity-0 fw-semibold" href="{{ url('post', {'slug': post.id}) }}">Читать далее</a>
     </div>
 </div>

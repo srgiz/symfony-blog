@@ -1,10 +1,10 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   nginx:
     container_name: blog-nginx
     restart: unless-stopped
-    image: nginx:1.25.3-alpine3.18
+    image: nginx:1.27.1-alpine3.20
     ports:
       - "${DOCKER_APP_IP}:80:80"
     volumes:
@@ -28,68 +28,68 @@ services:
     depends_on:
       - database
       - redis
-      - manticore
+      #- manticore
       - mailer
 
-  php-messeger:
-    container_name: blog-php-messeger
-    restart: unless-stopped
-    image: serginhold/blog-php:latest
-    environment:
-      PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
-    volumes:
-      - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
-      - ./:/var/www
-    depends_on:
-      - php
-    entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
+  #php-messeger:
+  #  container_name: blog-php-messeger
+  #  restart: unless-stopped
+  #  image: serginhold/blog-php:latest
+  #  environment:
+  #    PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
+  #  volumes:
+  #    - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
+  #    - ./:/var/www
+  #  depends_on:
+  #    - php
+  #  entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
 
   redis:
     container_name: blog-redis
     restart: unless-stopped
-    image: redis:7.2.3-alpine3.19
+    image: redis:7.4.0-alpine3.20
     ports:
       - "${DOCKER_APP_IP}:6379:6379"
     volumes:
       - blog-redis:/data
 
-  redis-commander:
-    container_name: blog-redis-commander
-    hostname: blog-redis-commander
-    image: rediscommander/redis-commander:latest
-    restart: unless-stopped
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-    ports:
-      - "${DOCKER_APP_IP}:8081:8081"
-    depends_on:
-      - redis
+  #redis-commander:
+  #  container_name: blog-redis-commander
+  #  hostname: blog-redis-commander
+  #  image: rediscommander/redis-commander:latest
+  #  restart: unless-stopped
+  #  environment:
+  #    - REDIS_HOSTS=local:redis:6379
+  #  ports:
+  #    - "${DOCKER_APP_IP}:8081:8081"
+  #  depends_on:
+  #    - redis
 
-  manticore:
-    container_name: blog-manticore
-    image: manticoresearch/manticore:6.2.12
-    environment:
-      - EXTRA=1
-    restart: unless-stopped
-    ports:
-      - "${DOCKER_APP_IP}:9306:9306"
-      - "${DOCKER_APP_IP}:9308:9308"
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 65535
-        hard: 65535
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - blog-manticore:/var/lib/manticore
+  #manticore:
+  #  container_name: blog-manticore
+  #  image: manticoresearch/manticore:6.2.12
+  #  environment:
+  #    - EXTRA=1
+  #  restart: unless-stopped
+  #  ports:
+  #    - "${DOCKER_APP_IP}:9306:9306"
+  #    - "${DOCKER_APP_IP}:9308:9308"
+  #  ulimits:
+  #    nproc: 65535
+  #    nofile:
+  #      soft: 65535
+  #      hard: 65535
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
+  #  volumes:
+  #    - blog-manticore:/var/lib/manticore
 
 ###> doctrine/doctrine-bundle ###
   database:
     container_name: blog-database
     restart: unless-stopped
-    image: postgres:16.1-alpine3.19
+    image: postgres:16.4-alpine3.20
     ports:
       - "${DOCKER_APP_IP}:5432:5432"
     environment:
