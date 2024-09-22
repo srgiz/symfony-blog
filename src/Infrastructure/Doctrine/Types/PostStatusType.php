@@ -9,12 +9,14 @@ use Doctrine\DBAL\Types\Type;
 
 class PostStatusType extends Type
 {
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
-    {
-        return 'enum_status';
-    }
+    public const string NAME = 'enum_status';
 
     public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return 'enum_status';
     }

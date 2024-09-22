@@ -13,9 +13,9 @@
     {% endif %}
 
     {{ form_start(form) }}
-    <div class="mb-4">
+    {#<div class="mb-4">
         {% include 'form/text.html.twig' with {'field': form.slug} only %}
-    </div>
+    </div>#}
     <div class="mb-4">
         {% include 'form/select.html.twig' with {'field': form.status} only %}
     </div>

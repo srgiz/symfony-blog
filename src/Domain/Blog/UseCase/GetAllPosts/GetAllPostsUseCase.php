@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Blog\UseCase\GetPublicPosts;
+namespace App\Domain\Blog\UseCase\GetAllPosts;
 
 use App\Domain\Blog\Dto\PostListDto;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
 
-final readonly class GetPublicPostsUseCase
+readonly class GetAllPostsUseCase
 {
     private const int LIMIT = 1;
 
@@ -16,12 +16,12 @@ final readonly class GetPublicPostsUseCase
     ) {
     }
 
-    public function __invoke(GetPublicPostsCommand $command): PostListDto
+    public function __invoke(GetAllPostsQuery $query): PostListDto
     {
-        $collection = $this->postRepository->paginatePublic($command->page, self::LIMIT);
+        $collection = $this->postRepository->paginateAll($query->page, self::LIMIT);
 
         return new PostListDto(
-            page: $command->page,
+            page: $query->page,
             totalPages: $collection->getTotal(),
             posts: $collection->getItems(),
         );

@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    {% for post in blog %}
+    {% for post in blog.posts %}
         <div class="card card-row mb-4">
             <div class="card-body">
                 <div class="h2">
@@ -18,11 +18,11 @@
                 <div class="row gx-4">
                     <div class="col-sm-12 col-md-auto mb-2 mb-md-0">
                         <div class="small text-muted fw-semibold">Status</div>
-                        <span class="badge {% if post.status is same as ('draft') %}bg-danger-subtle text-danger-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">{{ post.status }}</span>
+                        <span class="badge {% if post.status.value is same as ('draft') %}bg-danger-subtle text-danger-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">{{ post.status.value }}</span>
                     </div>
                     <div class="col-sm-12 col-md-auto">
                         <div class="small text-muted fw-semibold">{% include 'icon/bs-box-arrow-up-right.svg' %} Link</div>
-                        <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.id}) }}" target="_blank">{{ url('post', {'slug': post.slug}) }}</a>
+                        <a class="link-body-emphasis link-underline-opacity-0" href="{{ url('post', {'slug': post.id}) }}" target="_blank">{{ url('post', {'slug': post.id}) }}</a>
                     </div>
                     {#
                     <div class="col-sm-12 col-md-auto">
@@ -35,5 +35,5 @@
         </div>
     {% endfor %}
 
-    {% include 'paginate/paginate.html.twig' with {'route': 'admin-post-list', 'page': page, 'total': totalPages} only %}
+    {% include 'paginate/paginate.html.twig' with {'route': 'admin-post-list', 'page': blog.page, 'total': blog.totalPages} only %}
 {% endblock %}

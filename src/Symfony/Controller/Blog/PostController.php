@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
 
-use App\Core\Blog\Service\PostPublicService;
+use App\Domain\Blog\Entity\Id;
+use App\Domain\Blog\UseCase\GetPublicPost\GetPublicPostQuery;
+use App\Domain\Blog\UseCase\GetPublicPost\GetPublicPostUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,13 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     public function __construct(
-        private readonly PostPublicService $service,
+        private readonly GetPublicPostUseCase $useCase,
     ) {
     }
 
     public function __invoke(string $slug): Response
     {
-        $post = $this->service->getBySlug($slug);
+        try {
+            $query = new GetPublicPostQuery(new Id($slug));
+        } catch (\InvalidArgumentException $e) {
+            throw new NotFoundHttpException(previous: $e);
+        }
+
+        $post = ($this->useCase)($query);
 
         if (!$post) {
             throw new NotFoundHttpException();

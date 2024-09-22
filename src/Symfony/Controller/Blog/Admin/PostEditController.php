@@ -4,32 +4,49 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
 
-use App\Core\Blog\Service\PostManager;
-use App\Infrastructure\Doctrine\Entity\PostData;
-use App\Symfony\Attribute\MapForm;
+use App\Domain\Blog\Dto\EditPostDto;
+use App\Domain\Blog\Entity\Id;
+use App\Domain\Blog\UseCase\EditPost\EditPostQuery;
+use App\Domain\Blog\UseCase\EditPost\EditPostUseCase;
+use App\Domain\Blog\UseCase\SavePost\SavePostUseCase;
 use App\Symfony\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/blog/edit', name: 'admin-post-edit', methods: ['GET', 'POST'])]
 class PostEditController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager)
-    {
+    public function __construct(
+        private readonly EditPostUseCase $editPostUseCase,
+        private readonly SavePostUseCase $savePostUseCase,
+    ) {
     }
 
-    public function __invoke(Request $request, #[MapForm(PostType::class, PostData::class)] FormInterface $form): Response
+    #[Route('/admin/blog/edit', name: 'admin-post-edit', methods: ['GET'])]
+    public function edit(#[MapQueryString] EditPostQuery $query): Response
     {
-        /** @var PostData $post */
-        $post = $form->getData();
+        $post = ($this->editPostUseCase)($query);
+        $form = $this->createForm(PostType::class, $post);
 
-        if ($request->isMethod('POST') && $form->isValid() && $this->manager->edit($post)) {
+        return $this->render('blog/admin/post-edit.html.twig', ['post' => $post, 'form' => $form]);
+    }
+
+    #[Route('/admin/blog/edit', name: 'admin-post-save', methods: ['POST'])]
+    public function save(Request $request): Response
+    {
+        $id = $request->get('id');
+        $id = $id ? new Id($id) : null;
+        $form = $this->createForm(PostType::class, new EditPostDto(id: $id));
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            ($this->savePostUseCase)($post = $form->getData());
+
             return $this->redirect($this->generateUrl('admin-post-edit', ['id' => $post->id]));
         }
 
-        return $this->render('blog/admin/post-edit.html.twig', ['post' => $post, 'form' => $form]);
+        return $this->render('blog/admin/post-edit.html.twig', ['post' => $form->getData(), 'form' => $form]);
     }
 }
