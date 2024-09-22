@@ -3,14 +3,14 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-        App\Core\Entity\UserToken:
+        App\Infrastructure\Doctrine\Entity\UserTokenData:
             algorithm: 'auto'
             cost: 4
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
             entity:
-                class: App\Core\Entity\User
+                class: App\Infrastructure\Doctrine\Entity\UserData
                 property: email
     firewalls:
         dev:

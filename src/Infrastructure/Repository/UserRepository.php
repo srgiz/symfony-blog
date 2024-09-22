@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Blog\Entity\Id;
 use App\Domain\Blog\Entity\User;
 use App\Domain\Blog\Repository\UserRepositoryInterface;
 use App\Infrastructure\Doctrine\Entity\UserData;
@@ -30,7 +29,7 @@ readonly class UserRepository implements UserRepositoryInterface
     private function transformData(UserData $data): User
     {
         return new User(
-            id: new Id(), // todo
+            id: $data->getId(),
             email: $data->getUserIdentifier()
         );
     }
@@ -38,6 +37,7 @@ readonly class UserRepository implements UserRepositoryInterface
     public function create(User $user, #[\SensitiveParameter] string $plainPassword): void
     {
         $userData = new UserData(
+            id: $user->getId(),
             email: $user->getEmail(),
         );
 

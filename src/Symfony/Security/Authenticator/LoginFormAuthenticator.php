@@ -23,9 +23,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 class LoginFormAuthenticator extends AbstractAuthenticator
 {
-    public const ROUTE = 'login';
+    public const string ROUTE = 'login';
 
-    public const ERROR_ATTR_NAME = '_error';
+    public const string ERROR_ATTR_NAME = '_error';
 
     public function __construct(
         private EntityManagerInterface $em,
@@ -58,9 +58,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         // токен является хешем на хеш пароля
         $tokenHash = $hasher->hash((string) $user->getPassword());
 
-        $userToken = new UserTokenData();
-        $userToken->user = $user;
-        $userToken->token = $tokenHash;
+        $userToken = new UserTokenData(
+            user: $user,
+            token: $tokenHash,
+        );
 
         $this->em->persist($userToken);
         $this->em->flush();
@@ -68,7 +69,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         $request->attributes->set(LoginFormResponseListener::COOKIE_ATTR_NAME, new Cookie(
             TokenAuthenticator::COOKIE_NAME,
             $tokenHash,
-            time() + TokenAuthenticator::COOKIE_TIME,
+            time() + 3600,
         ));
 
         return new RedirectResponse($request->getRequestUri());

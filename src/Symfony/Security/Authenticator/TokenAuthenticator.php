@@ -24,9 +24,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class TokenAuthenticator implements AuthenticatorInterface
 {
-    public const COOKIE_NAME = 'i';
-
-    public const COOKIE_TIME = 3600;
+    public const string COOKIE_NAME = 'i';
 
     private EntityRepository $tokenRepository;
 
