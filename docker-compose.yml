@@ -1,27 +1,30 @@
 #version: '3.8'
 
 services:
-  nginx:
-    container_name: blog-nginx
-    restart: unless-stopped
-    image: nginx:1.27.1-alpine3.20
-    ports:
-      - "${DOCKER_APP_IP}:80:80"
-    volumes:
-      - ./docker/nginx/conf.d/blog.conf:/etc/nginx/conf.d/blog.conf
-      - ./:/var/www
-    depends_on:
-      - php
+  #nginx:
+  #  container_name: blog-nginx
+  #  restart: unless-stopped
+  #  image: nginx:1.27.1-alpine3.20
+  #  ports:
+  #    - "${DOCKER_APP_IP}:80:80"
+  #  volumes:
+  #    - ./docker/nginx/conf.d/blog.conf:/etc/nginx/conf.d/blog.conf
+  #    - ./:/var/www
+  #  depends_on:
+  #    - php
 
   php:
     container_name: blog-php
     restart: unless-stopped
-    image: serginhold/blog-php:latest
+    image: serginhold/blog-unit--php:latest
+    ports:
+      - "${DOCKER_APP_IP}:80:80"
     build:
       context: ./docker/php
     environment:
       PS1: "\\u:\\w$$ "
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
+      PHP_IDE_CONFIG: "serverName=127.0.0.7"
     volumes:
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
       - ./:/var/www
