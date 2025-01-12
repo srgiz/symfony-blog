@@ -7,22 +7,10 @@
 
   "routes": [
     {
-      "match": {
-        "uri": [
-          "*.php",
-          "*.php/*"
-        ]
-      },
-
-      "action": {
-        "pass": "applications/symfony/direct"
-      }
-    },
-    {
       "action": {
         "share": "/var/www/public$uri",
         "fallback": {
-          "pass": "applications/symfony/index"
+          "pass": "applications/symfony"
         }
       }
     }
@@ -31,15 +19,10 @@
   "applications": {
     "symfony": {
       "type": "php",
-      "targets": {
-        "direct": {
-          "root": "/var/www/public/"
-        },
-
-        "index": {
-          "root": "/var/www/public/",
-          "script": "index.php"
-        }
+      "root": "/var/www/public/",
+      "script": "index.php",
+      "environment": {
+        "TESTAPP_ENV": "https://unit.nginx.org/configuration/#php ; https://blog.castopod.org/containerize-your-php-applications-using-nginx-unit/"
       }
     }
   }
