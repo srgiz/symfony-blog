@@ -1,4 +1,4 @@
-FROM unit:1.34.0-php8.3
+FROM unit:1.34.1-php8.3
 
 # docker build -f docker/php/Dockerfile -t serginhold/blog-php:latest .
 # docker exec -i -t blog-php sh

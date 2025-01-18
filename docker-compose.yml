@@ -1,18 +1,6 @@
 #version: '3.8'
 
 services:
-  #nginx:
-  #  container_name: blog-nginx
-  #  restart: unless-stopped
-  #  image: nginx:1.27.1-alpine3.20
-  #  ports:
-  #    - "${DOCKER_APP_IP}:80:80"
-  #  volumes:
-  #    - ./docker/nginx/conf.d/blog.conf:/etc/nginx/conf.d/blog.conf
-  #    - ./:/var/www
-  #  depends_on:
-  #    - php
-
   php:
     container_name: blog-php
     restart: unless-stopped
@@ -70,8 +58,6 @@ services:
     environment:
       KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: 'kafka:9092'
       KAFKA_CLUSTERS_0_NAME: local
-      #KAFKA_CLUSTERS_0_NAME: local
-      #KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
       #KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_PLAINTEXT
       #KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: PLAIN
       #KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="admin-secret";'
@@ -86,18 +72,6 @@ services:
       - "${DOCKER_APP_IP}:6379:6379"
     volumes:
       - blog-redis:/data
-
-  #redis-commander:
-  #  container_name: blog-redis-commander
-  #  hostname: blog-redis-commander
-  #  image: rediscommander/redis-commander:latest
-  #  restart: unless-stopped
-  #  environment:
-  #    - REDIS_HOSTS=local:redis:6379
-  #  ports:
-  #    - "${DOCKER_APP_IP}:8081:8081"
-  #  depends_on:
-  #    - redis
 
   #manticore:
   #  container_name: blog-manticore
