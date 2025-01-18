@@ -36,6 +36,9 @@ RUN apt-get update \
         zip \
     && docker-php-ext-enable xdebug redis
 
+RUN apt-get install -y libffi-dev librdkafka-dev \
+    && docker-php-ext-install ffi
+
 #RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
 #    && apk add --no-cache \
 #        # intl

@@ -29,3 +29,7 @@ services:
 
     SerginhoLD\JsonRpcBundle\Serializer\SerializerInterface:
         class: SerginhoLD\JsonRpcBundle\Serializer\SymfonySerializer
+
+    SerginhoLD\KafkaTransport\KafkaTransportFactory:
+        class: SerginhoLD\KafkaTransport\KafkaTransportFactory
+        #tags: [ messenger.transport_factory ]
