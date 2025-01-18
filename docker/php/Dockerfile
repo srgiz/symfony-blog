@@ -59,7 +59,7 @@ RUN apt-get update \
 
 COPY ./unit-config.json /docker-entrypoint.d/
 
-COPY --from=composer:2.8.4 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.8.4 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www
 #RUN usermod -u $DOCKER_APP_UID www-data

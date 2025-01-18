@@ -1,4 +1,8 @@
 {
+  "access_log": {
+    "path": "/dev/stderr"
+  },
+
   "listeners": {
     "*:80": {
       "pass": "routes"
