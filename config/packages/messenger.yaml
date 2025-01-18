@@ -17,7 +17,7 @@ framework:
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-            'App\Core\Message\*': async
+            'App\Domain\Blog\Message\*': async
 
         buses:
             messenger.bus.default:

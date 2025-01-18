@@ -22,10 +22,10 @@ services:
       #- manticore
       - mailer
 
-  #php-messeger:
-  #  container_name: blog-php-messeger
+  #messeger:
+  #  container_name: blog-messeger
   #  restart: unless-stopped
-  #  image: serginhold/blog-php:latest
+  #  image: serginhold/blog-unit--php:latest
   #  environment:
   #    PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
   #  volumes:
@@ -72,6 +72,20 @@ services:
       - "${DOCKER_APP_IP}:6379:6379"
     volumes:
       - blog-redis:/data
+
+  redisinsight:
+    container_name: blog-redisinsight
+    image: redis/redisinsight:2.64.1
+    ports:
+      - "${DOCKER_APP_IP}:5540:5540"
+      #- "0.0.0.0:5000:5000"
+    volumes:
+      - 'blog-redisinsight:/data'
+    depends_on:
+      - redis
+    ### Settings in 127.0.0.7:5540
+    ### Host: {container_name}
+    ### Host: blog-redis
 
   #manticore:
   #  container_name: blog-manticore
@@ -125,6 +139,8 @@ volumes:
     name: blog-database
   blog-redis:
     name: blog-redis
+  blog-redisinsight:
+    name: blog-redisinsight
   blog-kafka:
     name: blog-kafka
   blog-manticore:
