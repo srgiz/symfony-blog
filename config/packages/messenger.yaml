@@ -10,10 +10,13 @@ framework:
                 options:
                     # Опции имеют приоритет над параметрами в DSN
                     topic: topic_test_2
-                    #produce_with_headers: true
+                    #produce_with_headers: false
                     group.id: blog.test2
-                    headers:
-                        type: "App\\Domain\\Blog\\Message\\TestMessage" # если нет headers в kafka message
+                    filter_value:
+                        # Обработка только определенных сообщений подходящих по фильтру
+                        type: test
+                    #headers:
+                    #    type: "App\\Domain\\Blog\\Message\\TestMessage" # если нет headers в kafka message
                 retry_strategy:
                     max_retries: 0 # stop kafka
                 serializer: messenger.transport.symfony_serializer
@@ -35,7 +38,7 @@ framework:
                     enabled: true
                     # set "allow_no_handlers" to true (default is false) to allow having
                     # no handler configured for this bus without throwing an exception
-                    allow_no_handlers: true
+                    allow_no_handlers: false
                     # set "allow_no_senders" to false (default is true) to throw an exception
                     # if no sender is configured for this bus
                     allow_no_senders: false

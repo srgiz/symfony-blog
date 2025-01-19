@@ -9,7 +9,7 @@ use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;
 readonly class KafkaKeyStamp implements NonSendableStampInterface
 {
     public function __construct(
-        public string $key,
+        public ?string $key,
     ) {
     }
 }

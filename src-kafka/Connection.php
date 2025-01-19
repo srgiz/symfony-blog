@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SerginhoLD\KafkaTransport;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use RdKafka\Conf;
 use RdKafka\KafkaConsumer;
 use RdKafka\Message;
@@ -13,10 +15,13 @@ use Symfony\Component\Messenger\Exception\InvalidArgumentException;
 /**
  * @internal
  */
-class Connection
+class Connection implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private const array CONF_CONSUMER_OPTIONS = [
         'group.id',
+        'auto.offset.reset', // 'earliest', 'latest'
     ];
 
     private ?Producer $producer = null;
@@ -69,32 +74,48 @@ class Connection
     {
         $consumer = $this->getConsumer();
 
-        /*
         do {
             $message = $consumer->consume(100);
 
-            if ($message->err === RD_KAFKA_RESP_ERR__TIMED_OUT) {
-                continue;
-            }
-            if ($message->err === RD_KAFKA_RESP_ERR__PARTITION_EOF) {
-                continue;
+            if (RD_KAFKA_RESP_ERR_NO_ERROR !== $message->err) {
+                break;
             }
 
-            yield $message;
-            // process your message here
+            // Если нет headers.type в message, подставляем type из конфига для десериализации
+            if (
+                !isset($message->headers, $message->headers['type'])
+                && isset($this->options['headers']['type'])
+            ) {
+                $message->headers['type'] = $this->options['headers']['type'];
+            }
 
-            //$consumer->commit($message);
-        } while (true);*/
+            // Обработка только определенных сообщений подходящих по фильтру
+            $skip = false;
 
-        $message = $consumer->consume(100);
+            if (isset($this->options['filter_value'])) {
+                $data = json_decode($message->payload, true, flags: JSON_THROW_ON_ERROR);
 
-        if (
-            RD_KAFKA_RESP_ERR_NO_ERROR === $message->err
-            && !isset($message->headers, $message->headers['type'])
-            && isset($this->options['headers']['type'])
-        ) {
-            $message->headers['type'] = $this->options['headers']['type'];
-        }
+                foreach ($this->options['filter_value'] as $key => $value) {
+                    if (($data[$key] ?? null) !== $value) {
+                        $skip = true;
+                        break;
+                    }
+                }
+            }
+
+            // Если сообщение не подошло по фильтру
+            if ($skip) {
+                $this->ack($message);
+                $this->logger?->debug('Message skipped due to filter.', [
+                    'topic' => $message->topic_name,
+                    'group.id' => $this->options['group.id'] ?? null,
+                    'key' => $message->key,
+                    'partition' => $message->partition,
+                    'offset' => $message->offset,
+                    'len' => $message->len,
+                ]);
+            }
+        } while ($skip);
 
         return $message;
     }
@@ -144,8 +165,7 @@ class Connection
 
         $conf = $this->createConf();
         $conf->set('enable.auto.commit', 'false');
-        //$conf->set('group.id', 'blog.test2');
-        $conf->set('auto.offset.reset', 'earliest'); // earliest: first, latest
+        $conf->set('auto.offset.reset', 'latest');
         $conf->set('enable.partition.eof', 'true');
 
         foreach (self::CONF_CONSUMER_OPTIONS as $name) {
@@ -154,12 +174,12 @@ class Connection
             }
         }
 
-        $conf->setLogCb(
-            function (KafkaConsumer $consumer, int $level, string $facility, string $message): void {
-                // Perform your logging mechanism here
-                echo $message;
-            }
-        );
+        //$conf->setLogCb(
+        //    function (KafkaConsumer $consumer, int $level, string $facility, string $message): void {
+        // Perform your logging mechanism here
+        //echo $message;
+        //    }
+        //);
 
         $this->consumer = new KafkaConsumer($conf);
         $this->consumer->subscribe([$this->options['topic']]);
