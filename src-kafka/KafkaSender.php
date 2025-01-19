@@ -19,12 +19,14 @@ readonly class KafkaSender implements SenderInterface
 
     public function send(Envelope $envelope): Envelope
     {
+        $keyStamp = $envelope->last(KafkaKeyStamp::class);
         $encodedMessage = $this->serializer->encode($envelope);
 
         try {
             $this->connection->producev(
                 $encodedMessage['body'],
-                $encodedMessage['headers'] ?? []
+                $encodedMessage['headers'] ?? [],
+                $keyStamp?->key,
             );
         } catch (\Throwable $e) {
             throw new TransportException($e->getMessage(), previous: $e);

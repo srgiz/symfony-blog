@@ -47,12 +47,12 @@ class Connection
         return new self($options + $configuration);
     }
 
-    public function producev(string $body, array $headers = []): void
+    public function producev(string $body, array $headers = [], ?string $key = null): void
     {
         $producer = $this->getProducer();
         $topic = $producer->newTopic($this->options['topic']);
 
-        $topic->producev(RD_KAFKA_PARTITION_UA, 0, $body, null, $headers);
+        $topic->producev(RD_KAFKA_PARTITION_UA, 0, $body, $key, $headers);
 
         // trigger callback queues
         $producer->poll(1);
