@@ -41,7 +41,7 @@ readonly class KafkaReceiver implements ReceiverInterface
         yield $this->serializer->decode([
             'body' => $message->payload,
             'headers' => $message->headers ?? [],
-        ])->with(new KafkaMessageStamp($message));
+        ])->with(new KafkaMessageStamp($message))->with(new KafkaKeyStamp($message->key));
     }
 
     #[\Override]
