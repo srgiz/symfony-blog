@@ -6,8 +6,13 @@ framework:
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
-                #dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                dsn: 'kafka://kafka:9092'
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%' # kafka://kafka:9092?option_1=value_1
+                options:
+                    # Опции имеют приоритет над параметрами в DSN
+                    topic: topic_test_2
+                retry_strategy:
+                    max_retries: 0 # stop kafka
+                serializer: messenger.transport.symfony_serializer
             #failed:
             #    dsn: '%env(MESSENGER_FAILURE_TRANSPORT_DNS)%?queue_name=async&delete_after_reject=false&delete_after_ack=false'
             #    retry_strategy:

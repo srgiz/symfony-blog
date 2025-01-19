@@ -13,7 +13,7 @@ class KafkaTransportFactory implements TransportFactoryInterface
     #[\Override]
     public function createTransport(#[\SensitiveParameter] string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {
-        return new KafkaTransport(); // todo
+        return new KafkaTransport(Connection::fromDsn($dsn, $options), $serializer);
     }
 
     #[\Override]

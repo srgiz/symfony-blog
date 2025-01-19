@@ -5,39 +5,36 @@ declare(strict_types=1);
 namespace SerginhoLD\KafkaTransport;
 
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Transport\Serialization\Serializer;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 
 class KafkaTransport implements TransportInterface
 {
-    private Connection $connection;
-    private SerializerInterface $serializer;
+    private ?KafkaSender $sender = null;
+    private ?KafkaReceiver $receiver = null;
 
     public function __construct(
-        ?Connection $connection = null, // todo
-        ?SerializerInterface $serializer = null,
+        private readonly Connection $connection,
+        private readonly SerializerInterface $serializer,
     ) {
-        $this->connection = $connection ?? new Connection();
-        $this->serializer = $serializer ?? new Serializer();
     }
 
     #[\Override]
     public function get(): iterable
     {
-        throw new \RuntimeException('Not implemented');
+        return $this->getReceiver()->get();
     }
 
     #[\Override]
     public function ack(Envelope $envelope): void
     {
-        throw new \RuntimeException('Not implemented');
+        $this->getReceiver()->ack($envelope);
     }
 
     #[\Override]
     public function reject(Envelope $envelope): void
     {
-        throw new \RuntimeException('Not implemented');
+        $this->getReceiver()->reject($envelope);
     }
 
     #[\Override]
@@ -49,5 +46,10 @@ class KafkaTransport implements TransportInterface
     private function getSender(): KafkaSender
     {
         return $this->sender ??= new KafkaSender($this->connection, $this->serializer);
+    }
+
+    private function getReceiver(): KafkaReceiver
+    {
+        return $this->receiver ??= new KafkaReceiver($this->connection, $this->serializer);
     }
 }

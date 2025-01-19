@@ -27,7 +27,7 @@ readonly class KafkaSender implements SenderInterface
                 $encodedMessage['headers'] ?? []
             );
         } catch (\Throwable $e) {
-            throw new TransportException($e->getMessage(), 0, $e);
+            throw new TransportException($e->getMessage(), previous: $e);
         }
 
         return $envelope;
