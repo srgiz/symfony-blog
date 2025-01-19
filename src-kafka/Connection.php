@@ -15,7 +15,7 @@ use Symfony\Component\Messenger\Exception\InvalidArgumentException;
  */
 class Connection
 {
-    private const CONF_CONSUMER_OPTIONS = [
+    private const array CONF_CONSUMER_OPTIONS = [
         'group.id',
     ];
 
@@ -51,8 +51,9 @@ class Connection
     {
         $producer = $this->getProducer();
         $topic = $producer->newTopic($this->options['topic']);
+        $produceWithHeaders = $this->options['produce_with_headers'] ?? true;
 
-        $topic->producev(RD_KAFKA_PARTITION_UA, 0, $body, $key, $headers);
+        $topic->producev(RD_KAFKA_PARTITION_UA, 0, $body, $key, $produceWithHeaders ? $headers : null);
 
         // trigger callback queues
         $producer->poll(1);
