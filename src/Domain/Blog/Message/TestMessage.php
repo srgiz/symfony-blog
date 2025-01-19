@@ -8,7 +8,7 @@ readonly class TestMessage
 {
     public function __construct(
         public string $testValue,
-        public string $type = "test",
+        public string $type = 'test',
     ) {
     }
 }

@@ -10,6 +10,9 @@ framework:
                 options:
                     # Опции имеют приоритет над параметрами в DSN
                     topic: topic_test_2
+                    group.id: blog.test2
+                    #headers:
+                    #    type: "App\\Domain\\Blog\\Message\\TestMessage" # если нет headers в kafka message
                 retry_strategy:
                     max_retries: 0 # stop kafka
                 serializer: messenger.transport.symfony_serializer

@@ -15,6 +15,10 @@ use Symfony\Component\Messenger\Exception\InvalidArgumentException;
  */
 class Connection
 {
+    private const CONF_CONSUMER_OPTIONS = [
+        'group.id',
+    ];
+
     private ?Producer $producer = null;
     private ?KafkaConsumer $consumer = null;
 
@@ -55,7 +59,7 @@ class Connection
 
         $err = $producer->flush(5000);
 
-        if ($err === RD_KAFKA_RESP_ERR__TIMED_OUT) {
+        if (RD_KAFKA_RESP_ERR__TIMED_OUT === $err) {
             throw new \RuntimeException('Failed to flush producer. Messages might not have been delivered.');
         }
     }
@@ -81,7 +85,17 @@ class Connection
             //$consumer->commit($message);
         } while (true);*/
 
-        return $consumer->consume(100);
+        $message = $consumer->consume(100);
+
+        if (
+            RD_KAFKA_RESP_ERR_NO_ERROR === $message->err
+            && !isset($message->headers, $message->headers['type'])
+            && isset($this->options['headers']['type'])
+        ) {
+            $message->headers['type'] = $this->options['headers']['type'];
+        }
+
+        return $message;
     }
 
     public function ack(Message $message): void
@@ -129,9 +143,15 @@ class Connection
 
         $conf = $this->createConf();
         $conf->set('enable.auto.commit', 'false');
-        $conf->set('group.id', 'blog.test2');
+        //$conf->set('group.id', 'blog.test2');
         $conf->set('auto.offset.reset', 'earliest'); // earliest: first, latest
         $conf->set('enable.partition.eof', 'true');
+
+        foreach (self::CONF_CONSUMER_OPTIONS as $name) {
+            if (isset($this->options[$name])) {
+                $conf->set($name, $this->options[$name]);
+            }
+        }
 
         $conf->setLogCb(
             function (KafkaConsumer $consumer, int $level, string $facility, string $message): void {
