@@ -17,8 +17,15 @@ readonly class KafkaSender implements SenderInterface
     ) {
     }
 
+    #[\Override]
     public function send(Envelope $envelope): Envelope
     {
+        $messageStamp = $envelope->last(KafkaMessageStamp::class);
+
+        if ($messageStamp) {
+            throw new TransportException('No retries allowed.');
+        }
+
         $keyStamp = $envelope->last(KafkaKeyStamp::class);
         $encodedMessage = $this->serializer->encode($envelope);
 

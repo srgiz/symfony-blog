@@ -26,18 +26,6 @@ readonly class KafkaReceiver implements ReceiverInterface
     {
         $message = $this->connection->get();
 
-        switch ($message->err) {
-            case RD_KAFKA_RESP_ERR__PARTITION_EOF: // No more messages
-            case RD_KAFKA_RESP_ERR__TIMED_OUT: // Attempt to connect again
-                return;
-
-            case RD_KAFKA_RESP_ERR_NO_ERROR:
-                break;
-
-            default:
-                throw new TransportException($message->errstr(), $message->err);
-        }
-
         yield $this->serializer->decode([
             'body' => $message->payload,
             'headers' => $message->headers ?? [],

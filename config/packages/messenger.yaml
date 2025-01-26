@@ -1,5 +1,8 @@
 framework:
     messenger:
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         #failure_transport: failed
 
@@ -17,9 +20,9 @@ framework:
                         type: test
                     #headers:
                     #    type: "App\\Domain\\Blog\\Message\\TestMessage" # если нет headers в kafka message
-                retry_strategy:
-                    max_retries: 0 # stop kafka
-                serializer: messenger.transport.symfony_serializer
+                #retry_strategy:
+                #    max_retries: 0 # stop kafka
+                #serializer: messenger.transport.symfony_serializer
             #failed:
             #    dsn: '%env(MESSENGER_FAILURE_TRANSPORT_DNS)%?queue_name=async&delete_after_reject=false&delete_after_ack=false'
             #    retry_strategy:
