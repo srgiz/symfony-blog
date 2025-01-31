@@ -105,21 +105,30 @@ deptrac:
                     #- guzzlehttp/guzzle
               - type: classLike
                 value: ^SerginhoLD\\KafkaTransport\\.+
+
         # Framework
-        - name: Web
+        - name: Symfony
           collectors:
               - type: classLike
-                value: ^App\\Web\\.+
+                value: ^App\\Symfony\\.+
               - type: composer
                 composerPath: composer.json
                 composerLockPath: composer.lock
                 packages:
                     #- nelmio/api-doc-bundle
                     #- zircote/swagger-php
+                    - symfony/dependency-injection
                     - symfony/framework-bundle
                     - symfony/http-kernel
                     - symfony/http-foundation
                     - symfony/routing
+                    - symfony/security-http
+                    - symfony/form
+                    - symfony/asset
+                    - doctrine/persistence
+                    - twig/markdown-extra
+              - type: classLike
+                value: ^SerginhoLD\\JsonRpcBundle\\.+
     
     ruleset:
         DomainBlog_DeletePost:
