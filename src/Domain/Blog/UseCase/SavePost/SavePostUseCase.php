@@ -8,11 +8,13 @@ use App\Domain\Blog\Entity\Id;
 use App\Domain\Blog\Entity\Post;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
 use App\Domain\Blog\ViewModel\EditPostModel;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 readonly class SavePostUseCase
 {
     public function __construct(
         private PostRepositoryInterface $postRepository,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -27,6 +29,7 @@ readonly class SavePostUseCase
         );
 
         $this->postRepository->save($post);
+        $this->eventDispatcher->dispatch(new SavePostEvent($post));
 
         return new SavePostModel($post->getId());
     }

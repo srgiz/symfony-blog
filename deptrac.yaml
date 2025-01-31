@@ -91,7 +91,7 @@ deptrac:
                     - symfony/serializer
                     - symfony/validator
                     - symfony/event-dispatcher
-                    - symfony/doctrine-bridge
+                    #- symfony/doctrine-bridge
                     - symfony/console
                     - symfony/password-hasher
                     - symfony/messenger

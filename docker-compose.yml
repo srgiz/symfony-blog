@@ -22,7 +22,7 @@ services:
       #- manticore
       - mailer
 
-  #messeger:
+  #messenger1:
   #  container_name: blog-messeger
   #  restart: unless-stopped
   #  image: serginhold/blog-unit--php:latest
@@ -34,6 +34,19 @@ services:
   #  depends_on:
   #    - php
   #  entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
+
+  #messenger2:
+  #  container_name: blog-messeger2
+  #  restart: unless-stopped
+  #  image: serginhold/blog-unit--php:latest
+  #  environment:
+  #    PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
+  #  volumes:
+  #    - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
+  #    - ./:/var/www
+  #  depends_on:
+  #    - php
+  #  entrypoint: [ "php", "/var/www/bin/console", "messenger:consume", "async" ]
 
   kafka:
     container_name: blog-kafka
