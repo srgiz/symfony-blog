@@ -5,6 +5,10 @@
 * `composer i`
 * `php bin/console doctrine:migrations:migrate`
 
+## Тест
+
+`composer quality`
+
 ## Пользователи
 
 Создать пользователя:

@@ -5,8 +5,6 @@ services:
     container_name: blog-php
     restart: unless-stopped
     image: serginhold/blog-unit--php:latest
-    ports:
-      - "${DOCKER_APP_IP}:80:80"
     build:
       context: ./docker/php
     environment:
@@ -21,32 +19,6 @@ services:
       - redis
       #- manticore
       - mailer
-
-  #messenger1:
-  #  container_name: blog-messeger
-  #  restart: unless-stopped
-  #  image: serginhold/blog-unit--php:latest
-  #  environment:
-  #    PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
-  #  volumes:
-  #    - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
-  #    - ./:/var/www
-  #  depends_on:
-  #    - php
-  #  entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
-
-  #messenger2:
-  #  container_name: blog-messeger2
-  #  restart: unless-stopped
-  #  image: serginhold/blog-unit--php:latest
-  #  environment:
-  #    PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
-  #  volumes:
-  #    - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
-  #    - ./:/var/www
-  #  depends_on:
-  #    - php
-  #  entrypoint: [ "php", "/var/www/bin/console", "messenger:consume", "async" ]
 
   kafka:
     container_name: blog-kafka
@@ -66,8 +38,6 @@ services:
   kafka-ui:
     container_name: blog-kafka-ui
     image: provectuslabs/kafka-ui:v0.7.2
-    ports:
-      - "${DOCKER_APP_IP}:8081:8080"
     environment:
       KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: 'kafka:9092'
       KAFKA_CLUSTERS_0_NAME: local
@@ -82,24 +52,16 @@ services:
     container_name: blog-redis
     restart: unless-stopped
     image: redis:7.4.0-alpine3.20
-    ports:
-      - "${DOCKER_APP_IP}:6379:6379"
     volumes:
       - blog-redis:/data
 
   redisinsight:
     container_name: blog-redisinsight
     image: redis/redisinsight:2.64.1
-    ports:
-      - "${DOCKER_APP_IP}:5540:5540"
-      #- "0.0.0.0:5000:5000"
     volumes:
       - 'blog-redisinsight:/data'
     depends_on:
       - redis
-    ### Settings in 127.0.0.7:5540
-    ### Host: {container_name}
-    ### Host: blog-redis
 
   #manticore:
   #  container_name: blog-manticore
@@ -126,8 +88,6 @@ services:
     container_name: blog-database
     restart: unless-stopped
     image: postgres:16.4-alpine3.20
-    ports:
-      - "${DOCKER_APP_IP}:5432:5432"
     environment:
       POSTGRES_PASSWORD: root
     volumes:
@@ -139,9 +99,6 @@ services:
     container_name: blog-mailer
     restart: unless-stopped
     image: schickling/mailcatcher
-    ports:
-      - "${DOCKER_APP_IP}:1025:1025"
-      - "${DOCKER_APP_IP}:1080:1080"
 ###< symfony/mailer ###
 
 networks:
