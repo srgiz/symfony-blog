@@ -65,7 +65,7 @@ COPY ./unit-config.json /docker-entrypoint.d/
 COPY --from=composer:2.8.4 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www
-#RUN usermod -u $DOCKER_APP_UID www-data
+RUN usermod -u $DOCKER_APP_UID www-data
 #RUN chown -R unit:unit /var/www
 #RUN chown -R www-data:www-data /var/www
 

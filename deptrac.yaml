@@ -17,6 +17,9 @@ deptrac:
     skip_violations:
         App\Domain\Blog\Entity\Id:
             - Symfony\Component\Uid\UuidV7 # Разрешаем чтобы свое не писать, все равно скрыто наследованием
+        App\Domain\Blog\Entity\User:
+            - Symfony\Component\Security\Core\User\UserInterface # todo: придумать что-то
+            - Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface # todo: придумать что-то
     
     layers:
         # Common
@@ -95,10 +98,10 @@ deptrac:
                     - symfony/security-core
                     #- symfony/dependency-injection
                     - doctrine/dbal
-                    - doctrine/orm
-                    - doctrine/collections
-                    - doctrine/doctrine-bundle
-                    - doctrine/persistence
+                    #- doctrine/orm
+                    #- doctrine/collections
+                    #- doctrine/doctrine-bundle
+                    #- doctrine/persistence
                     #- guzzlehttp/guzzle
               - type: classLike
                 value: ^SerginhoLD\\KafkaTransport\\.+

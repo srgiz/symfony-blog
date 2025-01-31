@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Infrastructure\Doctrine\Entity\UserData;
-use App\Infrastructure\Doctrine\Entity\UserTokenData;
+use App\Domain\Blog\Entity\User;
+use App\Domain\Blog\Repository\UserRepositoryInterface;
 use App\Symfony\EventListener\LoginFormResponseListener;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +27,9 @@ class LoginFormAuthenticator extends AbstractAuthenticator
     public const string ERROR_ATTR_NAME = '_error';
 
     public function __construct(
-        private EntityManagerInterface $em,
         private readonly UserProviderInterface $userProvider,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
+        private readonly UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -51,20 +50,13 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        /** @var UserData $user */
+        /** @var User $user */
         $user = $token->getUser();
-        $hasher = $this->hasherFactory->getPasswordHasher(UserTokenData::class);
-
+        $hasher = $this->hasherFactory->getPasswordHasher(User::class);
         // токен является хешем на хеш пароля
         $tokenHash = $hasher->hash((string) $user->getPassword());
 
-        $userToken = new UserTokenData(
-            user: $user,
-            token: $tokenHash,
-        );
-
-        $this->em->persist($userToken);
-        $this->em->flush();
+        $this->userRepository->addToken($user, $tokenHash);
 
         $request->attributes->set(LoginFormResponseListener::COOKIE_ATTR_NAME, new Cookie(
             TokenAuthenticator::COOKIE_NAME,

@@ -16,7 +16,7 @@ readonly class SavePostUseCase
     ) {
     }
 
-    public function __invoke(EditPostModel $command): void
+    public function __invoke(EditPostModel $command): SavePostModel
     {
         $post = new Post(
             id: $command->id ?? new Id(),
@@ -27,5 +27,7 @@ readonly class SavePostUseCase
         );
 
         $this->postRepository->save($post);
+
+        return new SavePostModel($post->getId());
     }
 }

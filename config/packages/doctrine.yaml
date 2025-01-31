@@ -10,37 +10,37 @@ doctrine:
                 # either here or in the DATABASE_URL env var (see .env file)
                 #server_version: '15'
 
-                mapping_types:
-                    enum_status: enum_status
+                #mapping_types:
+                #    enum_status: enum_status
 
             #manticore:
             #    profiling: '%kernel.debug%'
             #    url: '%env(resolve:DATABASE_MESSENGER)%'
             #    driver: pdo_mysql
 
-        types:
-            id: App\Infrastructure\Doctrine\Types\IdType
-            enum_status: App\Infrastructure\Doctrine\Types\PostStatusType
-    orm:
+        #types:
+        #    id: App\Infrastructure\Doctrine\Types\IdType
+        #    enum_status: App\Infrastructure\Doctrine\Types\PostStatusType
+    #orm:
         #auto_generate_proxy_classes: true
         #enable_lazy_ghost_objects: true
         #report_fields_where_declared: true
         #validate_xml_mapping: true
-        controller_resolver:
-            auto_mapping: false
-        default_entity_manager: default
-        entity_managers:
-            default:
-                connection: default
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                mappings:
-                    AppEntity:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
-                        prefix: 'App\Infrastructure\Doctrine\Entity'
-                dql:
-                    numeric_functions:
-                        TS_MATCH_VQ: App\Infrastructure\Doctrine\Fn\TsMatchVqFn
+    #    controller_resolver:
+    #        auto_mapping: false
+    #    default_entity_manager: default
+    #    entity_managers:
+    #        default:
+    #            connection: default
+    #            naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    #            mappings:
+    #                AppEntity:
+    #                    is_bundle: false
+    #                    dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
+    #                    prefix: 'App\Infrastructure\Doctrine\Entity'
+    #            dql:
+    #                numeric_functions:
+    #                    TS_MATCH_VQ: App\Infrastructure\Doctrine\Fn\TsMatchVqFn
 
 when@test:
     doctrine:
@@ -50,15 +50,15 @@ when@test:
 
 when@prod:
     doctrine:
-        orm:
-            auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
+        #orm:
+        #    auto_generate_proxy_classes: false
+        #    proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+        #    query_cache_driver:
+        #        type: pool
+        #        pool: doctrine.system_cache_pool
+        #    result_cache_driver:
+        #        type: pool
+        #        pool: doctrine.result_cache_pool
 
     framework:
         cache:

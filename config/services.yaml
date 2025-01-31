@@ -18,8 +18,9 @@ services:
         exclude:
             - '../src/Domain/Blog/{Dto,Entity,Exception,Message}/'
             - '../src/Domain/Blog/UseCase/**/{Dto,Entity,Exception,Message}/'
-            - '../src/Domain/Blog/UseCase/**/*{Command,Query,Event,Dto,Exception,Message}.php'
+            - '../src/Domain/Blog/UseCase/**/*{Command,Query,Event,Dto,Exception,Message,Model,View,ViewModel}.php'
             - '../src/Infrastructure/Doctrine/{Entity,Fn,Types}/'
+            - '../src/Infrastructure/Doctrine/Paginator.php'
             - '../src/Symfony/Attribute/'
             - '../src/Symfony/Form/'
             - '../src/Symfony/Kernel.php'

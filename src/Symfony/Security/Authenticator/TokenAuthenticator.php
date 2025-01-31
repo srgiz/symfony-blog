@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Symfony\Security\Authenticator;
 
-use App\Infrastructure\Doctrine\Entity\UserTokenData;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Domain\Blog\Entity\User;
+use App\Domain\Blog\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -26,15 +25,12 @@ class TokenAuthenticator implements AuthenticatorInterface
 {
     public const string COOKIE_NAME = 'i';
 
-    private EntityRepository $tokenRepository;
-
     public function __construct(
-        EntityManagerInterface $em,
         private readonly UserProviderInterface $userProvider,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly PasswordHasherFactoryInterface $hasherFactory,
+        private readonly UserRepositoryInterface $userRepository,
     ) {
-        $this->tokenRepository = $em->getRepository(UserTokenData::class);
     }
 
     public function supports(Request $request): ?bool
@@ -46,22 +42,20 @@ class TokenAuthenticator implements AuthenticatorInterface
     {
         $token = (string) $request->cookies->get(self::COOKIE_NAME);
 
-        /** @var UserTokenData|null $userToken */
-        $userToken = $this->tokenRepository->findOneBy(['token' => $token]);
-        $user = $userToken?->user;
+        $user = $this->userRepository->findByToken($token);
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('No token');
         }
 
-        $hasher = $this->hasherFactory->getPasswordHasher(UserTokenData::class);
+        $hasher = $this->hasherFactory->getPasswordHasher(User::class);
 
         if (!$hasher->verify($token, (string) $user->getPassword())) {
             // токен является хешем на хеш пароля
             throw new CustomUserMessageAuthenticationException('Invalid token');
         }
 
-        $userBadge = new UserBadge($user->getUserIdentifier(), $this->userProvider->loadUserByIdentifier(...));
+        $userBadge = new UserBadge($user->getEmail(), $this->userProvider->loadUserByIdentifier(...));
 
         return new SelfValidatingPassport($userBadge, [new PreAuthenticatedUserBadge()]);
     }

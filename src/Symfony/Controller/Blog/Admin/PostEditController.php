@@ -42,9 +42,9 @@ class PostEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            ($this->savePostUseCase)($post = $form->getData());
+            $savedModel = ($this->savePostUseCase)($form->getData());
 
-            return $this->redirect($this->generateUrl('admin-post-edit', ['id' => $post->id]));
+            return $this->redirect($this->generateUrl('admin-post-edit', ['id' => $savedModel->id]));
         }
 
         return $this->render('blog/admin/post-edit.html.twig', ['post' => $form->getData(), 'form' => $form]);
