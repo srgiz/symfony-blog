@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\UseCase\EditPost;
 
-use App\Domain\Blog\Dto\EditPostDto;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\ViewModel\EditPostModel;
 
 readonly class EditPostUseCase
 {
@@ -14,9 +14,9 @@ readonly class EditPostUseCase
     ) {
     }
 
-    public function __invoke(EditPostQuery $command): ?EditPostDto
+    public function __invoke(EditPostQuery $command): ?EditPostModel
     {
-        $dto = new EditPostDto();
+        $dto = new EditPostModel();
 
         if ($post = $command->id ? $this->postRepository->find($command->id) : null) {
             $dto->id = $post->getId();

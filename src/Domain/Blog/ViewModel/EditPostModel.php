@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Blog\Dto;
+namespace App\Domain\Blog\ViewModel;
 
 use App\Domain\Blog\Entity\Id;
 use App\Domain\Blog\Entity\Post\Status;
 
-class EditPostDto
+class EditPostModel
 {
     public string $status = Status::Draft->value;
 

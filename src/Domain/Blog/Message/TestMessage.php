@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\Message;
 
+//test kafka
 readonly class TestMessage
 {
     public function __construct(

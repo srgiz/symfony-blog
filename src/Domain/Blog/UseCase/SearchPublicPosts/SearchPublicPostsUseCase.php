@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\UseCase\SearchPublicPosts;
 
-use App\Domain\Blog\Dto\PostListDto;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\ViewModel\PostListModel;
 
 readonly class SearchPublicPostsUseCase
 {
@@ -16,11 +16,11 @@ readonly class SearchPublicPostsUseCase
     ) {
     }
 
-    public function __invoke(SearchPublicPostsQuery $query): PostListDto
+    public function __invoke(SearchPublicPostsQuery $query): PostListModel
     {
         $collection = $this->postRepository->searchPublic($query->q, $query->page, self::LIMIT);
 
-        return new PostListDto(
+        return new PostListModel(
             page: $query->page,
             totalPages: $collection->getTotal(),
             posts: $collection->getItems(),

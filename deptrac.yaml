@@ -1,0 +1,179 @@
+deptrac:
+    paths:
+        - ./src
+    #exclude_files:
+    #  - '#.*test.*#'
+    analyser:
+        types:
+            - 'class'
+            - 'class_superglobal'
+            - 'use'
+            - 'file'
+            - 'function'
+            - 'function_superglobal'
+            - 'function_call'
+    #ignore_uncovered_internal_classes: false # Запрещает использовать базовые классы php (\Throwable, \DateTimeImmutable, etc.)
+    
+    skip_violations:
+        App\Domain\Blog\Entity\Id:
+            - Symfony\Component\Uid\UuidV7 # Разрешаем чтобы свое не писать, все равно скрыто наследованием
+    
+    layers:
+        # Common
+        - name: CommonServices
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\(Messenger)\\.+
+              - type: composer
+                composerPath: composer.json
+                composerLockPath: composer.lock
+                packages:
+                    - psr/event-dispatcher
+
+        # Blog
+        - name: DomainBlog_Common
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\(Entity|Exception|Message|Repository|ViewModel)\\.+
+        - name: DomainBlog_DeletePost
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\DeletePost\\.+
+        - name: DomainBlog_EditPost
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\EditPost\\.+
+        - name: DomainBlog_GetAllPosts
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\GetAllPosts\\.+
+        - name: DomainBlog_GetListPublicPosts
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\GetListPublicPosts\\.+
+        - name: DomainBlog_GetPublicPost
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\GetPublicPost\\.+
+        - name: DomainBlog_SavePost
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\SavePost\\.+
+        - name: DomainBlog_SearchPublicPosts
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\SearchPublicPosts\\.+
+        - name: DomainBlog_CreateUser
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\CreateUser\\.+
+        - name: DomainBlog_DeleteUser
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\Blog\\UseCase\\DeleteUser\\.+
+
+        # Infra
+        - name: Infrastructure
+          collectors:
+              - type: classLike
+                value: ^App\\Infrastructure\\.+
+              - type: composer
+                composerPath: composer.json
+                composerLockPath: composer.lock
+                packages:
+                    - psr/log
+                    #- psr/http-message
+                    - monolog/monolog
+                    - symfony/uid
+                    - symfony/serializer
+                    - symfony/validator
+                    - symfony/event-dispatcher
+                    - symfony/doctrine-bridge
+                    - symfony/console
+                    - symfony/password-hasher
+                    - symfony/messenger
+                    - symfony/security-core
+                    #- symfony/dependency-injection
+                    - doctrine/dbal
+                    - doctrine/orm
+                    - doctrine/collections
+                    - doctrine/doctrine-bundle
+                    - doctrine/persistence
+                    #- guzzlehttp/guzzle
+              - type: classLike
+                value: ^SerginhoLD\\KafkaTransport\\.+
+        # Framework
+        - name: Web
+          collectors:
+              - type: classLike
+                value: ^App\\Web\\.+
+              - type: composer
+                composerPath: composer.json
+                composerLockPath: composer.lock
+                packages:
+                    #- nelmio/api-doc-bundle
+                    #- zircote/swagger-php
+                    - symfony/framework-bundle
+                    - symfony/http-kernel
+                    - symfony/http-foundation
+                    - symfony/routing
+    
+    ruleset:
+        DomainBlog_DeletePost:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_EditPost:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_GetAllPosts:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_GetListPublicPosts:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_GetPublicPost:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_SavePost:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_SearchPublicPosts:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_CreateUser:
+            - CommonServices
+            - DomainBlog_Common
+        DomainBlog_DeleteUser:
+            - CommonServices
+            - DomainBlog_Common
+
+        # Infra
+        Infrastructure:
+            - CommonServices
+            #- CommonEntities
+            - DomainBlog_Common
+            - DomainBlog_DeletePost
+            - DomainBlog_EditPost
+            - DomainBlog_GetAllPosts
+            - DomainBlog_GetListPublicPosts
+            - DomainBlog_GetPublicPost
+            - DomainBlog_SavePost
+            - DomainBlog_SearchPublicPosts
+            - DomainBlog_CreateUser
+            - DomainBlog_DeleteUser
+        
+        # Framework
+        Symfony:
+            - CommonServices
+            #- CommonEntities
+            - Infrastructure
+            - DomainBlog_Common
+            - DomainBlog_DeletePost
+            - DomainBlog_EditPost
+            - DomainBlog_GetAllPosts
+            - DomainBlog_GetListPublicPosts
+            - DomainBlog_GetPublicPost
+            - DomainBlog_SavePost
+            - DomainBlog_SearchPublicPosts
+            - DomainBlog_CreateUser
+            - DomainBlog_DeleteUser

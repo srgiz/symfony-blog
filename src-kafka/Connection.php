@@ -36,7 +36,7 @@ class Connection implements LoggerAwareInterface
     private ?string $lastProduceError = null;
 
     public function __construct(
-        /** @var array{brokers: string, topic: string, "group.id": string} */
+        /** @var array{"metadata.broker.list": string, topic: string, "group.id": string} */
         #[\SensitiveParameter]
         private readonly array $options,
     ) {

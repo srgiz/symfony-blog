@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\UseCase\SavePost;
 
-use App\Domain\Blog\Dto\EditPostDto;
 use App\Domain\Blog\Entity\Id;
 use App\Domain\Blog\Entity\Post;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\ViewModel\EditPostModel;
 
 readonly class SavePostUseCase
 {
@@ -16,7 +16,7 @@ readonly class SavePostUseCase
     ) {
     }
 
-    public function __invoke(EditPostDto $command): void
+    public function __invoke(EditPostModel $command): void
     {
         $post = new Post(
             id: $command->id ?? new Id(),

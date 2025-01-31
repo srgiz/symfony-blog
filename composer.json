@@ -38,6 +38,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.49",
+        "qossmic/deptrac": "^2.0",
         "symfony/maker-bundle": "^1.52",
         "symfony/stopwatch": "7.2.*",
         "symfony/web-profiler-bundle": "7.2.*"
@@ -95,8 +96,13 @@
         "dry-cs-fixer": [
             "vendor/bin/php-cs-fixer fix --dry-run --diff"
         ],
+        "deptrac": [
+            "rm -rf .deptrac.cache",
+            "php vendor/bin/deptrac --fail-on-uncovered --report-uncovered"
+        ],
         "quality": [
-            "@cs-fixer"
+            "@cs-fixer",
+            "@deptrac"
         ]
     },
     "conflict": {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog\Admin;
 
-use App\Domain\Blog\Dto\EditPostDto;
 use App\Domain\Blog\Entity\Id;
 use App\Domain\Blog\UseCase\EditPost\EditPostQuery;
 use App\Domain\Blog\UseCase\EditPost\EditPostUseCase;
 use App\Domain\Blog\UseCase\SavePost\SavePostUseCase;
+use App\Domain\Blog\ViewModel\EditPostModel;
 use App\Symfony\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ class PostEditController extends AbstractController
     {
         $id = $request->get('id');
         $id = $id ? new Id($id) : null;
-        $form = $this->createForm(PostType::class, new EditPostDto(id: $id));
+        $form = $this->createForm(PostType::class, new EditPostModel(id: $id));
         $form->handleRequest($request);
 
         if ($form->isValid()) {

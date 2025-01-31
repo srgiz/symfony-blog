@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Blog\UseCase\GetListPublicPosts;
 
-use App\Domain\Blog\Dto\PostListDto;
 use App\Domain\Blog\Repository\PostRepositoryInterface;
+use App\Domain\Blog\ViewModel\PostListModel;
 
 final readonly class GetListPublicPostsUseCase
 {
@@ -16,11 +16,11 @@ final readonly class GetListPublicPostsUseCase
     ) {
     }
 
-    public function __invoke(GetListPublicPostsQuery $query): PostListDto
+    public function __invoke(GetListPublicPostsQuery $query): PostListModel
     {
         $collection = $this->postRepository->paginatePublic($query->page, self::LIMIT);
 
-        return new PostListDto(
+        return new PostListModel(
             page: $query->page,
             totalPages: $collection->getTotal(),
             posts: $collection->getItems(),
