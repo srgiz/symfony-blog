@@ -9,11 +9,11 @@ use App\Domain\Blog\Entity\User;
 
 interface UserRepositoryInterface
 {
-    public function findByToken(string $token): ?User;
+    public function findByToken(#[\SensitiveParameter] string $token): ?User;
 
     public function findByEmail(string $email): ?User;
 
     public function create(Id $id, string $email, #[\SensitiveParameter] string $plainPassword): void;
 
-    public function addToken(User $user, string $token): void;
+    public function addToken(User $user, #[\SensitiveParameter] string $token): void;
 }

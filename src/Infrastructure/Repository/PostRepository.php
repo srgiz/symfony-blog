@@ -40,7 +40,6 @@ readonly class PostRepository implements PostRepositoryInterface
             ->setParameter('id', $id);
 
         $this->wherePublic($queryBuilder);
-
         $data = $queryBuilder->executeQuery()->fetchAssociative();
 
         return $data ? $this->transformData($data) : null;

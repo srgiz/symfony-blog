@@ -18,7 +18,7 @@ readonly class UserRepository implements UserRepositoryInterface
     ) {
     }
 
-    public function findByToken(string $token): ?User
+    public function findByToken(#[\SensitiveParameter] string $token): ?User
     {
         $queryBuilder = $this->connection->createQueryBuilder()->from('users', 'u')
             ->select('u.*')
@@ -65,7 +65,7 @@ readonly class UserRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function addToken(User $user, string $token): void
+    public function addToken(User $user, #[\SensitiveParameter] string $token): void
     {
         //$hasher = $this->hasherFactory->getPasswordHasher(User::class);
         // токен является хешем на хеш пароля
