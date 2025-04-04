@@ -1,0 +1,43 @@
+services:
+  app:
+    ports:
+      - "${DOCKER_APP_IP}:80:80"
+
+  kafka-ui:
+    ports:
+      - "${DOCKER_APP_IP}:8081:8080"
+
+  #redis:
+  #  ports:
+  #    - "${DOCKER_APP_IP}:6379:6379"
+
+  redisinsight:
+    ports:
+      - "${DOCKER_APP_IP}:5540:5540"
+      #- "0.0.0.0:5000:5000"
+    ### Settings in 127.0.0.7:5540
+    ### Host: {container_name}
+    ### Host: blog-redis
+
+  #mailer:
+  #  ports:
+  #    - "${DOCKER_APP_IP}:1025:1025"
+  #    - "${DOCKER_APP_IP}:1080:1080"
+
+  #messenger1:
+  #  extends:
+  #    file: compose.common.yaml
+  #    service: php
+  #  container_name: blog-messenger1
+  #  depends_on:
+  #    - app
+  #  entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]
+
+  #messenger2:
+  #  extends:
+  #    file: compose.common.yaml
+  #    service: php
+  #  container_name: blog-messenger2
+  #  depends_on:
+  #    - app
+  #  entrypoint: ["php", "/var/www/bin/console", "messenger:consume", "async"]

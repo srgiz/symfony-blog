@@ -1,24 +1,11 @@
-#version: '3.8'
-
 services:
-  php:
+  app:
+    extends:
+      file: compose.common.yaml
+      service: php
     container_name: blog-php
-    restart: unless-stopped
-    image: serginhold/blog-unit--php:latest
-    build:
-      context: ./docker/php
     environment:
-      PS1: "\\u:\\w$$ "
-      PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d_ext:/usr/local/etc/php/conf.d"
       PHP_IDE_CONFIG: "serverName=127.0.0.7"
-    volumes:
-      - ./docker/php/conf.d:/usr/local/etc/php/conf.d_ext
-      - ./:/var/www
-    depends_on:
-      - database
-      - redis
-      #- manticore
-      - mailer
 
   kafka:
     container_name: blog-kafka
@@ -84,14 +71,32 @@ services:
   #    - blog-manticore:/var/lib/manticore
 
 ###> doctrine/doctrine-bundle ###
-  database:
-    container_name: blog-database
-    restart: unless-stopped
-    image: postgres:16.4-alpine3.20
+  database-master:
+    extends:
+      file: compose.common.yaml
+      service: postgres
+    container_name: blog-database-master
+    ports:
+      - "${DOCKER_APP_IP}:5432:5432"
     environment:
-      POSTGRES_PASSWORD: root
+      POSTGRESQL_REPLICATION_MODE: master
     volumes:
-      - blog-database:/var/lib/postgresql/data
+      - blog-postgres17-master:/bitnami/postgresql
+  database-slave1:
+    extends:
+      file: compose.common.yaml
+      service: postgres
+    container_name: blog-database-slave1
+    ports:
+      - "${DOCKER_APP_IP}:5433:5432"
+    environment:
+      POSTGRESQL_REPLICATION_MODE: slave
+      POSTGRESQL_MASTER_HOST: database-master
+      POSTGRESQL_MASTER_PORT_NUMBER: 5432
+    volumes:
+      - blog-postgres17-slave1:/bitnami/postgresql
+    depends_on:
+      - database-master
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
@@ -106,8 +111,10 @@ networks:
     name: blog.local
 
 volumes:
-  blog-database:
-    name: blog-database
+  blog-postgres17-master:
+    name: blog-postgres17-master
+  blog-postgres17-slave1:
+    name: blog-postgres17-slave1
   blog-redis:
     name: blog-redis
   blog-redisinsight:

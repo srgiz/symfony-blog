@@ -1,5 +1,5 @@
 /.idea/
-/docker-compose.override.yml
+/compose.override.yaml
 
 ###> symfony/framework-bundle ###
 /.env.local
