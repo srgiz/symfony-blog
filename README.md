@@ -32,7 +32,7 @@ flowchart LR
         Controller_1 -- Not allowed x--x Controller_2
     end
     subgraph Domain
-        UseCases --> Entities
+        UseCases ==> Entities
     end
     subgraph UseCases
         UseCase_1 -- Not allowed x--x UseCase_2
