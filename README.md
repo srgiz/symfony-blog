@@ -37,8 +37,8 @@ flowchart LR
     subgraph UseCases
         UseCase_1 -- Not allowed x--x UseCase_2
     end
-    Controller_1 --> UseCase_1
-    Controller_2 --> UseCase_2
+    Controller_1 ---> UseCase_1
+    Controller_2 ---> UseCase_2
     subgraph UseCase_1
         Command_1 --> Handler_1 --> ViewModel_1
     end
