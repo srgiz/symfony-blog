@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\KafkaTransport;
+namespace Srgiz\KafkaTransport;
 
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;

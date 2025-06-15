@@ -10,5 +10,5 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
-    SerginhoLD\JsonRpcBundle\JsonRpcBundle::class => ['all' => true],
+    Srgiz\JsonRpcBundle\JsonRpcBundle::class => ['all' => true],
 ];

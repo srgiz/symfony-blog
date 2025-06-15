@@ -104,7 +104,7 @@ deptrac:
                     #- doctrine/persistence
                     #- guzzlehttp/guzzle
               - type: classLike
-                value: ^SerginhoLD\\KafkaTransport\\.+
+                value: ^Srgiz\\KafkaTransport\\.+
 
         # Framework
         - name: Symfony
@@ -128,7 +128,7 @@ deptrac:
                     - doctrine/persistence
                     - twig/markdown-extra
               - type: classLike
-                value: ^SerginhoLD\\JsonRpcBundle\\.+
+                value: ^Srgiz\\JsonRpcBundle\\.+
     
     ruleset:
         DomainBlog_DeletePost:

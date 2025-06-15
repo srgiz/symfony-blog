@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\KafkaTransport;
+namespace Srgiz\KafkaTransport;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;

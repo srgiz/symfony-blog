@@ -28,9 +28,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    SerginhoLD\JsonRpcBundle\Serializer\SerializerInterface:
-        class: SerginhoLD\JsonRpcBundle\Serializer\SymfonySerializer
+    Srgiz\JsonRpcBundle\Serializer\SerializerInterface:
+        class: Srgiz\JsonRpcBundle\Serializer\SymfonySerializer
 
-    SerginhoLD\KafkaTransport\KafkaTransportFactory:
-        class: SerginhoLD\KafkaTransport\KafkaTransportFactory
+    Srgiz\KafkaTransport\KafkaTransportFactory:
+        class: Srgiz\KafkaTransport\KafkaTransportFactory
         #tags: [ messenger.transport_factory ]

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller;
 
-use SerginhoLD\JsonRpcBundle\Controller\JsonRpcController as Controller;
-use SerginhoLD\JsonRpcBundle\Exception\JsonRpcResponseException;
-use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
+use Srgiz\JsonRpcBundle\Controller\JsonRpcController as Controller;
+use Srgiz\JsonRpcBundle\Exception\JsonRpcResponseException;
+use Srgiz\JsonRpcBundle\Response\JsonRpcResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;

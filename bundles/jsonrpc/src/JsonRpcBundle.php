@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\JsonRpcBundle;
+namespace Srgiz\JsonRpcBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

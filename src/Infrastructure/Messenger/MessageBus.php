@@ -6,7 +6,7 @@ namespace App\Infrastructure\Messenger;
 
 use App\Domain\Blog\Message\TestMessage;
 use App\Domain\Messenger\MessageBusInterface;
-use SerginhoLD\KafkaTransport\KafkaKeyStamp;
+use Srgiz\KafkaTransport\KafkaKeyStamp;
 use Symfony\Component\Messenger\MessageBusInterface as SymfonyMessageBusInterface;
 
 readonly class MessageBus implements MessageBusInterface

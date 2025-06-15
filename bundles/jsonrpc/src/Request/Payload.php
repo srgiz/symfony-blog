@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\JsonRpcBundle\Request;
+namespace Srgiz\JsonRpcBundle\Request;
 
 readonly class Payload
 {

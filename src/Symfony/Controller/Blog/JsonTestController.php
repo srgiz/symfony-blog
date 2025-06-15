@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Symfony\Controller\Blog;
 
-use SerginhoLD\JsonRpcBundle\Request\Payload;
-use SerginhoLD\JsonRpcBundle\Response\JsonRpcError;
-use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
+use Srgiz\JsonRpcBundle\Request\Payload;
+use Srgiz\JsonRpcBundle\Response\JsonRpcError;
+use Srgiz\JsonRpcBundle\Response\JsonRpcResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Attribute\SerializedName;

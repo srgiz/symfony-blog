@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\JsonRpcBundle\Controller;
+namespace Srgiz\JsonRpcBundle\Controller;
 
 use Psr\Log\LoggerInterface;
-use SerginhoLD\JsonRpcBundle\Exception\JsonRpcException;
-use SerginhoLD\JsonRpcBundle\Exception\JsonRpcResponseException;
-use SerginhoLD\JsonRpcBundle\Request\Payload;
-use SerginhoLD\JsonRpcBundle\Response\JsonRpcResponse;
-use SerginhoLD\JsonRpcBundle\Serializer\NativeSerializer;
-use SerginhoLD\JsonRpcBundle\Serializer\SerializerInterface;
+use Srgiz\JsonRpcBundle\Exception\JsonRpcException;
+use Srgiz\JsonRpcBundle\Exception\JsonRpcResponseException;
+use Srgiz\JsonRpcBundle\Request\Payload;
+use Srgiz\JsonRpcBundle\Response\JsonRpcResponse;
+use Srgiz\JsonRpcBundle\Serializer\NativeSerializer;
+use Srgiz\JsonRpcBundle\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;

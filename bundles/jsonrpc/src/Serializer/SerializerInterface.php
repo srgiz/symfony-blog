@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\JsonRpcBundle\Serializer;
+namespace Srgiz\JsonRpcBundle\Serializer;
 
 interface SerializerInterface
 {

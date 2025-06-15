@@ -1,6 +1,6 @@
 services:
   php:
-    image: serginhold/blog-unit--php:latest
+    image: srgiz/blog-unit-php:latest
     restart: unless-stopped
     build:
       context: ./docker/php

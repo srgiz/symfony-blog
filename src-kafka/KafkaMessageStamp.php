@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SerginhoLD\KafkaTransport;
+namespace Srgiz\KafkaTransport;
 
 use RdKafka\Message;
 use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;

@@ -13,25 +13,25 @@
         "doctrine/dbal": "^4.0",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
-        "idealo/php-rdkafka-ffi": "0.5.0",
+        "idealo/php-rdkafka-ffi": "0.6.0",
         "michelf/php-markdown": "^2.0",
-        "symfony/asset": "7.2.*",
-        "symfony/console": "7.2.*",
-        "symfony/dotenv": "7.2.*",
+        "symfony/asset": "7.3.*",
+        "symfony/console": "7.3.*",
+        "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2",
-        "symfony/form": "7.2.*",
-        "symfony/framework-bundle": "7.2.*",
+        "symfony/form": "7.3.*",
+        "symfony/framework-bundle": "7.3.*",
         "symfony/monolog-bundle": "^3.10",
-        "symfony/property-access": "7.2.*",
-        "symfony/property-info": "7.2.*",
-        "symfony/redis-messenger": "7.2.*",
-        "symfony/runtime": "7.2.*",
-        "symfony/security-bundle": "7.2.*",
-        "symfony/serializer": "7.2.*",
-        "symfony/twig-bundle": "7.2.*",
-        "symfony/uid": "7.2.*",
-        "symfony/validator": "7.2.*",
-        "symfony/yaml": "7.2.*",
+        "symfony/property-access": "7.3.*",
+        "symfony/property-info": "7.3.*",
+        "symfony/redis-messenger": "7.3.*",
+        "symfony/runtime": "7.3.*",
+        "symfony/security-bundle": "7.3.*",
+        "symfony/serializer": "7.3.*",
+        "symfony/twig-bundle": "7.3.*",
+        "symfony/uid": "7.3.*",
+        "symfony/validator": "7.3.*",
+        "symfony/yaml": "7.3.*",
         "twig/extra-bundle": "^3.8",
         "twig/markdown-extra": "^3.8"
     },
@@ -39,8 +39,8 @@
         "friendsofphp/php-cs-fixer": "^3.49",
         "qossmic/deptrac": "^2.0",
         "symfony/maker-bundle": "^1.52",
-        "symfony/stopwatch": "7.2.*",
-        "symfony/web-profiler-bundle": "7.2.*"
+        "symfony/stopwatch": "7.3.*",
+        "symfony/web-profiler-bundle": "7.3.*"
     },
     "config": {
         "allow-plugins": {
@@ -53,8 +53,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "SerginhoLD\\KafkaTransport\\": "src-kafka/",
-            "SerginhoLD\\JsonRpcBundle\\": "bundles/jsonrpc/src/"
+            "Srgiz\\KafkaTransport\\": "src-kafka/",
+            "Srgiz\\JsonRpcBundle\\": "bundles/jsonrpc/src/"
         }
     },
     "autoload-dev": {
@@ -110,7 +110,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.2.*"
+            "require": "7.3.*"
         }
     }
 }

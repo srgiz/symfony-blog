@@ -4,7 +4,7 @@ services:
         autoconfigure: true
         public: false
 
-    SerginhoLD\JsonRpcBundle\:
+    Srgiz\JsonRpcBundle\:
         resource: '../src/'
         exclude:
             - '../src/Controller/'
