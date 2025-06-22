@@ -14,7 +14,7 @@ readonly class EditPostUseCase
     ) {
     }
 
-    public function __invoke(EditPostQuery $command): ?EditPostModel
+    public function __invoke(EditPostQuery $command): EditPostModel
     {
         $dto = new EditPostModel();
 
